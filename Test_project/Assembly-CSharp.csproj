@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\GroundRotator.cs" />
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
+    <Compile Include="Assets\Scripts\LightController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
