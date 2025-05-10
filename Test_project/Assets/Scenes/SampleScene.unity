@@ -1657,9 +1657,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 100
-  maxSpeed: 50
+  maxSpeed: 70
   groundRotator: {fileID: 0}
   rotationAlignmentSpeed: 180
+<<<<<<< Updated upstream
 --- !u!1001 &1981222547
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1718,6 +1719,9 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7504bc0e32332094eaea33bbc305b16e, type: 3}
 --- !u!4 &2041030226 stripped
+=======
+--- !u!4 &2011194602 stripped
+>>>>>>> Stashed changes
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 52bdf7b0c69cd8a47b0f4b03e262171b, type: 3}
   m_PrefabInstance: {fileID: 867428093}
@@ -1944,7 +1948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0565719bb1c26240abe3b0046c913f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRotationSpeed: 45
+  maxRotationSpeed: 90
   rotationAcceleration: 60
 --- !u!4 &2132362948
 Transform:
