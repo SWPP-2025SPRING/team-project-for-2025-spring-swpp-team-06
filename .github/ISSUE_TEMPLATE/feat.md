@@ -1,6 +1,6 @@
 ---
 name: "feature"
-about: "추가할 기능에 대한 이슈"
+about: "기능을 추가하는 상황"
 title: "feat: "
 labels: "feat"
 
