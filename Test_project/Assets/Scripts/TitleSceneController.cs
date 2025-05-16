@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TitleSceneController : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class TitleSceneController : MonoBehaviour
 
     public void OnClickStartButton(){
         SceneManager.LoadScene("MapSelectionScene");
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void OnClickQuitButton(){
@@ -36,9 +38,17 @@ public class TitleSceneController : MonoBehaviour
         #else
         Application.Quit();
         #endif
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void OnClickSettingsButton(){
+        EventSystem.current.SetSelectedGameObject(null);
         SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    }
+
+    public void OnClickTutorialButton(){
+        EventSystem.current.SetSelectedGameObject(null);
+        // TODO
+        //SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
     }
 }
