@@ -11,6 +11,10 @@ public class InGameUIControl : MonoBehaviour
 
     public Button menuButton;
     public GameObject pausedScene;
+    public Image speedGauge;
+
+    private float minSpeedScale = 0.106f;
+    private float maxSpeedScale = 0.894f;
     void Start()
     {
         
@@ -42,15 +46,17 @@ public class InGameUIControl : MonoBehaviour
         
         TODO
 
+        maybe save game data or do something before exiting
+
         */
 
-        // Go to Main Menu
+        SceneManager.LoadScene("MapSelectionScene");
 
         // Scene Load/Unload
     }
 
     public void OnClickResumeButton(){
-        if(pausedScene == null) return;
+        SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
         /*
         
         TODO
@@ -62,5 +68,38 @@ public class InGameUIControl : MonoBehaviour
         // (give 3 second timer, etc.)
 
         pausedScene.SetActive(false);
+    }
+
+    public void OnClickSettingsButton(){
+        if(pausedScene == null) return;
+        /*
+        
+        TODO
+
+        */
+
+        // game settings
+    }
+
+    private float PercentToScale(float percent){
+        // convert percent to scale
+        // 0% -> 0.106
+        // 100% -> 0.894
+        return minSpeedScale + (maxSpeedScale - minSpeedScale) * percent;
+    }
+
+    public void test1(){
+        // speed 0%
+        speedGauge.fillAmount = minSpeedScale;
+    }
+
+    public void test2(){
+        // speed 100%
+        speedGauge.fillAmount = maxSpeedScale;
+    }
+
+    public void test3(){
+        // speed 45%
+        speedGauge.fillAmount = PercentToScale(0.45f);
     }
 }

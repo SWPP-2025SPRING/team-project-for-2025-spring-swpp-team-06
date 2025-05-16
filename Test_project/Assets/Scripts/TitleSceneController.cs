@@ -14,6 +14,7 @@ public class TitleSceneController : MonoBehaviour
     public Button SettingsButton;
     public Button TutorialButton;
     public Button QuitButton;
+
     void Start()
     {
         
