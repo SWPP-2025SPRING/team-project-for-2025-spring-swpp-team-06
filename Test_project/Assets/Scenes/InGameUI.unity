@@ -2644,8 +2644,9 @@ MonoBehaviour:
   menuButton: {fileID: 239599112}
   pausedScene: {fileID: 675097286}
   speedGauge: {fileID: 823647575}
-  speedPenalized: {fileID: 1209157524}
-  EffectPenalized1: {fileID: 920792330}
+  effectsPenalized:
+  - {fileID: 920792330}
+  - {fileID: 1209157524}
 --- !u!1 &1396556798
 GameObject:
   m_ObjectHideFlags: 0

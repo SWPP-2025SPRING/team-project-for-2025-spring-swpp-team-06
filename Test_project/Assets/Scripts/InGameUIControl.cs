@@ -12,8 +12,7 @@ public class InGameUIControl : MonoBehaviour
     public Button menuButton;
     public GameObject pausedScene;
     public Image speedGauge;
-    public GameObject speedPenalized;
-    public GameObject EffectPenalized1;
+    public List<GameObject> effectsPenalized = new List<GameObject>();
 
     private float minSpeedScale = 0.106f;
     private float maxSpeedScale = 0.894f;
@@ -108,10 +107,11 @@ public class InGameUIControl : MonoBehaviour
         speedGauge.fillAmount = scale;
     }
 
-    public void TogglePenalty(bool tf)
+    public void TogglePenalty(bool isPenalized)
     {
-        speedPenalized.SetActive(tf);
-        EffectPenalized1.SetActive(tf);
+        foreach(GameObject obj in effectsPenalized){
+            obj.SetActive(isPenalized);
+        }
     }
 
     public void test1()
