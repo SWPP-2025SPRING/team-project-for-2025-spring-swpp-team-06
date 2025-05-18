@@ -12,6 +12,8 @@ public class InGameUIControl : MonoBehaviour
     public Button menuButton;
     public GameObject pausedScene;
     public Image speedGauge;
+    public GameObject speedPenalized;
+    public GameObject EffectPenalized1;
 
     private float minSpeedScale = 0.106f;
     private float maxSpeedScale = 0.894f;
@@ -81,6 +83,19 @@ public class InGameUIControl : MonoBehaviour
         // game settings
     }
 
+    public void OnClickRestartButton()
+    {
+        /*
+        
+        TODO
+        
+        */
+        // Things to do before restart(discard score etc.)
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+
     private float PercentToScale(float percent){
         // convert percent to scale
         // 0% -> 0.106
@@ -88,18 +103,40 @@ public class InGameUIControl : MonoBehaviour
         return minSpeedScale + (maxSpeedScale - minSpeedScale) * percent;
     }
 
-    public void test1(){
+    public void RefreshSpeedGauge(float scale = 0.106f)
+    {
+        speedGauge.fillAmount = scale;
+    }
+
+    public void TogglePenalty(bool tf)
+    {
+        speedPenalized.SetActive(tf);
+        EffectPenalized1.SetActive(tf);
+    }
+
+    public void test1()
+    {
         // speed 0%
-        speedGauge.fillAmount = minSpeedScale;
+        RefreshSpeedGauge(minSpeedScale);
     }
 
     public void test2(){
         // speed 100%
-        speedGauge.fillAmount = maxSpeedScale;
+        RefreshSpeedGauge(maxSpeedScale);
     }
 
     public void test3(){
         // speed 45%
-        speedGauge.fillAmount = PercentToScale(0.45f);
+        RefreshSpeedGauge(PercentToScale(0.45f));
+    }
+    public void test4()
+    {
+        // penalty on
+        TogglePenalty(true);
+    }
+    public void test5()
+    {
+        // penalty off
+        TogglePenalty(false);
     }
 }
