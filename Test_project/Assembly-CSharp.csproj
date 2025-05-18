@@ -62,10 +62,27 @@
     <Analyzer Include="C:\Users\hjame\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
     <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\GroundRotator.cs" />
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\LightController.cs" />
+=======
+    <Compile Include="Assets\Scripts\LightController.cs" />
+    <Compile Include="Assets\Scripts\PlayerState\SleepingState.cs" />
+    <Compile Include="Assets\Scripts\PlayerState\NormalState.cs" />
+    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\GroundRotator.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl.cs" />
+    <Compile Include="Assets\Scripts\Obstacles\BedObstacle.cs" />
+    <Compile Include="Assets\Scripts\PlayerState\IPlayerState.cs" />
+    <Compile Include="Assets\Scripts\PlayerState\PlayerGamingState.cs" />
+    <Compile Include="Assets\Scripts\Obstacles\GamingMachineObstacle.cs" />
+    <Compile Include="Assets\Scripts\PlayerState\DrunkenState.cs" />
+    <Compile Include="Assets\Scripts\Obstacles\SojuObstacle.cs" />
+    <Compile Include="Assets\Scripts\PlayerState\CoffeeState.cs" />
+    <Compile Include="Assets\Scripts\Items\CoffeeItem.cs" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

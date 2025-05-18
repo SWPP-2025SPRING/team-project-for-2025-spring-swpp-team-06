@@ -345,8 +345,22 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/FollowPlayer.cs"
 "Assets/Scripts/GroundRotator.cs"
+"Assets/Scripts/Items/CoffeeItem.cs"
 "Assets/Scripts/LightController.cs"
+<<<<<<< Updated upstream
 "Assets/Scripts/PlayerControl.cs"
+=======
+"Assets/Scripts/Obstacles/BedObstacle.cs"
+"Assets/Scripts/Obstacles/GamingMachineObstacle.cs"
+"Assets/Scripts/Obstacles/SojuObstacle.cs"
+"Assets/Scripts/PlayerControl.cs"
+"Assets/Scripts/PlayerState/CoffeeState.cs"
+"Assets/Scripts/PlayerState/DrunkenState.cs"
+"Assets/Scripts/PlayerState/IPlayerState.cs"
+"Assets/Scripts/PlayerState/NormalState.cs"
+"Assets/Scripts/PlayerState/PlayerGamingState.cs"
+"Assets/Scripts/PlayerState/SleepingState.cs"
+>>>>>>> Stashed changes
 -langversion:9.0
 /deterministic
 /optimize+

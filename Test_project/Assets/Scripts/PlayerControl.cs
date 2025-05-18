@@ -38,6 +38,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+<<<<<<< Updated upstream
 
         float moveInput = 0f;
         if (Input.GetKey(KeyCode.UpArrow)) moveInput = 1f;
@@ -83,6 +84,22 @@ public class PlayerControl : MonoBehaviour
 
             playerRb.MoveRotation(newRotation);
         }
+=======
+        currentState?.FixedUpdate(this);
+        currentState?.HandleMovement(this);
+    }
+
+    void Update()
+    {
+        currentState?.Update(this);
+
+    }
+
+    public IPlayerState GetCurrentState()
+    {
+        return currentState;
+    }
+>>>>>>> Stashed changes
 
     }
 }
