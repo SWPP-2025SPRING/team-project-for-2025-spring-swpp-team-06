@@ -14,8 +14,8 @@ public class InGameUIControl : MonoBehaviour
     public Image speedGauge;
     public List<GameObject> effectsPenalized = new List<GameObject>();
 
-    private float minSpeedScale = 0.106f;
-    private float maxSpeedScale = 0.894f;
+    private float minSpeedScale = 0.185f;
+    private float maxSpeedScale = 0.815f;
     void Start()
     {
         
