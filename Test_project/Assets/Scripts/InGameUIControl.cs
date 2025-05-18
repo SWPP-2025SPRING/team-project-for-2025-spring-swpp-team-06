@@ -14,8 +14,10 @@ public class InGameUIControl : MonoBehaviour
     public Image speedGauge;
     public List<GameObject> effectsPenalized = new List<GameObject>();
 
-    private float minSpeedScale = 0.185f;
-    private float maxSpeedScale = 0.815f;
+    private float minSpeedScale = 0.0f;
+    private float maxSpeedScale = 0.67f;
+
+    // private float penalizedMaxScale = 0.5f; //(75%)
     void Start()
     {
         
@@ -127,7 +129,7 @@ public class InGameUIControl : MonoBehaviour
 
     public void test3(){
         // speed 45%
-        RefreshSpeedGauge(PercentToScale(0.45f));
+        RefreshSpeedGauge(PercentToScale(0.75f));
     }
     public void test4()
     {
@@ -138,5 +140,10 @@ public class InGameUIControl : MonoBehaviour
     {
         // penalty off
         TogglePenalty(false);
+    }
+    public void test6()
+    {
+        // speed 25%
+        RefreshSpeedGauge(PercentToScale(0.25f));
     }
 }
