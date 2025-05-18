@@ -46,8 +46,7 @@ public class GroundRotator : MonoBehaviour
 
         }
     }
-
-   
+    
     public Vector3 GetAngularVelocity()
     {       
         return Vector3.forward * currentAngularVelocity * Mathf.Deg2Rad;

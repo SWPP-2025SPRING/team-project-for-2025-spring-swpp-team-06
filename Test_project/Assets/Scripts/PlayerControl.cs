@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -29,7 +31,7 @@ public class PlayerControl : MonoBehaviour
 
             if (groundRotator == null)
             {
-                Debug.LogError("PlayerControl: GroundRotator¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. Ground ¿ÀºêÁ§Æ®¿¡ 'GroundRotator' ½ºÅ©¸³Æ®°¡ ºÙ¾î ÀÖ°í, 'Ground' ÅÂ±×°¡ ¼³Á¤µÇ¾î ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+                Debug.LogError("PlayerControl: GroundRotatorï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. Ground ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ 'GroundRotator' ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¾ï¿½ ï¿½Ö°ï¿½, 'Ground' ï¿½Â±×°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
                 enabled = false;
                 return;
             }
