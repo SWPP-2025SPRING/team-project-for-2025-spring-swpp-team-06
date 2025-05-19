@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     private Rigidbody playerRb;
+    public IPlayerState currentState;
 
     [Header("Movement")]
     public float acceleration = 10f;
@@ -34,6 +35,8 @@ public class PlayerControl : MonoBehaviour
                 return;
             }
         }
+
+        ChangeState(new NormalState());
     }
 
     void FixedUpdate()
@@ -46,6 +49,13 @@ public class PlayerControl : MonoBehaviour
     {
         currentState?.Update(this);
 
+    }
+    
+    public void ChangeState(IPlayerState newState)
+    {
+        currentState?.Exit(this);
+        currentState = newState;
+        currentState?.Enter(this);
     }
 
     public IPlayerState GetCurrentState()
