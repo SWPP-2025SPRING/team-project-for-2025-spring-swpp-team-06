@@ -14,6 +14,7 @@ public class InGameUIControl : MonoBehaviour
     public Image speedGauge;
     public List<GameObject> effectsPenalized = new List<GameObject>();
     public List<GameObject> effectsBuffed = new List<GameObject>();
+    public static Timer timer;
 
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
@@ -21,13 +22,20 @@ public class InGameUIControl : MonoBehaviour
     // private float penalizedMaxScale = 0.5f; //(75%)
     void Start()
     {
-        
+        timer = new Timer(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         
+        TODO
+
+        timer count here
+        with Timer timer!!
+        
+        */
     }
 
     public void OnClickMenuButton(){
@@ -97,7 +105,13 @@ public class InGameUIControl : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
-    private float PercentToScale(float percent){
+    public void EndStageAction()
+    {
+        
+    }
+
+    private float PercentToScale(float percent)
+    {
         // convert percent to scale
         // 0% -> 0.106
         // 100% -> 0.894
