@@ -29,7 +29,7 @@ public class PlayerControl : MonoBehaviour
 
             if (groundRotator == null)
             {
-                Debug.LogError("PlayerControl: GroundRotator¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. Ground ¿ÀºêÁ§Æ®¿¡ 'GroundRotator' ½ºÅ©¸³Æ®°¡ ºÙ¾î ÀÖ°í, 'Ground' ÅÂ±×°¡ ¼³Á¤µÇ¾î ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+                Debug.LogError("PlayerControl: GroundRotatorë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. Ground ì˜¤ë¸Œì íŠ¸ì— 'GroundRotator' ìŠ¤í¬ë¦½íŠ¸ê°€ ë¶™ì–´ ìˆê³ , 'Ground' íƒœê·¸ê°€ ì„¤ì •ë˜ì–´ ìˆëŠ”ì§€ í™•ì¸í•˜ì„¸ìš”.");
                 enabled = false;
                 return;
             }
@@ -38,53 +38,6 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-<<<<<<< Updated upstream
-
-        float moveInput = 0f;
-        if (Input.GetKey(KeyCode.UpArrow)) moveInput = 1f;
-        else if (Input.GetKey(KeyCode.DownArrow)) moveInput = -1f;
-
-
-        Vector3 groundVelocityAtPlayerPos = Vector3.zero;
-        Vector3 groundAngularVelocity = Vector3.zero;
-        if (groundRotator != null)
-        {
-            groundAngularVelocity = groundRotator.GetAngularVelocity();
-            Vector3 playerPosRelToPivot = playerRb.position;
-            groundVelocityAtPlayerPos = Vector3.Cross(groundAngularVelocity, playerPosRelToPivot);
-        }
-
-        Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
-
-
-        float relativeSpeedForward = Vector3.Dot(relativeVelocity, transform.forward);
-        Vector3 moveForce = transform.forward * moveInput * acceleration;
-
-        bool canAccelerate = false;
-        if (moveInput > 0 && relativeSpeedForward < maxSpeed) canAccelerate = true;
-        else if (moveInput < 0 && relativeSpeedForward > -maxSpeed) canAccelerate = true;
-
-        if (canAccelerate)
-        {
-            playerRb.AddForce(moveForce, ForceMode.Acceleration);
-        }
-
-        Vector3 horizontalRelativeVelocity = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
-
-
-        float minSpeedForRotation = 0.1f;
-        if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
-        {
-            Vector3 targetDirection = horizontalRelativeVelocity.normalized;
-
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-
-            float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
-            Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
-
-            playerRb.MoveRotation(newRotation);
-        }
-=======
         currentState?.FixedUpdate(this);
         currentState?.HandleMovement(this);
     }
@@ -99,7 +52,5 @@ public class PlayerControl : MonoBehaviour
     {
         return currentState;
     }
->>>>>>> Stashed changes
 
-    }
 }
