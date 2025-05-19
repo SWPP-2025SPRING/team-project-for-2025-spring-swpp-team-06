@@ -13,6 +13,7 @@ public class InGameUIControl : MonoBehaviour
     public GameObject pausedScene;
     public Image speedGauge;
     public List<GameObject> effectsPenalized = new List<GameObject>();
+    public List<GameObject> effectsBuffed = new List<GameObject>();
 
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
@@ -116,6 +117,13 @@ public class InGameUIControl : MonoBehaviour
         }
     }
 
+    public void ToggleBuff(bool isBuffed)
+    {
+        foreach(GameObject obj in effectsBuffed){
+            obj.SetActive(isBuffed);
+        }
+    }
+
     public void test1()
     {
         // speed 0%
@@ -145,5 +153,20 @@ public class InGameUIControl : MonoBehaviour
     {
         // speed 25%
         RefreshSpeedGauge(PercentToScale(0.25f));
+    }
+    public void test7()
+    {
+        // speed 120%
+        RefreshSpeedGauge(PercentToScale(1.2f));
+    }
+    public void test8()
+    {
+        // Buff on
+        ToggleBuff(true);
+    }
+    public void test9()
+    {
+        // buff off
+        ToggleBuff(false);
     }
 }
