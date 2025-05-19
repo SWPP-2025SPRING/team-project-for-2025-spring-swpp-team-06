@@ -60,7 +60,6 @@ public class InGameUIControl : MonoBehaviour
     }
 
     public void OnClickResumeButton(){
-        SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
         /*
         
         TODO
