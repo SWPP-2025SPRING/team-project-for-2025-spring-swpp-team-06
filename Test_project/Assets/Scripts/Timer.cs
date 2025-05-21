@@ -11,9 +11,16 @@ public class Timer
     this.centisecond = centisec > 100 ? 100 : (centisec < 0 ? 0 : centisec);
   }
 
+  public Timer(int centiseconds)
+  {
+    this.minute = centiseconds / 6000 > 60 ? 60 : centiseconds / 6000;
+    this.second = (centiseconds - (centiseconds / 6000) * 6000) / 100 > 60 ? 60 : (centiseconds - (centiseconds / 6000) * 6000);
+    this.centisecond = centiseconds % 100 > 100 ? 100 : centiseconds % 100;
+  }
+
   public override string ToString()
   {
-    return minute.ToString() + ":" + second.ToString() + ":" + centisecond.ToString();
+    return $"{minute:D2}:{second:D2}:{centisecond:D2}";
   }
 
   public int GetMinute()

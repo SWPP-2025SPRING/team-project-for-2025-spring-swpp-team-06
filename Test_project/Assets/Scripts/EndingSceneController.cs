@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class EndingSceneController : MonoBehaviour
 {
@@ -19,20 +20,34 @@ public class EndingSceneController : MonoBehaviour
 
     public float animationDuration = 3f;
     public float animationWaitSeconds = 1f;
+
+
+    public EndingSceneInfos info = EndingSceneDataHolder.endingSceneInfos;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (InGameUIControl.timer != null)
+
+        if (info == null)
         {
-            centisecondInitial = InGameUIControl.timer.InCentiseconds();
-            timerStringInitial = InGameUIControl.timer.ToString();
+            // Default datas
+            Debug.Log("Error: EndingData from the map is null");
+            info = new EndingSceneInfos(6101, false, 0, 6500, 13000); // Default data
         }
-        else
-        {
-            Debug.Log("InGameUIControl.timer is null");
-            centisecondInitial = 0;
-            timerStringInitial = "00:00:00";
-        }
+
+        centisecondInitial = info.GetCurrentScore();
+        timerStringInitial = info.GetTimerString();
+        // if (InGameUIControl.timer != null)
+        // {
+        //     centisecondInitial = InGameUIControl.timer.InCentiseconds();
+        //     timerStringInitial = InGameUIControl.timer.ToString();
+        // }
+        // else
+        // {
+        //     Debug.Log("InGameUIControl.timer is null");
+        //     centisecondInitial = 0;
+        //     timerStringInitial = "00:00:00";
+        // }
 
         if (centisecondInitial <= 0) centisecondInitial = 0;
         if (timerStringInitial == null) timerStringInitial = "00:00:00";
@@ -40,6 +55,9 @@ public class EndingSceneController : MonoBehaviour
         {
             timerText.text = timerStringInitial;
         }
+
+        
+        
     }
 
     // Update is called once per frame
@@ -109,8 +127,8 @@ public class EndingSceneController : MonoBehaviour
     {
         audioGaugeDecrease.Play();
         StartCoroutine(StopPlayGuageDecrease());
-        StartCoroutine(TimerTextAnimation(6101, animationDuration));
-        yield return StartCoroutine(GPAGaugeAnimation(0.7f, animationDuration));
+        StartCoroutine(TimerTextAnimation(info.GetCurrentScore(), animationDuration));
+        yield return StartCoroutine(GPAGaugeAnimation(info.GetFillAmount(), animationDuration));
         yield return new WaitForSeconds(animationWaitSeconds);
 
         GPATest();
