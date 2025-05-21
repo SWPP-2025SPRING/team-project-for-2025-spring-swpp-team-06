@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 700542847}
   - component: {fileID: 700542848}
   m_Layer: 5
-  m_Name: GaugeDecrease
+  m_Name: AudioGaugeDecrease
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1226,7 +1226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1101255387
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1631,7 +1631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1703748912
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1873,12 +1873,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 336983621}
-  GPATextConst: {fileID: 1101255386}
-  GPAText: {fileID: 1703748911}
+  GPATextConst: {fileID: 1101255388}
+  GPAText: {fileID: 1703748913}
   GPAGaugeBar: {fileID: 469125412}
   audioGaugeDecrease: {fileID: 700542848}
+  audioClipGPAAppearance: {fileID: 8300000, guid: 40b5bdbe4b496ff4183d6f0cea105521, type: 3}
+  audioClipYourGPAAppearance: {fileID: 8300000, guid: 08b9be7218ce17447b40d7526f94c955, type: 3}
   animationDuration: 2
   animationWaitSeconds: 1
+  currCentiSecondsTest: 9750
+  aPlusCentisecondsTest: 6500
+  fCentisecondsTest: 13000
 --- !u!1 &2118494514
 GameObject:
   m_ObjectHideFlags: 0

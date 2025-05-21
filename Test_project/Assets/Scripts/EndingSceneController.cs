@@ -11,15 +11,20 @@ public class EndingSceneController : MonoBehaviour
 
     private int centisecondInitial = 0;
     public TMP_Text timerText;
-    public GameObject GPATextConst;
-    public GameObject GPAText;
+    public TMP_Text GPATextConst;
+    public TMP_Text GPAText;
     public Image GPAGaugeBar;
     public AudioSource audioGaugeDecrease;
+    public AudioClip audioClipGPAAppearance;
+    public AudioClip audioClipYourGPAAppearance;
     private string timerStringInitial;
-
 
     public float animationDuration = 3f;
     public float animationWaitSeconds = 1f;
+
+    public int currCentiSecondsTest = 6601;
+    public int aPlusCentisecondsTest = 6500;
+    public int fCentisecondsTest = 13000;
 
 
     public EndingSceneInfos info = EndingSceneDataHolder.endingSceneInfos;
@@ -32,7 +37,7 @@ public class EndingSceneController : MonoBehaviour
         {
             // Default datas
             Debug.Log("Error: EndingData from the map is null");
-            info = new EndingSceneInfos(6101, false, 0, 6500, 13000); // Default data
+            info = new EndingSceneInfos(currCentiSecondsTest, false, 0, aPlusCentisecondsTest, fCentisecondsTest); // Default data
         }
 
         centisecondInitial = info.GetCurrentScore();
@@ -49,8 +54,10 @@ public class EndingSceneController : MonoBehaviour
         //     timerStringInitial = "00:00:00";
         // }
 
+
         if (centisecondInitial <= 0) centisecondInitial = 0;
         if (timerStringInitial == null) timerStringInitial = "00:00:00";
+        GPAText.text = info.GetGPAString();
         if (timerText != null)
         {
             timerText.text = timerStringInitial;
@@ -121,30 +128,23 @@ public class EndingSceneController : MonoBehaviour
     }
 
     // Use this Function to make EndingSequence
-    // You may use centisecondInitial instead of 6101
-    // and targetFillAmount instead of 0.7f
     IEnumerator EndingSequenceTest()
     {
         audioGaugeDecrease.Play();
         StartCoroutine(StopPlayGuageDecrease());
         StartCoroutine(TimerTextAnimation(info.GetCurrentScore(), animationDuration));
         yield return StartCoroutine(GPAGaugeAnimation(info.GetFillAmount(), animationDuration));
-        yield return new WaitForSeconds(animationWaitSeconds);
-
-        GPATest();
-
-        yield return new WaitForSeconds(animationWaitSeconds);
-
-        GPATest2();
+        
+        yield return RevealGPATexts();
     }
 
-    public void GPATest()
+    private IEnumerator RevealGPATexts()
     {
-        GPATextConst.SetActive(true);
-    }
-
-    public void GPATest2()
-    {
-        GPAText.SetActive(true);
+        yield return new WaitForSeconds(animationWaitSeconds);
+        audioGaugeDecrease.PlayOneShot(audioClipYourGPAAppearance);
+        GPATextConst.gameObject.SetActive(true);
+        yield return new WaitForSeconds(animationWaitSeconds);
+        audioGaugeDecrease.PlayOneShot(audioClipGPAAppearance);
+        GPAText.gameObject.SetActive(true);
     }
 }

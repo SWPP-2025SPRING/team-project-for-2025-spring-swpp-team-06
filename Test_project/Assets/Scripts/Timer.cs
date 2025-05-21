@@ -13,8 +13,9 @@ public class Timer
 
   public Timer(int centiseconds)
   {
-    this.minute = centiseconds / 6000 > 60 ? 60 : centiseconds / 6000;
-    this.second = (centiseconds - (centiseconds / 6000) * 6000) / 100 > 60 ? 60 : (centiseconds - (centiseconds / 6000) * 6000);
+    int naiveMinute = centiseconds / 6000;
+    this.minute = naiveMinute > 60 ? 60 : centiseconds / 6000;
+    this.second = (centiseconds - naiveMinute * 6000) / 100 > 60 ? 60 : (centiseconds - naiveMinute * 6000) / 100;
     this.centisecond = centiseconds % 100 > 100 ? 100 : centiseconds % 100;
   }
 

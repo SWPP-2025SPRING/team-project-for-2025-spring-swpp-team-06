@@ -7,7 +7,7 @@ public enum GPA
   Dminus = 11, Dzero = 10, Dplus = 9,
   Cminus = 8, Czero = 7, Cplus = 6,
   Bminus = 5, Bzero = 4, Bplus = 3,
-  Amiuns = 2, Azero = 1, Aplus = 0
+  Aminus = 2, Azero = 1, Aplus = 0
 }
 
 public class EndingSceneInfos
@@ -30,8 +30,16 @@ public class EndingSceneInfos
     // basic datas
     currentCentiseconds = currentCentiseconds_;
     hasBeenPlayed = hasBeenPlayed_;
-    bestCentiseconds = bestCentiseconds_;
-    aPlusCentiseconds = aPlusCentiseconds_;
+    if (aPlusCentiseconds_ > fCentiseconds_)
+    {
+      aPlusCentiseconds = fCentiseconds_;
+      fCentiseconds = aPlusCentiseconds_;
+    }
+    else
+    {
+      bestCentiseconds = bestCentiseconds_;
+      aPlusCentiseconds = aPlusCentiseconds_;
+    }
     fCentiseconds = fCentiseconds_;
 
     //calculated datas
@@ -56,10 +64,10 @@ public class EndingSceneInfos
       else if (currentCentiseconds > fCentiseconds) return GPA.F;
       else
       {
-        int interval = range / 12;
+        float interval = (float)range / 12;
         int relativeScore = currentScore - aPlusScore;
-        int index = relativeScore / interval;
-        index = index >= 12 ? 12 : (index < 0 ? 0 : index); // Ensure 0 <= index < 12
+        int index = Mathf.RoundToInt(relativeScore / interval) + 1;
+        index = index >= 12 ? 12 : (index < 1 ? 1 : index); // Ensure 0 <= index < 12
 
         return (GPA)index;
       }
@@ -82,11 +90,11 @@ public class EndingSceneInfos
         UnityEngine.Debug.LogWarning("A+ cutline is 0. Should adjust it.");
         return (float)0.95f;
       }
-      return 1f - (float)(currentScore / aPlusScore) * 0.0769f;
+      return 1f - (float)currentScore / aPlusScore * 0.0769f;
     }
     else
     {
-      return (float)(currentScore - aPlusScore) / (float)(fScore - currentScore) * 0.9231f;
+      return ((float)fScore - currentScore)/(fScore - aPlusScore) * 0.9231f;
     }
   }
 
@@ -121,6 +129,27 @@ public class EndingSceneInfos
   public GPA GetGPA()
   {
     return gpa;
+  }
+
+  public string GetGPAString()
+  {
+    switch (gpa)
+    {
+        case GPA.Aplus: return "A+";
+        case GPA.Azero: return "A0";
+        case GPA.Aminus: return "A-";
+        case GPA.Bplus: return "B+";
+        case GPA.Bzero: return "B0";
+        case GPA.Bminus: return "B-";
+        case GPA.Cplus: return "C+";
+        case GPA.Czero: return "C0";
+        case GPA.Cminus: return "C-";
+        case GPA.Dplus: return "D+";
+        case GPA.Dzero: return "D0";
+        case GPA.Dminus: return "D-";
+        case GPA.F: return "F";
+        default: return "Invalid";
+    }
   }
 
   public float GetFillAmount()
