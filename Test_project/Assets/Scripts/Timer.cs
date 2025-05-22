@@ -24,6 +24,14 @@ public class Timer
     return $"{minute:D2}:{second:D2}:{centisecond:D2}";
   }
 
+  public void UpdateTimer(int centiseconds)
+  {
+    int naiveMinute = centiseconds / 6000;
+    this.minute = naiveMinute > 60 ? 60 : centiseconds / 6000;
+    this.second = (centiseconds - naiveMinute * 6000) / 100 > 60 ? 60 : (centiseconds - naiveMinute * 6000) / 100;
+    this.centisecond = centiseconds % 100 > 100 ? 100 : centiseconds % 100;
+  }
+
   public int GetMinute()
   {
     return minute;

@@ -15,27 +15,67 @@ public class InGameUIControl : MonoBehaviour
     public List<GameObject> effectsPenalized = new List<GameObject>();
     public List<GameObject> effectsBuffed = new List<GameObject>();
     public static Timer timer;
+    public GameObject player;
+    public static InGameUIControl instance;
+    public TMP_Text timerText;
 
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
+    private bool isStartTextDestroyed = false;
+    private bool isGameStarted = false;
+    private float elapsedTime = 0f;
 
     // private float penalizedMaxScale = 0.5f; //(75%)
-    void Start()
+    // void Start()
+    // {
+    //     timer = new Timer(0, 0, 0);
+    // }
+
+    void Awake()
     {
-        timer = new Timer(0, 0, 0);
+        timer = new Timer(0);
+            if (player == null)
+            {
+                player = GameObject.FindWithTag("Player");
+            if (player == null)
+            {
+                Debug.LogError("No Player object in this map");
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         /*
-        
+
         TODO
 
         timer count here
         with Timer timer!!
-        
+
         */
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed)
+        {
+            isStartTextDestroyed = true;
+            isGameStarted = true;
+            foreach (Transform child in GetComponentsInChildren<Transform>(true))
+            {
+                if (child.CompareTag("DestroyOnStart"))
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        if (isGameStarted)
+        {
+            elapsedTime += Time.deltaTime;
+
+            int centiseconds = Mathf.FloorToInt(elapsedTime * 100);
+            timer.UpdateTimer(centiseconds);
+            timerText.text = timer.ToString();
+        }
     }
 
     public void OnClickMenuButton(){
