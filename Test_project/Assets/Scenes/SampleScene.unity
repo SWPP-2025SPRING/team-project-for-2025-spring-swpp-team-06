@@ -1283,6 +1283,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 19310314aa12c504c8ad80edb4d88d6b, type: 3}
   m_PrefabInstance: {fileID: 1541880853}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1639681946 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 52bdf7b0c69cd8a47b0f4b03e262171b, type: 3}
+  m_PrefabInstance: {fileID: 867428093}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1733207248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1656,10 +1661,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c75ce8dd39b35a41861cc35f7c89de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundRotator: {fileID: 0}
   acceleration: 100
   maxSpeed: 50
-  groundRotator: {fileID: 0}
   rotationAlignmentSpeed: 180
+  drinkCounts: 1
 --- !u!1001 &1981222547
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1722,6 +1728,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 52bdf7b0c69cd8a47b0f4b03e262171b, type: 3}
   m_PrefabInstance: {fileID: 867428093}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &2041030228
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639681946}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.926355, y: 1.4376197, z: 0}
+  m_Center: {x: -0.000008821487, y: -6.78119, z: 0}
 --- !u!1001 &2062149284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1946,6 +1965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRotationSpeed: 45
   rotationAcceleration: 60
+  reverseInput: 0
 --- !u!4 &2132362948
 Transform:
   m_ObjectHideFlags: 0

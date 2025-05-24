@@ -7,13 +7,16 @@ public class CoffeeItem : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerControl player = other.GetComponent<PlayerControl>();
-        if (player.GetCurrentState() is CoffeeState currentGamingState)
+        foreach (var state in player.States)
         {
-            currentGamingState.ResetTimer();
+            if (state is CoffeeState existingGamingState)
+            {
+                existingGamingState.ResetTimer();
+                return;
+            }
         }
-        else
-        {
-            player.ChangeState(new CoffeeState());
-        }
+
+        player.PushState(new CoffeeState());
+
     }
 }

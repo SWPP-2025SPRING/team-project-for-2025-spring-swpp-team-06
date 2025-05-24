@@ -7,13 +7,16 @@ public class GamingMachineObstacle : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerControl player = other.GetComponent<PlayerControl>();
-        if (player.GetCurrentState() is PlayerGamingState currentGamingState)
+        foreach (var state in player.States)
         {
-            currentGamingState.ResetTimer();
+            if (state is PlayerGamingState existingGamingState)
+            {
+                existingGamingState.ResetTimer();
+                return;
+            }
         }
-        else
-        {
-            player.ChangeState(new PlayerGamingState());
-        }
+
+        player.PushState(new PlayerGamingState());
+
     }
 }

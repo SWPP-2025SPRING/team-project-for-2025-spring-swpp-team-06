@@ -2,43 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SleepingState : IPlayerState
+public class SleepingState : IPlayerState, IMovementModifier, IRemovable
 {
+    private float timer = 0f;
     private float sleepDuration = 3f;
-    private float timer;
-
-    private GroundRotator groundRotator;
-    private bool wasGroundRotatorEnabled;
+    public bool ShouldRemove { get; private set; } = false;
 
     public void Enter(PlayerControl player)
     {
         timer = 0f;
-
-        Rigidbody rb = player.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        groundRotator = player.groundRotator;
-        if (groundRotator != null)
-        {
-            wasGroundRotatorEnabled = groundRotator.enabled;
-            groundRotator.enabled = false;
-        }
+        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        player.groundRotator.enabled = false;
+        ShouldRemove = false;
     }
 
     public void Exit(PlayerControl player)
     {
-        if (groundRotator != null)
-        {
-            groundRotator.enabled = wasGroundRotatorEnabled;
-        }
-    }
-
-    public void FixedUpdate(PlayerControl player)
-    {
+        player.groundRotator.enabled = true;
     }
 
     public void Update(PlayerControl player)
@@ -46,9 +27,36 @@ public class SleepingState : IPlayerState
         timer += Time.deltaTime;
         if (timer >= sleepDuration)
         {
-            player.ChangeState(new NormalState());
+            ShouldRemove = true;
         }
     }
 
-    public void HandleMovement(PlayerControl player) { }
+    public void FixedUpdate(PlayerControl player) 
+    {
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
+    public bool IsBlocking()
+    {
+        return true;
+    }
+
+    public bool IsPenalty()
+    {
+        return true;
+    }
+
+    public float GetAccelerationFactor()
+    {
+        return 0f;
+    }
+
+    public float GetMaxSpeedFactor()
+    {
+        return 0f;
+    }
+
+    
 }

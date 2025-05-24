@@ -7,13 +7,17 @@ public class SojuObstacle : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerControl player = other.GetComponent<PlayerControl>();
-        if (player.GetCurrentState() is DrunkenState currentGamingState)
+        foreach (var state in player.States)
         {
-            currentGamingState.ResetTimer();
+            if (state is DrunkenState existingGamingState)
+            {
+                existingGamingState.ResetTimer();
+                return;
+            }
         }
-        else
-        {
-            player.ChangeState(new DrunkenState());
-        }
+
+        player.PushState(new DrunkenState());
+
     }
 }
+
