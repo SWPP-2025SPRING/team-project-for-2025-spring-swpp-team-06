@@ -133,23 +133,9 @@ public class EndingSceneInfos
 
   public string GetGPAString()
   {
-    switch (gpa)
-    {
-        case GPA.Aplus: return "A+";
-        case GPA.Azero: return "A0";
-        case GPA.Aminus: return "A-";
-        case GPA.Bplus: return "B+";
-        case GPA.Bzero: return "B0";
-        case GPA.Bminus: return "B-";
-        case GPA.Cplus: return "C+";
-        case GPA.Czero: return "C0";
-        case GPA.Cminus: return "C-";
-        case GPA.Dplus: return "D+";
-        case GPA.Dzero: return "D0";
-        case GPA.Dminus: return "D-";
-        case GPA.F: return "F";
-        default: return "Invalid";
-    }
+
+    //Caution! might be slow. Don't use on update
+    return gpa.ToString();
   }
 
   public float GetFillAmount()

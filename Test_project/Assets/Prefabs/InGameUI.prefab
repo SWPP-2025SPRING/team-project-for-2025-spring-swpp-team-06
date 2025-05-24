@@ -1777,6 +1777,7 @@ MonoBehaviour:
   - {fileID: 39009697761642430}
   player: {fileID: 0}
   timerText: {fileID: 39009699686760902}
+  speedText: {fileID: 39009699319330445}
 --- !u!1 &39009698306784303
 GameObject:
   m_ObjectHideFlags: 0

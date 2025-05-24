@@ -11,12 +11,11 @@ public class EndingSceneController : MonoBehaviour
 
     private int centisecondInitial = 0;
     public TMP_Text timerText;
-    public TMP_Text GPATextConst;
-    public TMP_Text GPAText;
     public Image GPAGaugeBar;
     public AudioSource audioGaugeDecrease;
     public AudioClip audioClipGPAAppearance;
     public AudioClip audioClipYourGPAAppearance;
+    public Transform gpaImages;
     private string timerStringInitial;
 
     public float animationDuration = 3f;
@@ -57,7 +56,6 @@ public class EndingSceneController : MonoBehaviour
 
         if (centisecondInitial <= 0) centisecondInitial = 0;
         if (timerStringInitial == null) timerStringInitial = "00:00:00";
-        GPAText.text = info.GetGPAString();
         if (timerText != null)
         {
             timerText.text = timerStringInitial;
@@ -135,16 +133,22 @@ public class EndingSceneController : MonoBehaviour
         StartCoroutine(TimerTextAnimation(info.GetCurrentScore(), animationDuration));
         yield return StartCoroutine(GPAGaugeAnimation(info.GetFillAmount(), animationDuration));
         
-        yield return RevealGPATexts();
+        yield return RevealGPAImage();
     }
 
-    private IEnumerator RevealGPATexts()
+    private IEnumerator RevealGPAImage()
     {
-        yield return new WaitForSeconds(animationWaitSeconds);
-        audioGaugeDecrease.PlayOneShot(audioClipYourGPAAppearance);
-        GPATextConst.gameObject.SetActive(true);
+        string gpaName = info.GetGPAString();
+
         yield return new WaitForSeconds(animationWaitSeconds);
         audioGaugeDecrease.PlayOneShot(audioClipGPAAppearance);
-        GPAText.gameObject.SetActive(true);
+        foreach (Transform child in gpaImages)
+        {
+            if (child.name == gpaName)
+            {
+                child.gameObject.SetActive(true);
+                break;
+            }
+        }
     }
 }

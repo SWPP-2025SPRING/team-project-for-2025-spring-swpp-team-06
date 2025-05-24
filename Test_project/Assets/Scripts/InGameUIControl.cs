@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor.Callbacks;
 
 public class InGameUIControl : MonoBehaviour
 {
@@ -18,9 +19,12 @@ public class InGameUIControl : MonoBehaviour
     public GameObject player;
     public static InGameUIControl instance;
     public TMP_Text timerText;
+    public TMP_Text speedText;
 
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
+
+    public float maxSpeed = 50f;
     private bool isStartTextDestroyed = false;
     private bool isGameStarted = false;
     private float elapsedTime = 0f;
@@ -34,9 +38,11 @@ public class InGameUIControl : MonoBehaviour
     void Awake()
     {
         timer = new Timer(0);
-            if (player == null)
-            {
-                player = GameObject.FindWithTag("Player");
+        speedText.text = "0";
+        RefreshSpeedGauge(0f);
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
             if (player == null)
             {
                 Debug.LogError("No Player object in this map");
@@ -70,11 +76,21 @@ public class InGameUIControl : MonoBehaviour
 
         if (isGameStarted)
         {
+            // timer adjust
             elapsedTime += Time.deltaTime;
 
             int centiseconds = Mathf.FloorToInt(elapsedTime * 100);
             timer.UpdateTimer(centiseconds);
             timerText.text = timer.ToString();
+
+            // speed adjust
+            Rigidbody playerRb = player.GetComponent<Rigidbody>();
+            float speedf = playerRb.velocity.magnitude;
+            int speed = Mathf.RoundToInt(speedf);
+            speedText.text = speed.ToString();
+
+            // speed gauge adjust
+            RefreshSpeedGauge(speedf);
         }
     }
 
@@ -158,8 +174,9 @@ public class InGameUIControl : MonoBehaviour
         return minSpeedScale + (maxSpeedScale - minSpeedScale) * percent;
     }
 
-    public void RefreshSpeedGauge(float scale = 0.106f)
+    public void RefreshSpeedGauge(float speed = 0.0f)
     {
+        float scale = speed / maxSpeed * maxSpeedScale;
         speedGauge.fillAmount = scale;
     }
 
