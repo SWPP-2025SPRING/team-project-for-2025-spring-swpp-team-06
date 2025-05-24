@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     private Rigidbody playerRb;
+    public IPlayerState currentState;
 
     public GroundRotator groundRotator;
 
