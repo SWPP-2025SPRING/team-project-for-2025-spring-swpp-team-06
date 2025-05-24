@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638821864195779783
-    m_Hash: 3242621534
+      ticks: 638831297990723090
+    m_Hash: 2624657611
   m_LockFileStatus:
     m_FilePath: C:/doit/SWPP/team-project-for-2025-spring-swpp-team-06/Test_project/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638821864195779783
-    m_Hash: 1335821123
+      ticks: 638831297990723090
+    m_Hash: 3005026845
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
@@ -122,11 +122,13 @@ m_ResolvedPackages:
     - 2.6.0
     - 2.7.1
     - 2.8.1
+    - 2.8.2
     compatible:
     - 2.5.2
     - 2.6.0
     - 2.7.1
     - 2.8.1
+    - 2.8.2
     verified: 2.5.2
   dependencies: []
   resolvedDependencies: []
