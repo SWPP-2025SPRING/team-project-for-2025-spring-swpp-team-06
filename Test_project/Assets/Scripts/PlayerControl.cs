@@ -6,8 +6,8 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody playerRb;
 
     [Header("Movement")]
-    public float acceleration = 10f;
-    public float maxSpeed = 5f;
+    public float acceleration = 100f;
+    public float maxSpeed = 50f;
 
     public GroundRotator groundRotator;
 
@@ -29,7 +29,7 @@ public class PlayerControl : MonoBehaviour
 
             if (groundRotator == null)
             {
-                Debug.LogError("PlayerControl: GroundRotator¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. Ground ¿ÀºêÁ§Æ®¿¡ 'GroundRotator' ½ºÅ©¸³Æ®°¡ ºÙ¾î ÀÖ°í, 'Ground' ÅÂ±×°¡ ¼³Á¤µÇ¾î ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+                Debug.LogError("PlayerControl: GroundRotatorï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. Ground ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ 'GroundRotator' ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¾ï¿½ ï¿½Ö°ï¿½, 'Ground' ï¿½Â±×°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
                 enabled = false;
                 return;
             }
@@ -55,9 +55,11 @@ public class PlayerControl : MonoBehaviour
 
         Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
 
-
-        float relativeSpeedForward = Vector3.Dot(relativeVelocity, transform.forward);
-        Vector3 moveForce = transform.forward * moveInput * acceleration;
+        Vector3 alignedForward = (groundRotator != null)
+            ? groundRotator.transform.rotation * Vector3.forward
+            : transform.forward;
+        float relativeSpeedForward = Vector3.Dot(relativeVelocity, alignedForward);
+        Vector3 moveForce = alignedForward * moveInput * acceleration;
 
         bool canAccelerate = false;
         if (moveInput > 0 && relativeSpeedForward < maxSpeed) canAccelerate = true;
@@ -70,13 +72,13 @@ public class PlayerControl : MonoBehaviour
 
         Vector3 horizontalRelativeVelocity = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
 
-
         float minSpeedForRotation = 0.1f;
         if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
         {
             Vector3 targetDirection = horizontalRelativeVelocity.normalized;
 
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection,
+                groundRotator != null ? groundRotator.transform.up : Vector3.up);
 
             float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
             Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
