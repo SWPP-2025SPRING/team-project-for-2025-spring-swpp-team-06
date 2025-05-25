@@ -94,8 +94,9 @@ public class InGameUIControl : MonoBehaviour
         }
     }
 
-    public void OnClickMenuButton(){
-        if(pausedScene == null) return;
+    public void OnClickMenuButton()
+    {
+        if (pausedScene == null) return;
 
         /*
         
@@ -109,7 +110,8 @@ public class InGameUIControl : MonoBehaviour
     }
 
     // Goto main menu
-    public void OnClickExitButton(){
+    public void OnClickExitButton()
+    {
         /*
         
         TODO
@@ -123,7 +125,8 @@ public class InGameUIControl : MonoBehaviour
         // Scene Load/Unload
     }
 
-    public void OnClickResumeButton(){
+    public void OnClickResumeButton()
+    {
         /*
         
         TODO
@@ -137,8 +140,9 @@ public class InGameUIControl : MonoBehaviour
         pausedScene.SetActive(false);
     }
 
-    public void OnClickSettingsButton(){
-        if(pausedScene == null) return;
+    public void OnClickSettingsButton()
+    {
+        if (pausedScene == null) return;
         /*
         
         TODO
@@ -163,7 +167,7 @@ public class InGameUIControl : MonoBehaviour
 
     public void EndStageAction()
     {
-        
+
     }
 
     private float PercentToScale(float percent)
@@ -182,14 +186,16 @@ public class InGameUIControl : MonoBehaviour
 
     public void TogglePenalty(bool isPenalized)
     {
-        foreach(GameObject obj in effectsPenalized){
+        foreach (GameObject obj in effectsPenalized)
+        {
             obj.SetActive(isPenalized);
         }
     }
 
     public void ToggleBuff(bool isBuffed)
     {
-        foreach(GameObject obj in effectsBuffed){
+        foreach (GameObject obj in effectsBuffed)
+        {
             obj.SetActive(isBuffed);
         }
     }
@@ -200,12 +206,14 @@ public class InGameUIControl : MonoBehaviour
         RefreshSpeedGauge(minSpeedScale);
     }
 
-    public void test2(){
+    public void test2()
+    {
         // speed 100%
         RefreshSpeedGauge(maxSpeedScale);
     }
 
-    public void test3(){
+    public void test3()
+    {
         // speed 45%
         RefreshSpeedGauge(PercentToScale(0.75f));
     }
@@ -238,5 +246,11 @@ public class InGameUIControl : MonoBehaviour
     {
         // buff off
         ToggleBuff(false);
+    }
+
+    public void endTest()
+    {
+        EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, false, 0, 6500, 13000);
+        SceneManager.LoadScene("EndingScene");
     }
 }

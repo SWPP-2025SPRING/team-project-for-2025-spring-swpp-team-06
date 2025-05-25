@@ -26,21 +26,20 @@ public class EndingSceneController : MonoBehaviour
     public int fCentisecondsTest = 13000;
 
 
-    public EndingSceneInfos info = EndingSceneDataHolder.endingSceneInfos;
-
     // Start is called before the first frame update
     void Start()
     {
 
-        if (info == null)
+        if (EndingSceneDataHolder.endingSceneInfos == null || EndingSceneDataHolder.endingSceneInfos.GetCurrentScore() == -1)
         {
+            // endingSceneInfo Not properly set. -1 is Initial state
             // Default datas
             Debug.Log("Error: EndingData from the map is null");
-            info = new EndingSceneInfos(currCentiSecondsTest, false, 0, aPlusCentisecondsTest, fCentisecondsTest); // Default data
+            EndingSceneDataHolder.endingSceneInfos.SetInfos(currCentiSecondsTest, false, 0, aPlusCentisecondsTest, fCentisecondsTest); // Default data
         }
 
-        centisecondInitial = info.GetCurrentScore();
-        timerStringInitial = info.GetTimerString();
+        centisecondInitial = EndingSceneDataHolder.endingSceneInfos.GetCurrentScore();
+        timerStringInitial = EndingSceneDataHolder.endingSceneInfos.GetTimerString();
         // if (InGameUIControl.timer != null)
         // {
         //     centisecondInitial = InGameUIControl.timer.InCentiseconds();
@@ -130,15 +129,15 @@ public class EndingSceneController : MonoBehaviour
     {
         audioGaugeDecrease.Play();
         StartCoroutine(StopPlayGuageDecrease());
-        StartCoroutine(TimerTextAnimation(info.GetCurrentScore(), animationDuration));
-        yield return StartCoroutine(GPAGaugeAnimation(info.GetFillAmount(), animationDuration));
+        //StartCoroutine(TimerTextAnimation(EndingSceneDataHolder.endingSceneInfos.GetCurrentScore(), animationDuration));
+        yield return StartCoroutine(GPAGaugeAnimation(EndingSceneDataHolder.endingSceneInfos.GetFillAmount(), animationDuration));
         
         yield return RevealGPAImage();
     }
 
     private IEnumerator RevealGPAImage()
     {
-        string gpaName = info.GetGPAString();
+        string gpaName = EndingSceneDataHolder.endingSceneInfos.GetGPAString();
 
         yield return new WaitForSeconds(animationWaitSeconds);
         audioGaugeDecrease.PlayOneShot(audioClipGPAAppearance);

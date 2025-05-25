@@ -47,30 +47,53 @@ public class EndingSceneInfos
     gaugeFill = CalculateFillAmount(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
     timer = new Timer(currentCentiseconds_);
   }
+  public void SetInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_)
+  {
+    // basic datas
+    currentCentiseconds = currentCentiseconds_;
+    hasBeenPlayed = hasBeenPlayed_;
+    if (aPlusCentiseconds_ > fCentiseconds_)
+    {
+      aPlusCentiseconds = fCentiseconds_;
+      fCentiseconds = aPlusCentiseconds_;
+    }
+    else
+    {
+      fCentiseconds = aPlusCentiseconds_;
+      aPlusCentiseconds = fCentiseconds_;
+    }
+    bestCentiseconds = bestCentiseconds_;
+
+    //calculated datas
+    gpa = CalculateGPA(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
+    UnityEngine.Debug.Log(gpa);
+    UnityEngine.Debug.Log(currentCentiseconds);
+    gaugeFill = CalculateFillAmount(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
+    timer = new Timer(currentCentiseconds_);
+  }
 
   private GPA CalculateGPA(int currentScore, int aPlusScore, int fScore)
   {
 
     // index == 0 is A+, index == 12 is F
     int range = fScore - aPlusScore;
-    if (range <= 0)
-    {
-      UnityEngine.Debug.LogWarning("Invalid centisecond range for GPA calculation.");
-      return GPA.F;
-    }
+    range = range >= 0 ? range : -range;
+    // if (range <= 0)
+    // {
+    //   UnityEngine.Debug.LogWarning("Invalid centisecond range for GPA calculation.");
+    //   return GPA.F;
+    // }
+    if (currentScore <= aPlusScore) return GPA.Aplus;
+    else if (currentScore > fScore) return GPA.F;
     else
     {
-      if (currentCentiseconds <= aPlusCentiseconds) return GPA.Aplus;
-      else if (currentCentiseconds > fCentiseconds) return GPA.F;
-      else
-      {
-        float interval = (float)range / 12;
-        int relativeScore = currentScore - aPlusScore;
-        int index = Mathf.RoundToInt(relativeScore / interval) + 1;
-        index = index >= 12 ? 12 : (index < 1 ? 1 : index); // Ensure 0 <= index < 12
+      float interval = (float)range / 11;
+      float relativeScore = currentScore - aPlusScore;
+      int index = Mathf.CeilToInt(relativeScore / interval);
+      UnityEngine.Debug.Log($"{index}, {interval}, {relativeScore}");
+      index = index >= 12 ? 12 : (index < 1 ? 1 : index); // Ensure 0 <= index <= 12
 
-        return (GPA)index;
-      }
+      return (GPA)index;
 
     }
   }
@@ -92,9 +115,14 @@ public class EndingSceneInfos
       }
       return 1f - (float)currentScore / aPlusScore * 0.0769f;
     }
+    else if (currentScore <= fScore)
+    {
+      return ((float)fScore - currentScore) / (fScore - aPlusScore) * 0.8462f + 0.0769f;
+    }
     else
     {
-      return ((float)fScore - currentScore)/(fScore - aPlusScore) * 0.9231f;
+      // below Fcut 
+      return 0.0f;
     }
   }
 
