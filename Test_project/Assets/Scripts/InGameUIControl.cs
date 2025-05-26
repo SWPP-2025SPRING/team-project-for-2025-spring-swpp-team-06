@@ -150,6 +150,7 @@ public class InGameUIControl : MonoBehaviour
         */
 
         // game settings
+        SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
 
     public void OnClickRestartButton()
@@ -250,7 +251,7 @@ public class InGameUIControl : MonoBehaviour
 
     public void endTest()
     {
-        EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, false, 0, 6500, 13000);
+        EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, false, 0, 6500, 13000, SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("EndingScene");
     }
 }

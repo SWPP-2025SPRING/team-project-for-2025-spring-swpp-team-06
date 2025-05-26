@@ -17,7 +17,7 @@ public class TitleSceneController : MonoBehaviour
 
     void Start()
     {
-        EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1);
+        EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
     }
 
     // Update is called once per frame

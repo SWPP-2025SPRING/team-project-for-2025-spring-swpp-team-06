@@ -20,14 +20,17 @@ public class EndingSceneInfos
   private int aPlusCentiseconds;
   private int fCentiseconds;
 
+  private string mapName;
+
   private Timer timer;
 
   private float gaugeFill;
 
 
-  public EndingSceneInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_)
+  public EndingSceneInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
   {
     // basic datas
+    mapName = mapName_;
     currentCentiseconds = currentCentiseconds_;
     hasBeenPlayed = hasBeenPlayed_;
     if (aPlusCentiseconds_ > fCentiseconds_)
@@ -47,9 +50,10 @@ public class EndingSceneInfos
     gaugeFill = CalculateFillAmount(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
     timer = new Timer(currentCentiseconds_);
   }
-  public void SetInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_)
+  public void SetInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
   {
     // basic datas
+    mapName = mapName_;
     currentCentiseconds = currentCentiseconds_;
     hasBeenPlayed = hasBeenPlayed_;
     if (aPlusCentiseconds_ > fCentiseconds_)
@@ -169,6 +173,11 @@ public class EndingSceneInfos
   public float GetFillAmount()
   {
     return gaugeFill;
+  }
+
+  public string GetMapName()
+  {
+    return mapName;
   }
 
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class EndingSceneController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class EndingSceneController : MonoBehaviour
     public AudioClip audioClipGPAAppearance;
     public AudioClip audioClipYourGPAAppearance;
     public Transform gpaImages;
+    public GameObject buttons;
     private string timerStringInitial;
 
     public float animationDuration = 3f;
@@ -35,7 +37,7 @@ public class EndingSceneController : MonoBehaviour
             // endingSceneInfo Not properly set. -1 is Initial state
             // Default datas
             Debug.Log("Error: EndingData from the map is null");
-            EndingSceneDataHolder.endingSceneInfos.SetInfos(currCentiSecondsTest, false, 0, aPlusCentisecondsTest, fCentisecondsTest); // Default data
+            EndingSceneDataHolder.endingSceneInfos.SetInfos(currCentiSecondsTest, false, 0, aPlusCentisecondsTest, fCentisecondsTest, "null"); // Default data
         }
 
         centisecondInitial = EndingSceneDataHolder.endingSceneInfos.GetCurrentScore();
@@ -60,8 +62,8 @@ public class EndingSceneController : MonoBehaviour
             timerText.text = timerStringInitial;
         }
 
-        
-        
+
+
     }
 
     // Update is called once per frame
@@ -131,7 +133,7 @@ public class EndingSceneController : MonoBehaviour
         StartCoroutine(StopPlayGuageDecrease());
         //StartCoroutine(TimerTextAnimation(EndingSceneDataHolder.endingSceneInfos.GetCurrentScore(), animationDuration));
         yield return StartCoroutine(GPAGaugeAnimation(EndingSceneDataHolder.endingSceneInfos.GetFillAmount(), animationDuration));
-        
+
         yield return RevealGPAImage();
     }
 
@@ -149,5 +151,22 @@ public class EndingSceneController : MonoBehaviour
                 break;
             }
         }
+        yield return new WaitForSeconds(animationWaitSeconds);
+        buttons.SetActive(true);
+    }
+
+    public void OnClickMainMenuButton()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void OnClickMapSelectionButton()
+    {
+        SceneManager.LoadScene("MapSelectionScene");
+    }
+
+    public void OnClickRestartButton()
+    {
+        SceneManager.LoadScene(EndingSceneDataHolder.endingSceneInfos.GetMapName());
     }
 }
