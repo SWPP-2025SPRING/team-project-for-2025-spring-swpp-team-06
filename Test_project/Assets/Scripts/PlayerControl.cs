@@ -1,69 +1,165 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerControl : MonoBehaviour
 {
     private Rigidbody playerRb;
-
-    [Header("Movement")]
-    public float acceleration = 100f;
-    public float maxSpeed = 50f;
+    public IPlayerState currentState;
 
     public GroundRotator groundRotator;
 
-    [Header("Rotation")]
+    [Header("Movement")]
+    public float acceleration = 10f;
+    public float maxSpeed = 5f;
 
+    [Header("Rotation")]
     public float rotationAlignmentSpeed = 180f;
+
+    public int drinkCounts = 1;
+
+    private List<IPlayerState> stateList = new List<IPlayerState>();
+    public IReadOnlyList<IPlayerState> States => stateList.AsReadOnly();
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        groundRotator = GameObject.FindWithTag("Ground")?.GetComponent<GroundRotator>();
 
         if (groundRotator == null)
         {
-            GameObject ground = GameObject.FindWithTag("Ground");
-            if (ground != null)
-            {
-                groundRotator = ground.GetComponent<GroundRotator>();
-            }
+            Debug.LogError("GroundRotator¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            enabled = false;
+            return;
+        }
 
-            if (groundRotator == null)
+        PushState(new NormalState());
+    }
+
+    void Update()
+    {
+        for (int i = stateList.Count - 1; i >= 0; i--)
+        {
+            stateList[i].Update(this);
+
+            if (stateList[i] is IRemovable removable && removable.ShouldRemove)
             {
-                Debug.LogError("PlayerControl: GroundRotatorï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. Ground ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ 'GroundRotator' ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¾ï¿½ ï¿½Ö°ï¿½, 'Ground' ï¿½Â±×°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
-                enabled = false;
-                return;
+                RemoveState(stateList[i]);
             }
+        }
+
+        ApplyMovementModifiers();
+
+        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0)
+        {
+            PushState(new EnergyDrinkState());
+            drinkCounts -= 1;
         }
     }
 
     void FixedUpdate()
     {
+        for (int i = stateList.Count - 1; i >= 0; i--)
+        {
+            stateList[i].FixedUpdate(this);
+        }
+    }
 
+    public void PushState(IPlayerState newState)
+    {
+        if (newState.IsPenalty() && HasState<EnergyDrinkState>())
+        {
+            return;
+        }
+
+        if (HasState(newState.GetType()))
+        {
+            return;
+        }
+
+        stateList.Add(newState);
+        newState.Enter(this);
+    }
+
+    public void RemoveState(IPlayerState stateToRemove)
+    {
+        if (stateList.Contains(stateToRemove))
+        {
+            stateToRemove.Exit(this);
+            stateList.Remove(stateToRemove);
+        }
+    }
+
+    public T GetState<T>() where T : class, IPlayerState
+    {
+        foreach (var state in stateList)
+        {
+            if (state is T match)
+                return match;
+        }
+        return null;
+    }
+
+    public bool HasState<T>() where T : class, IPlayerState
+    {
+        return GetState<T>() != null;
+    }
+
+    public bool HasState(System.Type stateType)
+    {
+        foreach (var state in stateList)
+        {
+            if (state.GetType() == stateType)
+                return true;
+        }
+        return false;
+    }
+
+    public IPlayerState GetTopState()
+    {
+        return stateList.Count > 0 ? stateList[stateList.Count - 1] : null;
+    }
+
+    private void ApplyMovementModifiers()
+    {
+        float accelFactor = 1f;
+        float maxSpeedFactor = 1f;
+
+        foreach (var state in stateList)
+        {
+            if (state is IMovementModifier mod)
+            {
+                accelFactor *= mod.GetAccelerationFactor();
+                maxSpeedFactor *= mod.GetMaxSpeedFactor();
+            }
+        }
+
+        MovePlayer(accelFactor, maxSpeedFactor);
+    }
+
+    public void MovePlayer(float accelerationFactor = 1f, float maxSpeedFactor = 1f)
+    {
         float moveInput = 0f;
         if (Input.GetKey(KeyCode.UpArrow)) moveInput = 1f;
         else if (Input.GetKey(KeyCode.DownArrow)) moveInput = -1f;
 
+        if (moveInput == 0f) return;
+
+        Vector3 moveDirection = Vector3.forward * moveInput;
+        Vector3 moveForce = moveDirection * acceleration * accelerationFactor;
 
         Vector3 groundVelocityAtPlayerPos = Vector3.zero;
-        Vector3 groundAngularVelocity = Vector3.zero;
         if (groundRotator != null)
         {
-            groundAngularVelocity = groundRotator.GetAngularVelocity();
-            Vector3 playerPosRelToPivot = playerRb.position;
-            groundVelocityAtPlayerPos = Vector3.Cross(groundAngularVelocity, playerPosRelToPivot);
+            Vector3 angularVelocity = groundRotator.GetAngularVelocity();
+            groundVelocityAtPlayerPos = Vector3.Cross(angularVelocity, playerRb.position);
         }
 
         Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
+        float relativeSpeedForward = Vector3.Dot(relativeVelocity, Vector3.forward);
 
-        Vector3 alignedForward = (groundRotator != null)
-            ? groundRotator.transform.rotation * Vector3.forward
-            : transform.forward;
-        float relativeSpeedForward = Vector3.Dot(relativeVelocity, alignedForward);
-        Vector3 moveForce = alignedForward * moveInput * acceleration;
-
-        bool canAccelerate = false;
-        if (moveInput > 0 && relativeSpeedForward < maxSpeed) canAccelerate = true;
-        else if (moveInput < 0 && relativeSpeedForward > -maxSpeed) canAccelerate = true;
+        bool canAccelerate = (moveInput > 0 && relativeSpeedForward < maxSpeed * maxSpeedFactor)
+                          || (moveInput < 0 && relativeSpeedForward > -maxSpeed * maxSpeedFactor);
 
         if (canAccelerate)
         {
@@ -71,20 +167,20 @@ public class PlayerControl : MonoBehaviour
         }
 
         Vector3 horizontalRelativeVelocity = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
-
         float minSpeedForRotation = 0.1f;
+
         if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
         {
             Vector3 targetDirection = horizontalRelativeVelocity.normalized;
-
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection,
-                groundRotator != null ? groundRotator.transform.up : Vector3.up);
-
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
             float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
             Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
 
+            Vector3 euler = newRotation.eulerAngles;
+            
+            newRotation = Quaternion.Euler(euler);
             playerRb.MoveRotation(newRotation);
         }
-
     }
+
 }
