@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor.Callbacks;
 
 public class InGameUIControl : MonoBehaviour
 {
@@ -14,24 +15,88 @@ public class InGameUIControl : MonoBehaviour
     public Image speedGauge;
     public List<GameObject> effectsPenalized = new List<GameObject>();
     public List<GameObject> effectsBuffed = new List<GameObject>();
+    public static Timer timer;
+    public GameObject player;
+    public static InGameUIControl instance;
+    public TMP_Text timerText;
+    public TMP_Text speedText;
 
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
 
+    public float maxSpeed = 50f;
+    private bool isStartTextDestroyed = false;
+    private bool isGameStarted = false;
+    private float elapsedTime = 0f;
+
     // private float penalizedMaxScale = 0.5f; //(75%)
-    void Start()
+    // void Start()
+    // {
+    //     timer = new Timer(0, 0, 0);
+    // }
+
+    void Awake()
     {
-        
+        timer = new Timer(0);
+        speedText.text = "0";
+        RefreshSpeedGauge(0f);
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+            if (player == null)
+            {
+                Debug.LogError("No Player object in this map");
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        /*
+
+        TODO
+
+        timer count here
+        with Timer timer!!
+
+        */
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed)
+        {
+            isStartTextDestroyed = true;
+            isGameStarted = true;
+            foreach (Transform child in GetComponentsInChildren<Transform>(true))
+            {
+                if (child.CompareTag("DestroyOnStart"))
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        if (isGameStarted)
+        {
+            // timer adjust
+            elapsedTime += Time.deltaTime;
+
+            int centiseconds = Mathf.FloorToInt(elapsedTime * 100);
+            timer.UpdateTimer(centiseconds);
+            timerText.text = timer.ToString();
+
+            // speed adjust
+            Rigidbody playerRb = player.GetComponent<Rigidbody>();
+            float speedf = playerRb.velocity.magnitude;
+            int speed = Mathf.RoundToInt(speedf);
+            speedText.text = speed.ToString();
+
+            // speed gauge adjust
+            RefreshSpeedGauge(speedf);
+        }
     }
 
-    public void OnClickMenuButton(){
-        if(pausedScene == null) return;
+    public void OnClickMenuButton()
+    {
+        if (pausedScene == null) return;
 
         /*
         
@@ -45,7 +110,8 @@ public class InGameUIControl : MonoBehaviour
     }
 
     // Goto main menu
-    public void OnClickExitButton(){
+    public void OnClickExitButton()
+    {
         /*
         
         TODO
@@ -59,7 +125,8 @@ public class InGameUIControl : MonoBehaviour
         // Scene Load/Unload
     }
 
-    public void OnClickResumeButton(){
+    public void OnClickResumeButton()
+    {
         /*
         
         TODO
@@ -73,8 +140,9 @@ public class InGameUIControl : MonoBehaviour
         pausedScene.SetActive(false);
     }
 
-    public void OnClickSettingsButton(){
-        if(pausedScene == null) return;
+    public void OnClickSettingsButton()
+    {
+        if (pausedScene == null) return;
         /*
         
         TODO
@@ -82,6 +150,7 @@ public class InGameUIControl : MonoBehaviour
         */
 
         // game settings
+        SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
 
     public void OnClickRestartButton()
@@ -97,28 +166,37 @@ public class InGameUIControl : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
-    private float PercentToScale(float percent){
+    public void EndStageAction()
+    {
+
+    }
+
+    private float PercentToScale(float percent)
+    {
         // convert percent to scale
         // 0% -> 0.106
         // 100% -> 0.894
         return minSpeedScale + (maxSpeedScale - minSpeedScale) * percent;
     }
 
-    public void RefreshSpeedGauge(float scale = 0.106f)
+    public void RefreshSpeedGauge(float speed = 0.0f)
     {
+        float scale = speed / maxSpeed * maxSpeedScale;
         speedGauge.fillAmount = scale;
     }
 
     public void TogglePenalty(bool isPenalized)
     {
-        foreach(GameObject obj in effectsPenalized){
+        foreach (GameObject obj in effectsPenalized)
+        {
             obj.SetActive(isPenalized);
         }
     }
 
     public void ToggleBuff(bool isBuffed)
     {
-        foreach(GameObject obj in effectsBuffed){
+        foreach (GameObject obj in effectsBuffed)
+        {
             obj.SetActive(isBuffed);
         }
     }
@@ -129,12 +207,14 @@ public class InGameUIControl : MonoBehaviour
         RefreshSpeedGauge(minSpeedScale);
     }
 
-    public void test2(){
+    public void test2()
+    {
         // speed 100%
         RefreshSpeedGauge(maxSpeedScale);
     }
 
-    public void test3(){
+    public void test3()
+    {
         // speed 45%
         RefreshSpeedGauge(PercentToScale(0.75f));
     }
@@ -167,5 +247,11 @@ public class InGameUIControl : MonoBehaviour
     {
         // buff off
         ToggleBuff(false);
+    }
+
+    public void endTest()
+    {
+        EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, false, 0, 6500, 13000, SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("EndingScene");
     }
 }
