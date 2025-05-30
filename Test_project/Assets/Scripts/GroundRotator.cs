@@ -61,4 +61,3 @@ public class GroundRotator : MonoBehaviour
         return rotationMultiplier;
     }
 }
-
