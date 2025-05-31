@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - DestroyOnStart
+  - EndingMesh
+  - UI
   layers:
   - Default
   - TransparentFX

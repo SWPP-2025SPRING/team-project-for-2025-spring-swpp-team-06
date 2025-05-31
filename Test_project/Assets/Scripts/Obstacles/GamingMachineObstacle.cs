@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GamingMachineObstacle : MonoBehaviour
@@ -18,5 +19,14 @@ public class GamingMachineObstacle : MonoBehaviour
 
         player.PushState(new PlayerGamingState());
 
+
+        // Destroy once triggered
+        Transform parent = transform.parent;
+        if (parent.gameObject.CompareTag("Ground")) return;
+
+        foreach (Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

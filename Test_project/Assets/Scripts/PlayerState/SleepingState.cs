@@ -47,6 +47,10 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
     {
         return true;
     }
+    public bool IsCoffee()
+    {
+        return false;
+    }
 
     public float GetAccelerationFactor()
     {

@@ -11,7 +11,7 @@ public class PlayerControl : MonoBehaviour
 
     [Header("Movement")]
     public float acceleration = 10f;
-    public float maxSpeed = 5f;
+    public float maxSpeed = 50f;
 
     [Header("Rotation")]
     public float rotationAlignmentSpeed = 180f;
@@ -28,7 +28,7 @@ public class PlayerControl : MonoBehaviour
 
         if (groundRotator == null)
         {
-            Debug.LogError("GroundRotator¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("GroundRotatorï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             enabled = false;
             return;
         }
@@ -55,6 +55,8 @@ public class PlayerControl : MonoBehaviour
             PushState(new EnergyDrinkState());
             drinkCounts -= 1;
         }
+
+        LimitMaxSpeed();
     }
 
     void FixedUpdate()
@@ -69,8 +71,22 @@ public class PlayerControl : MonoBehaviour
     {
         if (newState.IsPenalty() && HasState<EnergyDrinkState>())
         {
+            // new state is penalty but we're on energy drink state
             return;
         }
+        if (newState.IsPenalty() && HasState<CoffeeState>())
+        {
+            // new state is penalty and we have to turn off coffee state
+            IPlayerState coffee = GetState<CoffeeState>();
+            stateList.Remove(coffee);
+            coffee.Exit(this);
+        }
+        if (newState.IsCoffee() && IsPenalized())
+        {
+            // if player is now penalized, ignore coffee
+            return;
+        }
+        
 
         if (HasState(newState.GetType()))
         {
@@ -103,6 +119,15 @@ public class PlayerControl : MonoBehaviour
     public bool HasState<T>() where T : class, IPlayerState
     {
         return GetState<T>() != null;
+    }
+
+    public bool IsPenalized()
+    {
+        foreach (var state in stateList)
+        {
+            if (state.IsPenalty()) return true;
+        }
+        return false;
     }
 
     public bool HasState(System.Type stateType)
@@ -177,9 +202,42 @@ public class PlayerControl : MonoBehaviour
             Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
 
             Vector3 euler = newRotation.eulerAngles;
-            
+
             newRotation = Quaternion.Euler(euler);
             playerRb.MoveRotation(newRotation);
+        }
+    }
+    
+    private void LimitMaxSpeed()
+    {
+
+        float maxSpeedFactor = 1f;
+
+        foreach (var state in stateList)
+        {
+            if (state is IMovementModifier mod)
+            {
+                maxSpeedFactor *= mod.GetMaxSpeedFactor();
+                
+            }
+        }
+        Debug.Log(maxSpeedFactor);
+        Vector3 groundVelocityAtPlayerPos = Vector3.zero;
+        if (groundRotator != null)
+        {
+            Vector3 angularVelocity = groundRotator.GetAngularVelocity();
+            groundVelocityAtPlayerPos = Vector3.Cross(angularVelocity, playerRb.position);
+        }
+
+        Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
+        Vector3 flatRelative = new Vector3(relativeVelocity.x, 0, relativeVelocity.z);
+
+        if (flatRelative.magnitude > maxSpeed * maxSpeedFactor)
+        {
+            Vector3 limitedFlat = flatRelative.normalized * maxSpeed * maxSpeedFactor;
+            Vector3 newVelocity = limitedFlat + groundVelocityAtPlayerPos;
+            newVelocity.y = playerRb.velocity.y; // preserve vertical velocity
+            playerRb.velocity = newVelocity;
         }
     }
 
