@@ -13,6 +13,10 @@ public class MapSelectionSceneController : MonoBehaviour
     public AudioSource unlockAudio;
     void Start()
     {
+        #if UNITY_EDITOR
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+        #endif
         RefreshMapUnlock();
     }
 
