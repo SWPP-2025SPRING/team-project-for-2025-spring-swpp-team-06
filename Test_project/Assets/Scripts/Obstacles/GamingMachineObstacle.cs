@@ -26,6 +26,7 @@ public class GamingMachineObstacle : MonoBehaviour
 
         foreach (Transform child in parent)
         {
+            // Destroy all objects in same group
             Destroy(child.gameObject);
         }
     }

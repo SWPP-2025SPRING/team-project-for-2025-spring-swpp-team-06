@@ -1,5 +1,8 @@
 using System.Diagnostics;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using System;
+using UnityEngine.AI;
 
 public enum GPA
 {
@@ -25,6 +28,7 @@ public class EndingSceneInfos
   private Timer timer;
 
   private float gaugeFill;
+  private bool isTutorial;
 
 
   public EndingSceneInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
@@ -49,6 +53,7 @@ public class EndingSceneInfos
     gpa = CalculateGPA(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
     gaugeFill = CalculateFillAmount(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
     timer = new Timer(currentCentiseconds_);
+    isTutorial = false;
   }
   public void SetInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
   {
@@ -74,6 +79,7 @@ public class EndingSceneInfos
     UnityEngine.Debug.Log(currentCentiseconds);
     gaugeFill = CalculateFillAmount(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
     timer = new Timer(currentCentiseconds_);
+    isTutorial = false;
   }
 
   private GPA CalculateGPA(int currentScore, int aPlusScore, int fScore)
@@ -178,6 +184,22 @@ public class EndingSceneInfos
   public string GetMapName()
   {
     return mapName;
+  }
+
+  public int GetMapIndex()
+  {
+    Match match = Regex.Match(mapName, @"\d+$");
+
+    if (match.Success)
+    {
+      return int.Parse(match.Value);
+    }
+    return -1;
+  }
+
+  public bool IsTutorial()
+  {
+    return isTutorial;
   }
 
 }
