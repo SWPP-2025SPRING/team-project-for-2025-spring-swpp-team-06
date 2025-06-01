@@ -20,6 +20,7 @@ public class InGameUIControl : MonoBehaviour
     public static InGameUIControl instance;
     public TMP_Text timerText;
     public TMP_Text speedText;
+    private PlayerControl playerControlScript;
 
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
@@ -48,6 +49,9 @@ public class InGameUIControl : MonoBehaviour
                 Debug.LogError("No Player object in this map");
             }
         }
+
+        playerControlScript = player?.GetComponent<PlayerControl>();
+        if (playerControlScript == null) Debug.LogError("No PlayerControl script");
     }
 
     // Update is called once per frame
@@ -65,13 +69,7 @@ public class InGameUIControl : MonoBehaviour
         {
             isStartTextDestroyed = true;
             isGameStarted = true;
-            foreach (Transform child in GetComponentsInChildren<Transform>(true))
-            {
-                if (child.CompareTag("DestroyOnStart"))
-                {
-                    child.gameObject.SetActive(false);
-                }
-            }
+            ToggleStartTexts(false);
         }
 
         if (isGameStarted)
@@ -94,6 +92,17 @@ public class InGameUIControl : MonoBehaviour
         }
     }
 
+    public void ToggleStartTexts(bool trigger)
+    {
+        foreach (Transform child in GetComponentsInChildren<Transform>(true))
+        {
+            if (child.CompareTag("DestroyOnStart"))
+            {
+                child.gameObject.SetActive(trigger);
+            }
+        }
+    }
+
     public void OnClickMenuButton()
     {
         if (pausedScene == null) return;
@@ -105,6 +114,11 @@ public class InGameUIControl : MonoBehaviour
         */
 
         // game pause
+        Time.timeScale = 0f;
+        if (playerControlScript != null)
+        {
+            playerControlScript.isPaused = true;
+        }
 
         pausedScene.SetActive(true);
     }
@@ -136,6 +150,7 @@ public class InGameUIControl : MonoBehaviour
         // game resume
         // maybe need to give player some time to be ready to resume
         // (give 3 second timer, etc.)
+        ToggleStartTexts(true);
 
         pausedScene.SetActive(false);
     }

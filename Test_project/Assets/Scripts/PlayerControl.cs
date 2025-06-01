@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -20,11 +21,17 @@ public class PlayerControl : MonoBehaviour
 
     private List<IPlayerState> stateList = new List<IPlayerState>();
     public IReadOnlyList<IPlayerState> States => stateList.AsReadOnly();
+    private TMP_Text energyDrinkText;
+    public bool isPaused;
+    private GameObject ui;
+    private InGameUIControl uiScript;
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         groundRotator = GameObject.FindWithTag("Ground")?.GetComponent<GroundRotator>();
+        isPaused = true;
+        Time.timeScale = 0f;
 
         if (groundRotator == null)
         {
@@ -32,6 +39,23 @@ public class PlayerControl : MonoBehaviour
             enabled = false;
             return;
         }
+
+        ui = GameObject.FindWithTag("UI");
+        uiScript = ui.GetComponent<InGameUIControl>();
+
+        if (ui != null)
+        {
+            Transform energyDrinkObj = FindChildWithTag(ui.transform, "EnergyDrinkQuantity");
+            if (energyDrinkObj != null)
+            {
+                energyDrinkText = energyDrinkObj.GetComponent<TMP_Text>();
+                energyDrinkText.text = drinkCounts.ToString();
+            }
+            else Debug.LogError("No EnergyDrinkQuantity Text detected or without EnergyDrinkQuantity tag attached");
+        }
+        else Debug.LogError("No UI or UI without UI tag attached");
+
+        if(uiScript == null) Debug.LogError("No InGameUIControl");
 
         PushState(new NormalState());
     }
@@ -50,13 +74,36 @@ public class PlayerControl : MonoBehaviour
 
         ApplyMovementModifiers();
 
-        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused)
         {
             PushState(new EnergyDrinkState());
+
             drinkCounts -= 1;
+            energyDrinkText.text = drinkCounts.ToString();
+        }
+
+        if (isPaused)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                Time.timeScale = 1f;
+                isPaused = false;
+                uiScript.ToggleStartTexts(false);
+            }
         }
 
         LimitMaxSpeed();
+    }
+
+    // 자식들 중 태그로 찾는 재귀 함수
+    private Transform FindChildWithTag(Transform parent, string tag)
+    {
+        foreach (Transform child in parent.GetComponentsInChildren<Transform>(true))
+        {
+            if (child.CompareTag(tag))
+                return child;
+        }
+        return null;
     }
 
     void FixedUpdate()
@@ -221,7 +268,6 @@ public class PlayerControl : MonoBehaviour
                 
             }
         }
-        Debug.Log(maxSpeedFactor);
         Vector3 groundVelocityAtPlayerPos = Vector3.zero;
         if (groundRotator != null)
         {

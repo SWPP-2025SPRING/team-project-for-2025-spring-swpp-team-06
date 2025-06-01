@@ -27,6 +27,8 @@ public class EndingSceneController : MonoBehaviour
     public int aPlusCentisecondsTest = 6500;
     public int fCentisecondsTest = 13000;
 
+    private const int mapCount = 6;
+
 
     // Start is called before the first frame update
     void Start()
@@ -151,8 +153,8 @@ public class EndingSceneController : MonoBehaviour
 
     public void OnClickMapSelectionButton()
     {
-        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= 5
-        && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= 5
+        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= mapCount - 1
+        && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
         && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
         {
             // if above B+ and this map is not the last one
@@ -165,8 +167,24 @@ public class EndingSceneController : MonoBehaviour
             animation or effect when opening map(deliver this info to MapSelectionScene)
             
             */
-            
+            int mapToUnlock = EndingSceneDataHolder.endingSceneInfos.GetMapIndex() + 1;
+            PlayerPrefs.SetInt("NewMapToUnlock", mapToUnlock);
+            PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);
+            PlayerPrefs.Save();
+            //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", -1));
+
+            StartCoroutine(LoadMapSelectionNextFrame());
+
         }
+        else
+        {
+            SceneManager.LoadScene("MapSelectionScene");
+        }
+    }
+
+    IEnumerator LoadMapSelectionNextFrame()
+    {
+        yield return null; // 한 프레임 대기
         SceneManager.LoadScene("MapSelectionScene");
     }
 

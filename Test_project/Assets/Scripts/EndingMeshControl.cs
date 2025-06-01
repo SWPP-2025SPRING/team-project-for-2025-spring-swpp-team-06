@@ -20,7 +20,6 @@ public class EndingMeshControl : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log("asdf");
         if (other.CompareTag("Player"))
         {
 

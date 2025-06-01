@@ -11,13 +11,27 @@ public class MapSelectionSceneController : MonoBehaviour
     public Button backButton;
     public GameObject canvas;
     public AudioSource unlockAudio;
+
+    private const int mapCount = 6;
     void Start()
     {
-        #if UNITY_EDITOR
-            PlayerPrefs.DeleteAll();
-            PlayerPrefs.Save();
-        #endif
+
         RefreshMapUnlock();
+
+        //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", 0));
+
+        if (PlayerPrefs.GetInt("ShouldUnlockNewMap", 0) == 1)
+        {
+            int index = PlayerPrefs.GetInt("NewMapToUnlock", -1);
+            if (index >= 2 && index <= mapCount)
+            {
+                UnlockNewMap(index);
+            }
+        }
+
+        PlayerPrefs.SetInt("ShouldUnlockNewMap", 0);
+        PlayerPrefs.DeleteKey("NewMapToUnlock");
+        PlayerPrefs.Save();
     }
 
     private void RefreshMapUnlock()

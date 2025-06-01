@@ -17,6 +17,10 @@ public class TitleSceneController : MonoBehaviour
 
     void Start()
     {
+        #if UNITY_EDITOR
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+#endif
         EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
     }
 

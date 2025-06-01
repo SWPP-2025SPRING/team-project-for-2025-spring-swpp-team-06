@@ -8,6 +8,7 @@ TagManager:
   - DestroyOnStart
   - EndingMesh
   - UI
+  - EnergyDrinkQuantity
   layers:
   - Default
   - TransparentFX

@@ -464,7 +464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2997236620544857821, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}
       propertyPath: targetSceneName
-      value: SampleScene
+      value: TestStage1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}
@@ -1735,6 +1735,8 @@ MonoBehaviour:
   backButton: {fileID: 1073966227}
   canvas: {fileID: 1193644398}
   unlockAudio: {fileID: 1194184997}
+  isNewMapUnlocked: 0
+  indexNewMapUnlocked: 0
 --- !u!1 &1194184995
 GameObject:
   m_ObjectHideFlags: 0
@@ -2597,7 +2599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2997236620544857821, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}
       propertyPath: targetSceneName
-      value: SampleScene
+      value: TestStage1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}

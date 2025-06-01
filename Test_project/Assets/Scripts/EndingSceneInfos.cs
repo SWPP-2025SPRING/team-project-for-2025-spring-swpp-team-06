@@ -75,8 +75,6 @@ public class EndingSceneInfos
 
     //calculated datas
     gpa = CalculateGPA(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
-    UnityEngine.Debug.Log(gpa);
-    UnityEngine.Debug.Log(currentCentiseconds);
     gaugeFill = CalculateFillAmount(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
     timer = new Timer(currentCentiseconds_);
     isTutorial = false;
@@ -100,7 +98,6 @@ public class EndingSceneInfos
       float interval = (float)range / 11;
       float relativeScore = currentScore - aPlusScore;
       int index = Mathf.CeilToInt(relativeScore / interval);
-      UnityEngine.Debug.Log($"{index}, {interval}, {relativeScore}");
       index = index >= 12 ? 12 : (index < 1 ? 1 : index); // Ensure 0 <= index <= 12
 
       return (GPA)index;
