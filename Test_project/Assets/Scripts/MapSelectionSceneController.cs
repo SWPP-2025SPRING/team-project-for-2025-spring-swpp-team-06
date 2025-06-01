@@ -18,7 +18,7 @@ public class MapSelectionSceneController : MonoBehaviour
 
         RefreshMapUnlock();
 
-        //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", 0));
+        Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", 0));
 
         if (PlayerPrefs.GetInt("ShouldUnlockNewMap", 0) == 1)
         {

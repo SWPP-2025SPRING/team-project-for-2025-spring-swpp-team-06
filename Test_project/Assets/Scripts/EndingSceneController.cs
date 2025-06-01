@@ -148,7 +148,33 @@ public class EndingSceneController : MonoBehaviour
 
     public void OnClickMainMenuButton()
     {
-        SceneManager.LoadScene("TitleScene");
+        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= mapCount - 1
+        && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
+        && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
+        {
+            // if above B+ and this map is not the last one
+            // should open next stage
+            /*
+            
+            TODO
+
+            open next stage
+            animation or effect when opening map(deliver this info to MapSelectionScene)
+            
+            */
+            int mapToUnlock = EndingSceneDataHolder.endingSceneInfos.GetMapIndex() + 1;
+            PlayerPrefs.SetInt("NewMapToUnlock", mapToUnlock);
+            PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);
+            PlayerPrefs.Save();
+            //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", -1));
+
+            StartCoroutine(LoadMainFrame());
+
+        }
+        else
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
     }
 
     public void OnClickMapSelectionButton()
@@ -186,6 +212,12 @@ public class EndingSceneController : MonoBehaviour
     {
         yield return null; // 한 프레임 대기
         SceneManager.LoadScene("MapSelectionScene");
+    }
+
+    IEnumerator LoadMainFrame()
+    {
+        yield return null; // 한 프레임 대기
+        SceneManager.LoadScene("TitleScene");
     }
 
     public void OnClickRestartButton()

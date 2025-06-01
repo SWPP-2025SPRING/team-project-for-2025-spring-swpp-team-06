@@ -17,43 +17,49 @@ public class TitleSceneController : MonoBehaviour
 
     void Start()
     {
-        #if UNITY_EDITOR
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
-#endif
         EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void OnClickStartButton(){
+    public void OnClickStartButton()
+    {
         SceneManager.LoadScene("MapSelectionScene");
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void OnClickQuitButton(){
-        #if UNITY_EDITOR
+    public void OnClickQuitButton()
+    {
+#if UNITY_EDITOR
         // Application.Quit() does not work in the editor so
         // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
         UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#else
         Application.Quit();
-        #endif
+#endif
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void OnClickSettingsButton(){
+    public void OnClickSettingsButton()
+    {
         EventSystem.current.SetSelectedGameObject(null);
         SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
 
-    public void OnClickTutorialButton(){
+    public void OnClickTutorialButton()
+    {
         EventSystem.current.SetSelectedGameObject(null);
         // TODO
         //SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
+    }
+
+    public void ClearPlayerRefs()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
     }
 }
