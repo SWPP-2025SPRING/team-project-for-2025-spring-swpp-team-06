@@ -28,6 +28,7 @@ public class InGameUIControl : MonoBehaviour
     public float maxSpeed = 50f;
     private bool isStartTextDestroyed = false;
     private bool isGameStarted = false;
+    public static bool isMenuPopped = false;
     private float elapsedTime = 0f;
 
     // private float penalizedMaxScale = 0.5f; //(75%)
@@ -57,14 +58,7 @@ public class InGameUIControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-
-        TODO
-
-        timer count here
-        with Timer timer!!
-
-        */
+        if (isMenuPopped) return;
         if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed)
         {
             isStartTextDestroyed = true;
@@ -107,13 +101,8 @@ public class InGameUIControl : MonoBehaviour
     {
         if (pausedScene == null) return;
 
-        /*
-        
-        TODO
+        isMenuPopped = true;
 
-        */
-
-        // game pause
         Time.timeScale = 0f;
         if (playerControlScript != null)
         {
@@ -126,17 +115,12 @@ public class InGameUIControl : MonoBehaviour
     // Goto main menu
     public void OnClickExitButton()
     {
-        /*
-        
-        TODO
-
-        maybe save game data or do something before exiting
-
-        */
         if(Time.timeScale != 1f)
         {
             Time.timeScale = 1f; // reset time scale before exiting
         }
+
+        isMenuPopped = false;
 
         SceneManager.LoadScene("MapSelectionScene");
 
@@ -156,6 +140,8 @@ public class InGameUIControl : MonoBehaviour
         // (give 3 second timer, etc.)
         ToggleStartTexts(true);
 
+        isMenuPopped = false;
+
         pausedScene.SetActive(false);
     }
 
@@ -169,6 +155,7 @@ public class InGameUIControl : MonoBehaviour
         */
 
         // game settings
+        isMenuPopped = false;
         SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
 

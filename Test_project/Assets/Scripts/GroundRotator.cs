@@ -16,6 +16,7 @@ public class GroundRotator : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (InGameUIControl.isMenuPopped) return;
         currentRotationInput = 0f;
         if (Input.GetKey(KeyCode.LeftArrow))
         {

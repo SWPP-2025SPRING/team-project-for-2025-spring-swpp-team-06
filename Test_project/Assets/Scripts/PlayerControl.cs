@@ -62,6 +62,8 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+
+        if (InGameUIControl.isMenuPopped) return;
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
             stateList[i].Update(this);
@@ -108,6 +110,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (InGameUIControl.isMenuPopped) return;
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
             stateList[i].FixedUpdate(this);

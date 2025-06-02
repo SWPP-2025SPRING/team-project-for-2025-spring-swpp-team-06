@@ -36,6 +36,8 @@ public class MapSelectionSceneController : MonoBehaviour
         PlayerPrefs.SetInt("ShouldUnlockNewMap", 0);
         PlayerPrefs.DeleteKey("NewMapToUnlock");
         PlayerPrefs.Save();
+
+        unlockAudio.volume = PlayerPrefs.GetFloat("Volume", 0.5f);
     }
 
     private void RefreshMapUnlock()
@@ -44,7 +46,7 @@ public class MapSelectionSceneController : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("MapUnlocked" + i, 0) == 1)
             {
-                Debug.Log("Map " + i + " is already unlocked.");
+                //Debug.Log("Map " + i + " is already unlocked.");
                 UnlockMap(i); // 이미 언락된 맵은 자동 언락
             }
             else
@@ -91,7 +93,7 @@ public class MapSelectionSceneController : MonoBehaviour
         }
         else
         {
-            Debug.Log("MapSelection" + mapIndex.ToString() + " or Locked" + mapIndex.ToString() + " not found");
+            Debug.LogError("MapSelection" + mapIndex.ToString() + " or Locked" + mapIndex.ToString() + " not found");
         }
     }
 
@@ -107,7 +109,7 @@ public class MapSelectionSceneController : MonoBehaviour
         }
         else
         {
-            Debug.Log("MapSelection" + mapIndex.ToString() + " or Locked" + mapIndex.ToString() + " not found");
+            Debug.LogError("MapSelection" + mapIndex.ToString() + " or Locked" + mapIndex.ToString() + " not found");
         }
     }
 
@@ -116,20 +118,13 @@ public class MapSelectionSceneController : MonoBehaviour
         if (PlayerPrefs.GetInt("MapUnlocked" + index, 0) == 1)
         {
             // already unlocked
-            Debug.Log("Map " + index + " is already unlocked.");
+            Debug.LogWarning("Map " + index + " is already unlocked.");
             return;
         }
         unlockAudio.Play();
-        /*
-        
-        TODO
-
-        새로 열리는 맵의 중심에 적절한 파티클 효과
-        
-        */
         PlayerPrefs.SetInt("MapUnlocked" + index, 1);
         Transform transformToPlay = GetLockedImageByIndex(index).transform;
-        PlayDiamondParticles(30, transformToPlay);
+        PlayDiamondParticles(30, transformToPlay); // particle effect
         StartCoroutine(WaitAndUnlock(index, unlockAudio.clip.length));
     }
 

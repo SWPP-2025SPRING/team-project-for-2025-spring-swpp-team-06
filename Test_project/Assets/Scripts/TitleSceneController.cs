@@ -17,6 +17,12 @@ public class TitleSceneController : MonoBehaviour
 
     void Start()
     {
+        if (PlayerPrefs.GetFloat("Volume", -1f) < 0)
+        {
+            // hasn't set volume yet.
+            PlayerPrefs.SetFloat("Volume", 0.5f);
+        }
+        
         EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
     }
 

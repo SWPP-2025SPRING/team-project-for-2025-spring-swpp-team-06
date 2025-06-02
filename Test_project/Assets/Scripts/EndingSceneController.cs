@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class EndingSceneController : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class EndingSceneController : MonoBehaviour
         {
             // endingSceneInfo Not properly set. -1 is Initial state
             // Default datas
-            Debug.Log("Error: EndingData from the map is null");
+            Debug.LogWarning("Warning: EndingData from the map is null");
             EndingSceneDataHolder.endingSceneInfos.SetInfos(currCentiSecondsTest, false, 0, aPlusCentisecondsTest, fCentisecondsTest, "null"); // Default data
         }
 
@@ -53,23 +54,28 @@ public class EndingSceneController : MonoBehaviour
         {
             timerText.text = timerStringInitial;
         }
-        int bestBefore = PlayerPrefs.GetInt("Best"+EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), -1);
-        Debug.Log("Best before: " + bestBefore);
-        if(bestBefore > 0){
-            // played before
-            if(bestBefore > centisecondInitial){
-                PlayerPrefs.SetInt("Best" + EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), centisecondInitial);
-                PlayerPrefs.Save();
-            }
+        int index = EndingSceneDataHolder.endingSceneInfos.GetMapIndex();
+        int bestBefore = PlayerPrefs.GetInt("Best"+index, -1);
+        GPA gpa = EndingSceneDataHolder.endingSceneInfos.GetGPA();
+
+        //Debug.Log("Best before: " + bestBefore);
+        if (bestBefore <= 0 || bestBefore > centisecondInitial)
+        {
+            SetPlayerPrefs(index, gpa, centisecondInitial);
         }
-        else{
-            // not played before
-            PlayerPrefs.SetInt("Best" + EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), centisecondInitial);
-            PlayerPrefs.Save();
-        }
+
+        audioGaugeDecrease.volume = PlayerPrefs.GetFloat("Volume", 0.5f);
 
         StartCoroutine(StartWithDelay());
 
+    }
+
+    public void SetPlayerPrefs(int index, GPA gpa, int centiseconds)
+    {
+        PlayerPrefs.SetInt("Best" + index, centiseconds);
+        PlayerPrefs.SetInt("GPA" + index, (int)gpa);
+        //Debug.Log(index);
+        PlayerPrefs.Save();
     }
 
     IEnumerator StartWithDelay()
@@ -163,7 +169,20 @@ public class EndingSceneController : MonoBehaviour
 
     public void OnClickMainMenuButton()
     {
-        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= mapCount - 1
+        SaveUnlockInformation();
+        SceneManager.LoadScene("TitleScene");
+        
+    }
+
+    public void OnClickMapSelectionButton()
+    {
+        SaveUnlockInformation();
+        SceneManager.LoadScene("MapSelectionScene");
+    }
+
+    public void SaveUnlockInformation()
+    {
+        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= (int)GPA.Bminus
         && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
         && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
         {
@@ -182,53 +201,24 @@ public class EndingSceneController : MonoBehaviour
             PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);
             PlayerPrefs.Save();
             //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", -1));
-
-            StartCoroutine(LoadMainFrame());
-
-        }
-        else
-        {
-            SceneManager.LoadScene("TitleScene");
         }
     }
 
-    public void OnClickMapSelectionButton()
-    {
-        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= (int)GPA.Bminus
-        && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
-        && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
-        {
-            // if above B+ and this map is not the last one
-            // should open next stage
-            int mapToUnlock = EndingSceneDataHolder.endingSceneInfos.GetMapIndex() + 1;
-            PlayerPrefs.SetInt("NewMapToUnlock", mapToUnlock);
-            PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);
-            PlayerPrefs.Save();
-            //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", -1));
+    // IEnumerator LoadMapSelectionNextFrame()
+    // {
+    //     yield return null; // 한 프레임 대기
+    //     SceneManager.LoadScene("MapSelectionScene");
+    // }
 
-            StartCoroutine(LoadMapSelectionNextFrame());
-
-        }
-        else
-        {
-            SceneManager.LoadScene("MapSelectionScene");
-        }
-    }
-
-    IEnumerator LoadMapSelectionNextFrame()
-    {
-        yield return null; // 한 프레임 대기
-        SceneManager.LoadScene("MapSelectionScene");
-    }
-
-    IEnumerator LoadMainFrame()
-    {
-        yield return null; // 한 프레임 대기
-        SceneManager.LoadScene("TitleScene");
-    }
+    // IEnumerator LoadMainFrame()
+    // {
+    //     yield return null; // 한 프레임 대기
+    //     SceneManager.LoadScene("TitleScene");
+    // }
 
     public void OnClickRestartButton()
     {
+        SaveUnlockInformation();
         SceneManager.LoadScene(EndingSceneDataHolder.endingSceneInfos.GetMapName());
     }
 }

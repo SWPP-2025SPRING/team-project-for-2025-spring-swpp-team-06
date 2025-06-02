@@ -1997,7 +1997,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Unlock \uCD08\uAE30\uD654"
+  m_text: "\uCD08\uAE30\uD654"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1787475cb2159aa48b94e76bc68ff70a, type: 2}
   m_sharedMaterial: {fileID: 7913280084308527501, guid: 1787475cb2159aa48b94e76bc68ff70a, type: 2}
