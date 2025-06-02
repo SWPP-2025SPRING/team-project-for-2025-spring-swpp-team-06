@@ -27,10 +27,13 @@ public class EndingSceneController : MonoBehaviour
     public int aPlusCentisecondsTest = 6500;
     public int fCentisecondsTest = 13000;
 
+    private const int mapCount = 6;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        System.Diagnostics.Debug.Assert(Time.timeScale > 0.5f);
 
         if (EndingSceneDataHolder.endingSceneInfos == null || EndingSceneDataHolder.endingSceneInfos.GetCurrentScore() == -1)
         {
@@ -42,17 +45,6 @@ public class EndingSceneController : MonoBehaviour
 
         centisecondInitial = EndingSceneDataHolder.endingSceneInfos.GetCurrentScore();
         timerStringInitial = EndingSceneDataHolder.endingSceneInfos.GetTimerString();
-        // if (InGameUIControl.timer != null)
-        // {
-        //     centisecondInitial = InGameUIControl.timer.InCentiseconds();
-        //     timerStringInitial = InGameUIControl.timer.ToString();
-        // }
-        // else
-        // {
-        //     Debug.Log("InGameUIControl.timer is null");
-        //     centisecondInitial = 0;
-        //     timerStringInitial = "00:00:00";
-        // }
 
 
         if (centisecondInitial <= 0) centisecondInitial = 0;
@@ -61,9 +53,29 @@ public class EndingSceneController : MonoBehaviour
         {
             timerText.text = timerStringInitial;
         }
+        int bestBefore = PlayerPrefs.GetInt("Best"+EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), -1);
+        Debug.Log("Best before: " + bestBefore);
+        if(bestBefore > 0){
+            // played before
+            if(bestBefore > centisecondInitial){
+                PlayerPrefs.SetInt("Best" + EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), centisecondInitial);
+                PlayerPrefs.Save();
+            }
+        }
+        else{
+            // not played before
+            PlayerPrefs.SetInt("Best" + EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), centisecondInitial);
+            PlayerPrefs.Save();
+        }
 
+        StartCoroutine(StartWithDelay());
 
+    }
 
+    IEnumerator StartWithDelay()
+    {
+        yield return new WaitForSeconds(1f);  // 1초 기다리기
+        yield return StartCoroutine(EndingSequence());  // ▶실제 코루틴 실행
     }
 
     // Update is called once per frame
@@ -72,23 +84,23 @@ public class EndingSceneController : MonoBehaviour
 
     }
 
-    IEnumerator TimerTextAnimation(int startCentiseconds, float duration)
-    {
-        float elapsed = 0f;
-        int endCentiSeconds = 0;
+    // IEnumerator TimerTextAnimation(int startCentiseconds, float duration)
+    // {
+    //     float elapsed = 0f;
+    //     int endCentiSeconds = 0;
 
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
-            float easedT = 1 - Mathf.Pow(1 - t, 3);
-            int currentCentiseconds = Mathf.FloorToInt(Mathf.Lerp(startCentiseconds, endCentiSeconds, easedT));
-            UpdateTimeText(currentCentiseconds);
-            yield return null;
-        }
+    //     while (elapsed < duration)
+    //     {
+    //         elapsed += Time.deltaTime;
+    //         float t = Mathf.Clamp01(elapsed / duration);
+    //         float easedT = 1 - Mathf.Pow(1 - t, 3);
+    //         int currentCentiseconds = Mathf.FloorToInt(Mathf.Lerp(startCentiseconds, endCentiSeconds, easedT));
+    //         UpdateTimeText(currentCentiseconds);
+    //         yield return null;
+    //     }
 
-        UpdateTimeText(0);
-    }
+    //     UpdateTimeText(0);
+    // }
 
     IEnumerator GPAGaugeAnimation(float endPointFillAmount, float duration)
     {
@@ -112,22 +124,16 @@ public class EndingSceneController : MonoBehaviour
         audioGaugeDecrease.Stop();
     }
 
-    void UpdateTimeText(int centiseconds)
-    {
-        int centisecond = centiseconds % 100;
-        int minute = centiseconds / 6000;
-        int second = (centiseconds - minute * 6000) / 100;
+    // void UpdateTimeText(int centiseconds)
+    // {
+    //     int centisecond = centiseconds % 100;
+    //     int minute = centiseconds / 6000;
+    //     int second = (centiseconds - minute * 6000) / 100;
 
-        timerText.text = $"{minute:D2}:{second:D2}:{centisecond:D2}";
-    }
-
-    public void test()
-    {
-        StartCoroutine(EndingSequenceTest());
-    }
-
+    //     timerText.text = $"{minute:D2}:{second:D2}:{centisecond:D2}";
+    // }
     // Use this Function to make EndingSequence
-    IEnumerator EndingSequenceTest()
+    IEnumerator EndingSequence()
     {
         audioGaugeDecrease.Play();
         StartCoroutine(StopPlayGuageDecrease());
@@ -157,12 +163,68 @@ public class EndingSceneController : MonoBehaviour
 
     public void OnClickMainMenuButton()
     {
-        SceneManager.LoadScene("TitleScene");
+        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= mapCount - 1
+        && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
+        && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
+        {
+            // if above B+ and this map is not the last one
+            // should open next stage
+            /*
+            
+            TODO
+
+            open next stage
+            animation or effect when opening map(deliver this info to MapSelectionScene)
+            
+            */
+            int mapToUnlock = EndingSceneDataHolder.endingSceneInfos.GetMapIndex() + 1;
+            PlayerPrefs.SetInt("NewMapToUnlock", mapToUnlock);
+            PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);
+            PlayerPrefs.Save();
+            //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", -1));
+
+            StartCoroutine(LoadMainFrame());
+
+        }
+        else
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
     }
 
     public void OnClickMapSelectionButton()
     {
+        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= (int)GPA.Bminus
+        && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
+        && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
+        {
+            // if above B+ and this map is not the last one
+            // should open next stage
+            int mapToUnlock = EndingSceneDataHolder.endingSceneInfos.GetMapIndex() + 1;
+            PlayerPrefs.SetInt("NewMapToUnlock", mapToUnlock);
+            PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);
+            PlayerPrefs.Save();
+            //Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", -1));
+
+            StartCoroutine(LoadMapSelectionNextFrame());
+
+        }
+        else
+        {
+            SceneManager.LoadScene("MapSelectionScene");
+        }
+    }
+
+    IEnumerator LoadMapSelectionNextFrame()
+    {
+        yield return null; // 한 프레임 대기
         SceneManager.LoadScene("MapSelectionScene");
+    }
+
+    IEnumerator LoadMainFrame()
+    {
+        yield return null; // 한 프레임 대기
+        SceneManager.LoadScene("TitleScene");
     }
 
     public void OnClickRestartButton()

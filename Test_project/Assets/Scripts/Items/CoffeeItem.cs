@@ -18,5 +18,14 @@ public class CoffeeItem : MonoBehaviour
 
         player.PushState(new CoffeeState());
 
+        // Destroy once triggered
+        Transform parent = transform.parent;
+        if (parent.gameObject.CompareTag("Ground")) return;
+
+        foreach (Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
+
     }
 }

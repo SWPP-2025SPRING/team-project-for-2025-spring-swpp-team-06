@@ -56,4 +56,8 @@ public class EnergyDrinkState : IPlayerState, IRemovable
     {
         return false;
     }
+    public bool IsCoffee()
+    {
+        return false;
+    }
 }

@@ -6,15 +6,24 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
     private float timer = 0f;
 
     public bool ShouldRemove { get; private set; } = false;
+    private InGameUIControl uiScript;
 
     public void Enter(PlayerControl player)
     {
         timer = 0f;
         ShouldRemove = false;
+
+        GameObject uiObject = GameObject.FindWithTag("UI");
+        if (uiObject != null)
+        {
+            uiScript = uiObject.GetComponent<InGameUIControl>();
+            uiScript?.TogglePenalty(true);
+        }
     }
 
     public void Exit(PlayerControl player)
     {
+        uiScript?.TogglePenalty(false);
     }
 
     public void Update(PlayerControl player)
@@ -39,15 +48,19 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
     {
         return true;
     }
+    public bool IsCoffee()
+    {
+        return false;
+    }
 
     public float GetAccelerationFactor()
     {
-        return 0.5f;
+        return 0.75f;
     }
 
     public float GetMaxSpeedFactor()
     {
-        return 0.5f;
+        return 0.75f;
     }
 
     public void ResetTimer()

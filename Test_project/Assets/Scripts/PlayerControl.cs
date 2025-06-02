@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -11,7 +12,7 @@ public class PlayerControl : MonoBehaviour
 
     [Header("Movement")]
     public float acceleration = 10f;
-    public float maxSpeed = 5f;
+    public float maxSpeed = 50f;
 
     [Header("Rotation")]
     public float rotationAlignmentSpeed = 180f;
@@ -20,18 +21,41 @@ public class PlayerControl : MonoBehaviour
 
     private List<IPlayerState> stateList = new List<IPlayerState>();
     public IReadOnlyList<IPlayerState> States => stateList.AsReadOnly();
+    private TMP_Text energyDrinkText;
+    public bool isPaused;
+    private GameObject ui;
+    private InGameUIControl uiScript;
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         groundRotator = GameObject.FindWithTag("Ground")?.GetComponent<GroundRotator>();
+        isPaused = true;
+        Time.timeScale = 0f;
 
         if (groundRotator == null)
         {
-            Debug.LogError("GroundRotator∏¶ √£¿ª ºˆ æ¯Ω¿¥œ¥Ÿ.");
+            Debug.LogError("GroundRotatorÔøΩÔøΩ √£ÔøΩÔøΩ ÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩœ¥ÔøΩ.");
             enabled = false;
             return;
         }
+
+        ui = GameObject.FindWithTag("UI");
+        uiScript = ui.GetComponent<InGameUIControl>();
+
+        if (ui != null)
+        {
+            Transform energyDrinkObj = FindChildWithTag(ui.transform, "EnergyDrinkQuantity");
+            if (energyDrinkObj != null)
+            {
+                energyDrinkText = energyDrinkObj.GetComponent<TMP_Text>();
+                energyDrinkText.text = drinkCounts.ToString();
+            }
+            else Debug.LogError("No EnergyDrinkQuantity Text detected or without EnergyDrinkQuantity tag attached");
+        }
+        else Debug.LogError("No UI or UI without UI tag attached");
+
+        if(uiScript == null) Debug.LogError("No InGameUIControl");
 
         PushState(new NormalState());
     }
@@ -48,13 +72,38 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        ApplyMovementModifiers();
+        
 
-        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused)
         {
             PushState(new EnergyDrinkState());
+
             drinkCounts -= 1;
+            energyDrinkText.text = drinkCounts.ToString();
         }
+
+        if (isPaused)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                Time.timeScale = 1f;
+                isPaused = false;
+                uiScript.ToggleStartTexts(false);
+            }
+        }
+
+        LimitMaxSpeed();
+    }
+
+    // ÏûêÏãùÎì§ Ï§ë ÌÉúÍ∑∏Î°ú Ï∞æÎäî Ïû¨Í∑Ä Ìï®Ïàò
+    private Transform FindChildWithTag(Transform parent, string tag)
+    {
+        foreach (Transform child in parent.GetComponentsInChildren<Transform>(true))
+        {
+            if (child.CompareTag(tag))
+                return child;
+        }
+        return null;
     }
 
     void FixedUpdate()
@@ -63,14 +112,32 @@ public class PlayerControl : MonoBehaviour
         {
             stateList[i].FixedUpdate(this);
         }
+
+        if(!isPaused){
+            ApplyMovementModifiers();
+        }
     }
 
     public void PushState(IPlayerState newState)
     {
         if (newState.IsPenalty() && HasState<EnergyDrinkState>())
         {
+            // new state is penalty but we're on energy drink state
             return;
         }
+        if (newState.IsPenalty() && HasState<CoffeeState>())
+        {
+            // new state is penalty and we have to turn off coffee state
+            IPlayerState coffee = GetState<CoffeeState>();
+            stateList.Remove(coffee);
+            coffee.Exit(this);
+        }
+        if (newState.IsCoffee() && IsPenalized())
+        {
+            // if player is now penalized, ignore coffee
+            return;
+        }
+        
 
         if (HasState(newState.GetType()))
         {
@@ -103,6 +170,15 @@ public class PlayerControl : MonoBehaviour
     public bool HasState<T>() where T : class, IPlayerState
     {
         return GetState<T>() != null;
+    }
+
+    public bool IsPenalized()
+    {
+        foreach (var state in stateList)
+        {
+            if (state.IsPenalty()) return true;
+        }
+        return false;
     }
 
     public bool HasState(System.Type stateType)
@@ -177,9 +253,41 @@ public class PlayerControl : MonoBehaviour
             Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
 
             Vector3 euler = newRotation.eulerAngles;
-            
+
             newRotation = Quaternion.Euler(euler);
             playerRb.MoveRotation(newRotation);
+        }
+    }
+    
+    private void LimitMaxSpeed()
+    {
+
+        float maxSpeedFactor = 1f;
+
+        foreach (var state in stateList)
+        {
+            if (state is IMovementModifier mod)
+            {
+                maxSpeedFactor *= mod.GetMaxSpeedFactor();
+                
+            }
+        }
+        Vector3 groundVelocityAtPlayerPos = Vector3.zero;
+        if (groundRotator != null)
+        {
+            Vector3 angularVelocity = groundRotator.GetAngularVelocity();
+            groundVelocityAtPlayerPos = Vector3.Cross(angularVelocity, playerRb.position);
+        }
+
+        Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
+        Vector3 flatRelative = new Vector3(relativeVelocity.x, 0, relativeVelocity.z);
+
+        if (flatRelative.magnitude > maxSpeed * maxSpeedFactor)
+        {
+            Vector3 limitedFlat = flatRelative.normalized * maxSpeed * maxSpeedFactor;
+            Vector3 newVelocity = limitedFlat + groundVelocityAtPlayerPos;
+            newVelocity.y = playerRb.velocity.y; // preserve vertical velocity
+            playerRb.velocity = newVelocity;
         }
     }
 

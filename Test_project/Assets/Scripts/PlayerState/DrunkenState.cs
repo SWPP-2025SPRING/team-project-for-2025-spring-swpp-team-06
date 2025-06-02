@@ -49,6 +49,10 @@ public class DrunkenState : IPlayerState, IRemovable
     {
         return true;
     }
+    public bool IsCoffee()
+    {
+        return false;
+    }
 
     public void ResetTimer()
     {

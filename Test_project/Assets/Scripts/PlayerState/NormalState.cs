@@ -28,6 +28,10 @@ public class NormalState : IPlayerState, IMovementModifier
     {
         return false;
     }
+    public bool IsCoffee()
+    {
+        return false;
+    }
 
     public float GetAccelerationFactor()
     {
