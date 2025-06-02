@@ -1735,8 +1735,8 @@ MonoBehaviour:
   backButton: {fileID: 1073966227}
   canvas: {fileID: 1193644398}
   unlockAudio: {fileID: 1194184997}
-  isNewMapUnlocked: 0
-  indexNewMapUnlocked: 0
+  diamondParticlePrefab: {fileID: 1393198204253370615, guid: 2a1f85d34886194468dc43b2484bfae1, type: 3}
+  canvasTransform: {fileID: 1193644402}
 --- !u!1 &1194184995
 GameObject:
   m_ObjectHideFlags: 0

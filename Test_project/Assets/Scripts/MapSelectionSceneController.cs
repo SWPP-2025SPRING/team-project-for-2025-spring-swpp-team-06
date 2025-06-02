@@ -11,6 +11,7 @@ public class MapSelectionSceneController : MonoBehaviour
     public Button backButton;
     public GameObject canvas;
     public AudioSource unlockAudio;
+    public GameObject diamondParticlePrefab;
 
     private const int mapCount = 6;
     void Start()
@@ -66,12 +67,13 @@ public class MapSelectionSceneController : MonoBehaviour
         PlayerPrefs.SetInt("MapUnlocked" + mapIndex, 1);
         PlayerPrefs.Save();
 
-        GameObject mapUnlocked = canvas.transform.Find("MapSelection" + mapIndex.ToString())?.gameObject;
-        GameObject mapLocked = canvas.transform.Find("Locked" + mapIndex.ToString())?.gameObject;
-        if (mapUnlocked != null && mapLocked != null)
+        GameObject imageToUnlock = GetUnlockedImageByIndex(mapIndex);
+        GameObject imageToLock = GetLockedImageByIndex(mapIndex);
+
+        if (imageToUnlock != null && imageToLock != null)
         {
-            mapUnlocked.SetActive(true);
-            mapLocked.SetActive(false);
+            imageToUnlock.SetActive(true);
+            imageToLock.SetActive(false);
         }
         else
         {
@@ -81,12 +83,13 @@ public class MapSelectionSceneController : MonoBehaviour
 
     public void LockMap(int mapIndex)
     {
-        GameObject mapUnlocked = canvas.transform.Find("MapSelection" + mapIndex.ToString())?.gameObject;
-        GameObject mapLocked = canvas.transform.Find("Locked" + mapIndex.ToString())?.gameObject;
-        if (mapUnlocked != null && mapLocked != null)
+
+        GameObject imageToUnlock = GetUnlockedImageByIndex(mapIndex);
+        GameObject imageToLock = GetLockedImageByIndex(mapIndex);
+        if (imageToUnlock != null && imageToLock != null)
         {
-            mapUnlocked.SetActive(false);
-            mapLocked.SetActive(true);
+            imageToUnlock.SetActive(false);
+            imageToLock.SetActive(true);
         }
         else
         {
@@ -109,6 +112,8 @@ public class MapSelectionSceneController : MonoBehaviour
         새로 열리는 맵의 중심에 적절한 파티클 효과
         
         */
+        Transform transformToPlay = GetLockedImageByIndex(index).transform;
+        PlayDiamondParticles(30, transformToPlay);
         StartCoroutine(WaitAndUnlock(index, unlockAudio.clip.length));
     }
 
@@ -128,5 +133,29 @@ public class MapSelectionSceneController : MonoBehaviour
         PlayerPrefs.SetInt("MapUnlocked" + 2, 0);
         PlayerPrefs.Save();
         RefreshMapUnlock();
+    }
+
+    public void PlayDiamondParticles(int count, Transform transform)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            GameObject p = Instantiate(diamondParticlePrefab, transform);
+            RectTransform rt = p.GetComponent<RectTransform>();
+            rt.anchoredPosition = Vector2.zero;
+
+            float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+            Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+            p.GetComponent<DiamondParticleEffect>().direction = dir;
+        }
+    }
+
+    private GameObject GetUnlockedImageByIndex(int mapIndex)
+    {
+        return canvas.transform.Find("MapSelection" + mapIndex.ToString())?.gameObject;
+    }
+    private GameObject GetLockedImageByIndex(int mapIndex)
+    {
+        return canvas.transform.Find("Locked" + mapIndex.ToString())?.gameObject;
     }
 }
