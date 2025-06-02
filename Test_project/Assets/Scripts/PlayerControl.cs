@@ -72,7 +72,7 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        ApplyMovementModifiers();
+        
 
         if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused)
         {
@@ -111,6 +111,10 @@ public class PlayerControl : MonoBehaviour
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
             stateList[i].FixedUpdate(this);
+        }
+
+        if(!isPaused){
+            ApplyMovementModifiers();
         }
     }
 

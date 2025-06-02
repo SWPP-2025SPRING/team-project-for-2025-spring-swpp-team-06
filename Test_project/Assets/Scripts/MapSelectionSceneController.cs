@@ -16,6 +16,9 @@ public class MapSelectionSceneController : MonoBehaviour
     private const int mapCount = 6;
     void Start()
     {
+        PlayerPrefs.SetInt("MapUnlocked" + 1, 1);
+
+        System.Diagnostics.Debug.Assert(Time.timeScale > 0.5f);
 
         RefreshMapUnlock();
 
@@ -37,10 +40,11 @@ public class MapSelectionSceneController : MonoBehaviour
 
     private void RefreshMapUnlock()
     {
-        for (int i = 2; i <= 6; i++)
+        for (int i = 1; i <= 6; i++)
         {
             if (PlayerPrefs.GetInt("MapUnlocked" + i, 0) == 1)
             {
+                Debug.Log("Map " + i + " is already unlocked.");
                 UnlockMap(i); // 이미 언락된 맵은 자동 언락
             }
             else
@@ -69,6 +73,16 @@ public class MapSelectionSceneController : MonoBehaviour
 
         GameObject imageToUnlock = GetUnlockedImageByIndex(mapIndex);
         GameObject imageToLock = GetLockedImageByIndex(mapIndex);
+
+        if(PlayerPrefs.GetInt("Best"+ mapIndex, -1) > 0){
+            Debug.Log("Map " + mapIndex + " already has a best score."+PlayerPrefs.GetInt("Best"+ mapIndex, -1));
+            /*
+            
+            TODO
+            object BestScore Text 수정
+
+            */
+        }
 
         if (imageToUnlock != null && imageToLock != null)
         {
@@ -102,6 +116,7 @@ public class MapSelectionSceneController : MonoBehaviour
         if (PlayerPrefs.GetInt("MapUnlocked" + index, 0) == 1)
         {
             // already unlocked
+            Debug.Log("Map " + index + " is already unlocked.");
             return;
         }
         unlockAudio.Play();
@@ -112,6 +127,7 @@ public class MapSelectionSceneController : MonoBehaviour
         새로 열리는 맵의 중심에 적절한 파티클 효과
         
         */
+        PlayerPrefs.SetInt("MapUnlocked" + index, 1);
         Transform transformToPlay = GetLockedImageByIndex(index).transform;
         PlayDiamondParticles(30, transformToPlay);
         StartCoroutine(WaitAndUnlock(index, unlockAudio.clip.length));

@@ -33,6 +33,7 @@ public class EndingSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        System.Diagnostics.Debug.Assert(Time.timeScale > 0.5f);
 
         if (EndingSceneDataHolder.endingSceneInfos == null || EndingSceneDataHolder.endingSceneInfos.GetCurrentScore() == -1)
         {
@@ -51,6 +52,20 @@ public class EndingSceneController : MonoBehaviour
         if (timerText != null)
         {
             timerText.text = timerStringInitial;
+        }
+        int bestBefore = PlayerPrefs.GetInt("Best"+EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), -1);
+        Debug.Log("Best before: " + bestBefore);
+        if(bestBefore > 0){
+            // played before
+            if(bestBefore > centisecondInitial){
+                PlayerPrefs.SetInt("Best" + EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), centisecondInitial);
+                PlayerPrefs.Save();
+            }
+        }
+        else{
+            // not played before
+            PlayerPrefs.SetInt("Best" + EndingSceneDataHolder.endingSceneInfos.GetMapIndex(), centisecondInitial);
+            PlayerPrefs.Save();
         }
 
         StartCoroutine(StartWithDelay());
@@ -179,20 +194,12 @@ public class EndingSceneController : MonoBehaviour
 
     public void OnClickMapSelectionButton()
     {
-        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= mapCount - 1
+        if ((int)EndingSceneDataHolder.endingSceneInfos.GetGPA() <= (int)GPA.Bminus
         && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
         && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
         {
             // if above B+ and this map is not the last one
             // should open next stage
-            /*
-            
-            TODO
-
-            open next stage
-            animation or effect when opening map(deliver this info to MapSelectionScene)
-            
-            */
             int mapToUnlock = EndingSceneDataHolder.endingSceneInfos.GetMapIndex() + 1;
             PlayerPrefs.SetInt("NewMapToUnlock", mapToUnlock);
             PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);

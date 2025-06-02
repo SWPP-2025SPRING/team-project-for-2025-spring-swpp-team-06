@@ -133,6 +133,10 @@ public class InGameUIControl : MonoBehaviour
         maybe save game data or do something before exiting
 
         */
+        if(Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f; // reset time scale before exiting
+        }
 
         SceneManager.LoadScene("MapSelectionScene");
 
