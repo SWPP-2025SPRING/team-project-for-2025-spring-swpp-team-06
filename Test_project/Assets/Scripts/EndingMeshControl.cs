@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class EndingMeshControl : MonoBehaviour
 {
+
+    public int aPlusCentiseconds = 0;
+    public int fCentiseconds = 0;
     // Start is called before the first frame update
     void Start()
     {
-
+        if (aPlusCentiseconds == 0) aPlusCentiseconds = 100;
+        if (fCentiseconds == 0) fCentiseconds = 1500;
     }
 
     // Update is called once per frame
@@ -29,7 +33,7 @@ public class EndingMeshControl : MonoBehaviour
             {
                 EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
             }
-            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, 100, 1500, SceneManager.GetActiveScene().name);
+            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, aPlusCentiseconds, fCentiseconds, SceneManager.GetActiveScene().name);
             SceneManager.LoadScene("EndingScene");
         }
     }

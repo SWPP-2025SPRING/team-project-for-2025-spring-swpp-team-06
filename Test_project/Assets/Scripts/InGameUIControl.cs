@@ -143,15 +143,6 @@ public class InGameUIControl : MonoBehaviour
 
     public void OnClickResumeButton()
     {
-        /*
-        
-        TODO
-        
-        */
-
-        // game resume
-        // maybe need to give player some time to be ready to resume
-        // (give 3 second timer, etc.)
         ToggleStartTexts(true);
 
         isMenuPopped = false;
@@ -162,33 +153,16 @@ public class InGameUIControl : MonoBehaviour
     public void OnClickSettingsButton()
     {
         if (pausedScene == null) return;
-        /*
         
-        TODO
-
-        */
-
-        // game settings
         isMenuPopped = false;
         SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
 
     public void OnClickRestartButton()
     {
-        /*
-        
-        TODO
-        
-        */
-        // Things to do before restart(discard score etc.)
 
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
-    }
-
-    public void EndStageAction()
-    {
-
     }
 
     private float PercentToScale(float percent)
@@ -221,53 +195,53 @@ public class InGameUIControl : MonoBehaviour
         }
     }
 
-    public void test1()
-    {
-        // speed 0%
-        RefreshSpeedGauge(minSpeedScale);
-    }
+    // public void test1()
+    // {
+    //     // speed 0%
+    //     RefreshSpeedGauge(minSpeedScale);
+    // }
 
-    public void test2()
-    {
-        // speed 100%
-        RefreshSpeedGauge(maxSpeedScale);
-    }
+    // public void test2()
+    // {
+    //     // speed 100%
+    //     RefreshSpeedGauge(maxSpeedScale);
+    // }
 
-    public void test3()
-    {
-        // speed 45%
-        RefreshSpeedGauge(PercentToScale(0.75f));
-    }
-    public void test4()
-    {
-        // penalty on
-        TogglePenalty(true);
-    }
-    public void test5()
-    {
-        // penalty off
-        TogglePenalty(false);
-    }
-    public void test6()
-    {
-        // speed 25%
-        RefreshSpeedGauge(PercentToScale(0.25f));
-    }
-    public void test7()
-    {
-        // speed 120%
-        RefreshSpeedGauge(PercentToScale(1.2f));
-    }
-    public void test8()
-    {
-        // Buff on
-        ToggleBuff(true);
-    }
-    public void test9()
-    {
-        // buff off
-        ToggleBuff(false);
-    }
+    // public void test3()
+    // {
+    //     // speed 45%
+    //     RefreshSpeedGauge(PercentToScale(0.75f));
+    // }
+    // public void test4()
+    // {
+    //     // penalty on
+    //     TogglePenalty(true);
+    // }
+    // public void test5()
+    // {
+    //     // penalty off
+    //     TogglePenalty(false);
+    // }
+    // public void test6()
+    // {
+    //     // speed 25%
+    //     RefreshSpeedGauge(PercentToScale(0.25f));
+    // }
+    // public void test7()
+    // {
+    //     // speed 120%
+    //     RefreshSpeedGauge(PercentToScale(1.2f));
+    // }
+    // public void test8()
+    // {
+    //     // Buff on
+    //     ToggleBuff(true);
+    // }
+    // public void test9()
+    // {
+    //     // buff off
+    //     ToggleBuff(false);
+    // }
 
     // public void endTest()
     // {
