@@ -464,7 +464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2997236620544857821, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}
       propertyPath: targetSceneName
-      value: TestStage1
+      value: Stage1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}
@@ -1736,7 +1736,6 @@ MonoBehaviour:
   canvas: {fileID: 1193644398}
   unlockAudio: {fileID: 1194184997}
   diamondParticlePrefab: {fileID: 1393198204253370615, guid: 2a1f85d34886194468dc43b2484bfae1, type: 3}
-  canvasTransform: {fileID: 1193644402}
 --- !u!1 &1194184995
 GameObject:
   m_ObjectHideFlags: 0
@@ -2599,7 +2598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2997236620544857821, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}
       propertyPath: targetSceneName
-      value: TestStage1
+      value: Stage1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaceddddc38f690449072a7cbe3d9552, type: 3}

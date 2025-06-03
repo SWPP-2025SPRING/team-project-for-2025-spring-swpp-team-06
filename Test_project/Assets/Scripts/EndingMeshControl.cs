@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class EndingMeshControl : MonoBehaviour
 {
+    public int aPlusScore = 100, fScore = 1500;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +31,7 @@ public class EndingMeshControl : MonoBehaviour
             {
                 EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
             }
-            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, false, 0, 100, 1500, SceneManager.GetActiveScene().name);
+            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, false, 0, aPlusScore, fScore, SceneManager.GetActiveScene().name);
             SceneManager.LoadScene("EndingScene");
         }
     }

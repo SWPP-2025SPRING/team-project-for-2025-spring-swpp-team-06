@@ -35,7 +35,8 @@ public class PlayerControl : MonoBehaviour
 
         if (groundRotator == null)
         {
-            Debug.LogError("GroundRotator�� ã�� �� �����ϴ�.");
+            //Debug.LogError("GroundRotator�� ã�� �� �����ϴ�.");
+            Debug.LogError("There is not GroundRotator");
             enabled = false;
             return;
         }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1688e4632bd7a430f9f231b6324a3597
+guid: 64d5d63969ea445fca4e179b1f60513b
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: fbe176ede7a0e492abdb3361217a1d22, type: 2}
+      name: PenlatyBed
+    second: {fileID: 2100000, guid: 0e04af21fb5004933a34028e4cee7ea7, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bake_Bed
+    second: {fileID: 2800000, guid: e35ee52f2b85a44968bd85115ef334fd, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

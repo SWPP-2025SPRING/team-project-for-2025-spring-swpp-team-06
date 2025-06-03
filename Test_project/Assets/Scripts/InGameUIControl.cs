@@ -105,6 +105,7 @@ public class InGameUIControl : MonoBehaviour
 
     public void OnClickMenuButton()
     {
+        Debug.Log("Hmm");
         if (pausedScene == null) return;
 
         /*
