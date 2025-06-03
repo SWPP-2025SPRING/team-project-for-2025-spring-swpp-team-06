@@ -18,8 +18,6 @@ public class EndingSceneInfos
 
   private GPA gpa;
   private int currentCentiseconds;
-  private bool hasBeenPlayed;
-  private int bestCentiseconds;
   private int aPlusCentiseconds;
   private int fCentiseconds;
 
@@ -31,12 +29,11 @@ public class EndingSceneInfos
   private bool isTutorial;
 
 
-  public EndingSceneInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
+  public EndingSceneInfos(int currentCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
   {
     // basic datas
     mapName = mapName_;
     currentCentiseconds = currentCentiseconds_;
-    hasBeenPlayed = hasBeenPlayed_;
     if (aPlusCentiseconds_ > fCentiseconds_)
     {
       aPlusCentiseconds = fCentiseconds_;
@@ -44,10 +41,9 @@ public class EndingSceneInfos
     }
     else
     {
-      bestCentiseconds = bestCentiseconds_;
       aPlusCentiseconds = aPlusCentiseconds_;
+      fCentiseconds = fCentiseconds_;
     }
-    fCentiseconds = fCentiseconds_;
 
     //calculated datas
     gpa = CalculateGPA(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
@@ -55,12 +51,11 @@ public class EndingSceneInfos
     timer = new Timer(currentCentiseconds_);
     isTutorial = false;
   }
-  public void SetInfos(int currentCentiseconds_, bool hasBeenPlayed_, int bestCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
+  public void SetInfos(int currentCentiseconds_, int aPlusCentiseconds_, int fCentiseconds_, string mapName_)
   {
     // basic datas
     mapName = mapName_;
     currentCentiseconds = currentCentiseconds_;
-    hasBeenPlayed = hasBeenPlayed_;
     if (aPlusCentiseconds_ > fCentiseconds_)
     {
       aPlusCentiseconds = fCentiseconds_;
@@ -71,7 +66,6 @@ public class EndingSceneInfos
       fCentiseconds = aPlusCentiseconds_;
       aPlusCentiseconds = fCentiseconds_;
     }
-    bestCentiseconds = bestCentiseconds_;
 
     //calculated datas
     gpa = CalculateGPA(currentCentiseconds_, aPlusCentiseconds_, fCentiseconds_);
@@ -145,15 +139,6 @@ public class EndingSceneInfos
   public int GetAPlusCentiseconds()
   {
     return aPlusCentiseconds;
-  }
-  public bool hasBestScore()
-  {
-    return hasBeenPlayed;
-  }
-
-  public int GetBestScore()
-  {
-    return bestCentiseconds;
   }
 
   public int GetCurrentScore()

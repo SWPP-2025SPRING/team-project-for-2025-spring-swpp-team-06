@@ -27,9 +27,9 @@ public class EndingMeshControl : MonoBehaviour
             // Ending
             if (EndingSceneDataHolder.endingSceneInfos == null)
             {
-                EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
+                EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
             }
-            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, false, 0, 100, 1500, SceneManager.GetActiveScene().name);
+            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, 100, 1500, SceneManager.GetActiveScene().name);
             SceneManager.LoadScene("EndingScene");
         }
     }

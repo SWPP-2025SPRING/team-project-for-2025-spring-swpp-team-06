@@ -113,7 +113,22 @@ public class InGameUIControl : MonoBehaviour
     }
 
     // Goto main menu
-    public void OnClickExitButton()
+    public void OnClickExitToMainButton()
+    {
+        if(Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f; // reset time scale before exiting
+        }
+
+        isMenuPopped = false;
+        EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
+
+        SceneManager.LoadScene("TitleScene");
+
+    }
+
+    // Goto Map Selection
+    public void OnClickExitToMapSelectionButton()
     {
         if(Time.timeScale != 1f)
         {
@@ -124,7 +139,6 @@ public class InGameUIControl : MonoBehaviour
 
         SceneManager.LoadScene("MapSelectionScene");
 
-        // Scene Load/Unload
     }
 
     public void OnClickResumeButton()
@@ -255,9 +269,9 @@ public class InGameUIControl : MonoBehaviour
         ToggleBuff(false);
     }
 
-    public void endTest()
-    {
-        EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, false, 0, 6500, 13000, SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("EndingScene");
-    }
+    // public void endTest()
+    // {
+    //     EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, 6500, 13000, SceneManager.GetActiveScene().name);
+    //     SceneManager.LoadScene("EndingScene");
+    // }
 }

@@ -13,10 +13,12 @@ public class EndingSceneController : MonoBehaviour
 
     private int centisecondInitial = 0;
     public TMP_Text timerText;
+    public TMP_Text newBestText;
     public Image GPAGaugeBar;
     public AudioSource audioGaugeDecrease;
     public AudioClip audioClipGPAAppearance;
     public AudioClip audioClipYourGPAAppearance;
+    public AudioClip audioNewBest;
     public Transform gpaImages;
     public GameObject buttons;
     private string timerStringInitial;
@@ -29,6 +31,7 @@ public class EndingSceneController : MonoBehaviour
     public int fCentisecondsTest = 13000;
 
     private const int mapCount = 6;
+    private bool isNewBest = false;
 
 
     // Start is called before the first frame update
@@ -41,7 +44,7 @@ public class EndingSceneController : MonoBehaviour
             // endingSceneInfo Not properly set. -1 is Initial state
             // Default datas
             Debug.LogWarning("Warning: EndingData from the map is null");
-            EndingSceneDataHolder.endingSceneInfos.SetInfos(currCentiSecondsTest, false, 0, aPlusCentisecondsTest, fCentisecondsTest, "null"); // Default data
+            EndingSceneDataHolder.endingSceneInfos.SetInfos(currCentiSecondsTest, aPlusCentisecondsTest, fCentisecondsTest, "null"); // Default data
         }
 
         centisecondInitial = EndingSceneDataHolder.endingSceneInfos.GetCurrentScore();
@@ -61,7 +64,9 @@ public class EndingSceneController : MonoBehaviour
         //Debug.Log("Best before: " + bestBefore);
         if (bestBefore <= 0 || bestBefore > centisecondInitial)
         {
+            // new Best
             SetPlayerPrefs(index, gpa, centisecondInitial);
+            isNewBest = true;
         }
 
         audioGaugeDecrease.volume = PlayerPrefs.GetFloat("Volume", 0.5f);
@@ -164,6 +169,13 @@ public class EndingSceneController : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(animationWaitSeconds);
+
+        if (isNewBest)
+        {
+            // new best effect
+            audioGaugeDecrease.PlayOneShot(audioNewBest);
+            newBestText.gameObject.SetActive(true);
+        }
         buttons.SetActive(true);
     }
 
@@ -171,7 +183,7 @@ public class EndingSceneController : MonoBehaviour
     {
         SaveUnlockInformation();
         SceneManager.LoadScene("TitleScene");
-        
+
     }
 
     public void OnClickMapSelectionButton()

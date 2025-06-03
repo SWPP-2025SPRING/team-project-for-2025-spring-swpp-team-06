@@ -23,7 +23,7 @@ public class TitleSceneController : MonoBehaviour
             PlayerPrefs.SetFloat("Volume", 0.5f);
         }
         
-        EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
+        EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
     }
 
     // Update is called once per frame
