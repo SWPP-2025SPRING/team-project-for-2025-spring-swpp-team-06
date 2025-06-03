@@ -66,6 +66,7 @@ public class TitleSceneController : MonoBehaviour
     public void ClearPlayerRefs()
     {
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetFloat("Volume", 0.5f);
         PlayerPrefs.Save();
     }
 }
