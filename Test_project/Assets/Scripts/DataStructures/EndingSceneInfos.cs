@@ -46,8 +46,8 @@ public class EndingSceneInfos
     }
     else
     {
-      fCentiseconds = aPlusCentiseconds_;
-      aPlusCentiseconds = fCentiseconds_;
+      aPlusCentiseconds = aPlusCentiseconds_;
+      fCentiseconds = fCentiseconds_;
     }
 
     //calculated datas
@@ -68,7 +68,7 @@ public class EndingSceneInfos
     else
     {
       float interval = (float)range / 11;
-      float relativeScore = currentCentiseconds - aPlusCentiseconds
+      float relativeScore = currentCentiseconds - aPlusCentiseconds;
       int index = Mathf.CeilToInt(relativeScore / interval);
       index = index >= 12 ? 12 : (index < 1 ? 1 : index); // Ensure 0 <= index <= 12
 
@@ -79,14 +79,16 @@ public class EndingSceneInfos
 
   private float CalculateFillAmount()
   {
+    System.Diagnostics.Debug.Assert(aPlusCentiseconds <= fCentiseconds);
     if (currentCentiseconds >= fCentiseconds)
     {
-
+      UnityEngine.Debug.Log("score greater than F");
       return 0f;
     }
     // 1/13 = 0.0769
     else if (currentCentiseconds <= aPlusCentiseconds)
     {
+      UnityEngine.Debug.Log("score smaller than A+");
       if (aPlusCentiseconds <= 0)
       {
         UnityEngine.Debug.LogWarning("A+ cutline is 0. Should adjust it.");

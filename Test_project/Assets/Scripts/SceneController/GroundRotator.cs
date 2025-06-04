@@ -20,7 +20,7 @@ public class GroundRotator : MonoBehaviour
         currentRotationInput = 0f;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {
-            currentRotationInput = KeyCode.LeftArrow ? 1f : -1f;
+            currentRotationInput = Input.GetKey(KeyCode.LeftArrow) ? 1f : -1f;
         }
 
         if (reverseInput)
