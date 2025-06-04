@@ -25,7 +25,7 @@ public class InGameUIControl : MonoBehaviour
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
 
-    public float maxSpeed = 50f;
+    private float maxSpeed = 40f;
     private bool isStartTextDestroyed = false;
     private bool isGameStarted = false;
     public static bool isMenuPopped = false;

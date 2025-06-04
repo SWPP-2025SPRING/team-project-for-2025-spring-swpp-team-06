@@ -37,6 +37,7 @@ public class EndingSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SaveUnlockInformation();
         System.Diagnostics.Debug.Assert(Time.timeScale > 0.5f);
 
         if (EndingSceneDataHolder.endingSceneInfos == null || EndingSceneDataHolder.endingSceneInfos.GetCurrentScore() == -1)
@@ -153,14 +154,12 @@ public class EndingSceneController : MonoBehaviour
 
     public void OnClickMainMenuButton()
     {
-        SaveUnlockInformation();
         SceneManager.LoadScene("TitleScene");
 
     }
 
     public void OnClickMapSelectionButton()
     {
-        SaveUnlockInformation();
         SceneManager.LoadScene("MapSelectionScene");
     }
 
@@ -181,7 +180,6 @@ public class EndingSceneController : MonoBehaviour
 
     public void OnClickRestartButton()
     {
-        SaveUnlockInformation();
         SceneManager.LoadScene(EndingSceneDataHolder.endingSceneInfos.GetMapName());
     }
 }
