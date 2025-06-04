@@ -95,24 +95,6 @@ public class EndingSceneController : MonoBehaviour
 
     }
 
-    // IEnumerator TimerTextAnimation(int startCentiseconds, float duration)
-    // {
-    //     float elapsed = 0f;
-    //     int endCentiSeconds = 0;
-
-    //     while (elapsed < duration)
-    //     {
-    //         elapsed += Time.deltaTime;
-    //         float t = Mathf.Clamp01(elapsed / duration);
-    //         float easedT = 1 - Mathf.Pow(1 - t, 3);
-    //         int currentCentiseconds = Mathf.FloorToInt(Mathf.Lerp(startCentiseconds, endCentiSeconds, easedT));
-    //         UpdateTimeText(currentCentiseconds);
-    //         yield return null;
-    //     }
-
-    //     UpdateTimeText(0);
-    // }
-
     IEnumerator GPAGaugeAnimation(float endPointFillAmount, float duration)
     {
         float elapsed = 0f;
@@ -135,20 +117,10 @@ public class EndingSceneController : MonoBehaviour
         audioGaugeDecrease.Stop();
     }
 
-    // void UpdateTimeText(int centiseconds)
-    // {
-    //     int centisecond = centiseconds % 100;
-    //     int minute = centiseconds / 6000;
-    //     int second = (centiseconds - minute * 6000) / 100;
-
-    //     timerText.text = $"{minute:D2}:{second:D2}:{centisecond:D2}";
-    // }
-    // Use this Function to make EndingSequence
     IEnumerator EndingSequence()
     {
         audioGaugeDecrease.Play();
         StartCoroutine(StopPlayGuageDecrease());
-        //StartCoroutine(TimerTextAnimation(EndingSceneDataHolder.endingSceneInfos.GetCurrentScore(), animationDuration));
         yield return StartCoroutine(GPAGaugeAnimation(EndingSceneDataHolder.endingSceneInfos.GetFillAmount(), animationDuration));
 
         yield return RevealGPAImage();
@@ -198,16 +170,6 @@ public class EndingSceneController : MonoBehaviour
         && EndingSceneDataHolder.endingSceneInfos.GetMapIndex() <= mapCount - 1
         && !EndingSceneDataHolder.endingSceneInfos.IsTutorial())
         {
-            // if above B+ and this map is not the last one
-            // should open next stage
-            /*
-            
-            TODO
-
-            open next stage
-            animation or effect when opening map(deliver this info to MapSelectionScene)
-            
-            */
             int mapToUnlock = EndingSceneDataHolder.endingSceneInfos.GetMapIndex() + 1;
             PlayerPrefs.SetInt("NewMapToUnlock", mapToUnlock);
             PlayerPrefs.SetInt("ShouldUnlockNewMap", 1);
@@ -216,17 +178,6 @@ public class EndingSceneController : MonoBehaviour
         }
     }
 
-    // IEnumerator LoadMapSelectionNextFrame()
-    // {
-    //     yield return null; // 한 프레임 대기
-    //     SceneManager.LoadScene("MapSelectionScene");
-    // }
-
-    // IEnumerator LoadMainFrame()
-    // {
-    //     yield return null; // 한 프레임 대기
-    //     SceneManager.LoadScene("TitleScene");
-    // }
 
     public void OnClickRestartButton()
     {

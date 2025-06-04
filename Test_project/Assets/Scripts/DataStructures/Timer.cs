@@ -6,17 +6,12 @@ public class Timer
 
   public Timer(int min, int sec, int centisec)
   {
-    this.minute = min > 60 ? 60 : (min < 0 ? 0 : min);
-    this.second = sec > 60 ? 60 : (sec < 0 ? 0 : sec);
-    this.centisecond = centisec > 100 ? 100 : (centisec < 0 ? 0 : centisec);
+    UpdateTimer(min * 6000 + sec * 100 + centisec);
   }
 
   public Timer(int centiseconds)
   {
-    int naiveMinute = centiseconds / 6000;
-    this.minute = naiveMinute > 60 ? 60 : centiseconds / 6000;
-    this.second = (centiseconds - naiveMinute * 6000) / 100 > 60 ? 60 : (centiseconds - naiveMinute * 6000) / 100;
-    this.centisecond = centiseconds % 100 > 100 ? 100 : centiseconds % 100;
+    UpdateTimer(centiseconds);
   }
 
   public override string ToString()
@@ -45,7 +40,7 @@ public class Timer
     return centisecond;
   }
 
-  public int InCentiseconds()
+  public int GetTotalInCentiseconds()
   {
     return 6000 * minute + 100 * second + centisecond;
   }

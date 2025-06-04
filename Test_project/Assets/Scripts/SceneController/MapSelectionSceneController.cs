@@ -42,6 +42,7 @@ public class MapSelectionSceneController : MonoBehaviour
 
     private void RefreshMapUnlock()
     {
+        // Caution! Do not use this function in frequent calls, like Update().
         for (int i = 1; i <= 6; i++)
         {
             if (PlayerPrefs.GetInt("MapUnlocked" + i, 0) == 1)
@@ -77,13 +78,7 @@ public class MapSelectionSceneController : MonoBehaviour
         GameObject imageToLock = GetLockedImageByIndex(mapIndex);
 
         if(PlayerPrefs.GetInt("Best"+ mapIndex, -1) > 0){
-            Debug.Log("Map " + mapIndex + " already has a best score."+PlayerPrefs.GetInt("Best"+ mapIndex, -1));
-            /*
-            
-            TODO
-            object BestScore Text 수정
-
-            */
+            Debug.LogWarning("Map " + mapIndex + " already has a best score,"+PlayerPrefs.GetInt("Best: "+ mapIndex, -1));
         }
 
         if (imageToUnlock != null && imageToLock != null)
@@ -109,7 +104,7 @@ public class MapSelectionSceneController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("MapSelection" + mapIndex.ToString() + " or Locked" + mapIndex.ToString() + " not found");
+            Debug.LogWarning("MapSelection" + mapIndex.ToString() + " or Locked" + mapIndex.ToString() + " not found");
         }
     }
 

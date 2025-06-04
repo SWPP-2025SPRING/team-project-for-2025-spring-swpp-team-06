@@ -97,7 +97,7 @@ public class PlayerControl : MonoBehaviour
         LimitMaxSpeed();
     }
 
-    // 자식들 중 태그로 찾는 재귀 함수
+    // 자식들 중 태그로 찾는 재귀 함수 By ChatGPT
     private Transform FindChildWithTag(Transform parent, string tag)
     {
         foreach (Transform child in parent.GetComponentsInChildren<Transform>(true))
@@ -132,8 +132,8 @@ public class PlayerControl : MonoBehaviour
         {
             // new state is penalty and we have to turn off coffee state
             IPlayerState coffee = GetState<CoffeeState>();
-            stateList.Remove(coffee);
-            coffee.Exit(this);
+            Debug.Assert(coffee != null);
+            RemoveState(coffee);
         }
         if (newState.IsCoffee() && IsPenalized())
         {

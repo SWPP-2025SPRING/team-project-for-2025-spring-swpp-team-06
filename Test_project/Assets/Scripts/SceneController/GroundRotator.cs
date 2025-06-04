@@ -18,13 +18,9 @@ public class GroundRotator : MonoBehaviour
     {
         if (InGameUIControl.isMenuPopped) return;
         currentRotationInput = 0f;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {
-            currentRotationInput = 1f;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            currentRotationInput = -1f;
+            currentRotationInput = KeyCode.LeftArrow ? 1f : -1f;
         }
 
         if (reverseInput)

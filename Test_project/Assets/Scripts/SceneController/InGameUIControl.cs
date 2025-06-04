@@ -31,12 +31,6 @@ public class InGameUIControl : MonoBehaviour
     public static bool isMenuPopped = false;
     private float elapsedTime = 0f;
 
-    // private float penalizedMaxScale = 0.5f; //(75%)
-    // void Start()
-    // {
-    //     timer = new Timer(0, 0, 0);
-    // }
-
     void Awake()
     {
         timer = new Timer(0);
@@ -115,10 +109,7 @@ public class InGameUIControl : MonoBehaviour
     // Goto main menu
     public void OnClickExitToMainButton()
     {
-        if(Time.timeScale != 1f)
-        {
-            Time.timeScale = 1f; // reset time scale before exiting
-        }
+        RefreshTimeScale();
 
         isMenuPopped = false;
         EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
@@ -127,13 +118,17 @@ public class InGameUIControl : MonoBehaviour
 
     }
 
-    // Goto Map Selection
-    public void OnClickExitToMapSelectionButton()
-    {
-        if(Time.timeScale != 1f)
+    public void RefreshTimeScale(){
+        if (Time.timeScale != 1f)
         {
             Time.timeScale = 1f; // reset time scale before exiting
         }
+    }
+
+    // Goto Map Selection
+    public void OnClickExitToMapSelectionButton()
+    {
+        RefreshTimeScale();
 
         isMenuPopped = false;
 
