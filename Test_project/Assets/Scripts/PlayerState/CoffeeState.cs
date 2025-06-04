@@ -57,12 +57,12 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
 
     public float GetAccelerationFactor()
     {
-        return 1.2f;
+        return 1.25f;
     }
 
     public float GetMaxSpeedFactor()
     {
-        return 1.2f;
+        return 1.25f;
     }
 
     public void ResetTimer()

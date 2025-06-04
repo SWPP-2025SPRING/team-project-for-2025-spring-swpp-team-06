@@ -8,6 +8,17 @@ public class BedObstacle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        // Destroy once triggered
+        Transform parent = transform.parent;
+        if (parent.gameObject.CompareTag("Ground")) return; // If it is directly in ground
+
+        foreach (Transform child in parent)
+        {
+            // Destroy all objects in same group
+            Destroy(child.gameObject);
+        }
+        
         PlayerControl player = other.GetComponent<PlayerControl>();
         if (player == null) return;
 
@@ -33,14 +44,6 @@ public class BedObstacle : MonoBehaviour
             playersInBed.Remove(player);
         }
 
-        // Destroy once triggered
-        Transform parent = transform.parent;
-        if (parent.gameObject.CompareTag("Ground")) return; // If it is directly in ground
-
-        foreach (Transform child in parent)
-        {
-            // Destroy all objects in same group
-            Destroy(child.gameObject);
-        }
+        
     }
 }
