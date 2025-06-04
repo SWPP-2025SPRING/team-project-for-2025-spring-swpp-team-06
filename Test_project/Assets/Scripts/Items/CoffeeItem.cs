@@ -6,6 +6,15 @@ public class CoffeeItem : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+
+        // Destroy once triggered
+        Transform parent = transform.parent;
+        if (parent.gameObject.CompareTag("Ground")) return;
+
+        foreach (Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
         PlayerControl player = other.GetComponent<PlayerControl>();
         foreach (var state in player.States)
         {
@@ -18,14 +27,7 @@ public class CoffeeItem : MonoBehaviour
 
         player.PushState(new CoffeeState());
 
-        // Destroy once triggered
-        Transform parent = transform.parent;
-        if (parent.gameObject.CompareTag("Ground")) return;
-
-        foreach (Transform child in parent)
-        {
-            Destroy(child.gameObject);
-        }
+        
 
     }
 }
