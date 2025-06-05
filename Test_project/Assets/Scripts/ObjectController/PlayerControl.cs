@@ -13,6 +13,7 @@ public class PlayerControl : MonoBehaviour
     [Header("Movement")]
     private float acceleration = 20f;
     private float maxSpeed = 40f;
+    public float frictionCoefficient = 4f;
 
     [Header("Rotation")]
     public float rotationAlignmentSpeed = 180f;
@@ -93,8 +94,6 @@ public class PlayerControl : MonoBehaviour
                 uiScript.ToggleStartTexts(false);
             }
         }
-
-        LimitMaxSpeed();
     }
 
     // 자식들 중 태그로 찾는 재귀 함수 By ChatGPT
@@ -117,7 +116,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         if(!isPaused){
-            ApplyMovementModifiers();
+            MovePlayer();
         }
     }
 
@@ -199,82 +198,25 @@ public class PlayerControl : MonoBehaviour
         return stateList.Count > 0 ? stateList[stateList.Count - 1] : null;
     }
 
-    private void ApplyMovementModifiers()
-    {
-        float accelFactor = 1f;
-        float maxSpeedFactor = 1f;
+    
 
-        foreach (var state in stateList)
-        {
-            if (state is IMovementModifier mod)
-            {
-                accelFactor *= mod.GetAccelerationFactor();
-                maxSpeedFactor *= mod.GetMaxSpeedFactor();
-            }
-        }
-
-        MovePlayer(accelFactor, maxSpeedFactor);
-    }
-
-    public void MovePlayer(float accelerationFactor = 1f, float maxSpeedFactor = 1f)
+    public void MovePlayer()
     {
         float moveInput = 0f;
         if (Input.GetKey(KeyCode.UpArrow)) moveInput = 1f;
         else if (Input.GetKey(KeyCode.DownArrow)) moveInput = -1f;
 
-        if (moveInput == 0f) return;
-
-        Vector3 moveDirection = Vector3.forward * moveInput;
-        Vector3 moveForce = moveDirection * acceleration * accelerationFactor;
-
-        Vector3 groundVelocityAtPlayerPos = Vector3.zero;
-        if (groundRotator != null)
-        {
-            Vector3 angularVelocity = groundRotator.GetAngularVelocity();
-            groundVelocityAtPlayerPos = Vector3.Cross(angularVelocity, playerRb.position);
-        }
-
-        Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
-        float relativeSpeedForward = Vector3.Dot(relativeVelocity, Vector3.forward);
-
-        bool canAccelerate = (moveInput > 0 && relativeSpeedForward < maxSpeed * maxSpeedFactor)
-                          || (moveInput < 0 && relativeSpeedForward > -maxSpeed * maxSpeedFactor);
-
-        if (canAccelerate)
-        {
-            playerRb.AddForce(moveForce, ForceMode.Acceleration);
-        }
-
-        Vector3 horizontalRelativeVelocity = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
-        float minSpeedForRotation = 0.1f;
-
-        if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
-        {
-            Vector3 targetDirection = horizontalRelativeVelocity.normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-            float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
-            Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
-
-            Vector3 euler = newRotation.eulerAngles;
-
-            newRotation = Quaternion.Euler(euler);
-            playerRb.MoveRotation(newRotation);
-        }
-    }
-    
-    private void LimitMaxSpeed()
-    {
-
+        float accelerationFactor = 1f;
         float maxSpeedFactor = 1f;
-
         foreach (var state in stateList)
         {
             if (state is IMovementModifier mod)
             {
+                accelerationFactor *= mod.GetAccelerationFactor();
                 maxSpeedFactor *= mod.GetMaxSpeedFactor();
-                
             }
         }
+
         Vector3 groundVelocityAtPlayerPos = Vector3.zero;
         if (groundRotator != null)
         {
@@ -283,15 +225,56 @@ public class PlayerControl : MonoBehaviour
         }
 
         Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
-        Vector3 flatRelative = new Vector3(relativeVelocity.x, 0, relativeVelocity.z);
+        Vector3 flatRelative = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
+
+        if (moveInput == 0f)
+        {
+            Vector3 frictionForce = -flatRelative.normalized * frictionCoefficient;
+
+            if (flatRelative.magnitude < 0.1f)
+            {
+                Vector3 newVelocity = groundVelocityAtPlayerPos;
+                newVelocity.y = playerRb.velocity.y;
+                playerRb.velocity = newVelocity;
+            }
+            else
+            {
+                playerRb.AddForce(frictionForce, ForceMode.Acceleration);
+            }
+        }
+        else
+        {
+            Vector3 moveDirection = Vector3.forward * moveInput;
+            Vector3 moveForce = moveDirection * acceleration * accelerationFactor;
+            float relativeSpeedForward = Vector3.Dot(relativeVelocity, Vector3.forward);
+
+            bool canAccelerate = (moveInput > 0 && relativeSpeedForward < maxSpeed * maxSpeedFactor)
+                              || (moveInput < 0 && relativeSpeedForward > -maxSpeed * maxSpeedFactor);
+
+            if (canAccelerate)
+            {
+                playerRb.AddForce(moveForce, ForceMode.Acceleration);
+            }
+        }
 
         if (flatRelative.magnitude > maxSpeed * maxSpeedFactor)
         {
             Vector3 limitedFlat = flatRelative.normalized * maxSpeed * maxSpeedFactor;
             Vector3 newVelocity = limitedFlat + groundVelocityAtPlayerPos;
-            newVelocity.y = playerRb.velocity.y; // preserve vertical velocity
+            newVelocity.y = playerRb.velocity.y;
             playerRb.velocity = newVelocity;
         }
+        
+        float minSpeedForRotation = 0.1f;
+        if (flatRelative.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
+        {
+            Vector3 targetDirection = flatRelative.normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+            float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
+            Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
+            playerRb.MoveRotation(newRotation);
+        }
     }
+
 
 }

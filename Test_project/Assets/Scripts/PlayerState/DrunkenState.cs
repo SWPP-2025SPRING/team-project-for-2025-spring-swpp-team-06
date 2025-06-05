@@ -7,6 +7,7 @@ public class DrunkenState : IPlayerState, IRemovable
     private float duration = 5f;
     private float timer;
     private GroundRotator groundRotator;
+    private GameObject effectInstance;
 
     public bool ShouldRemove { get; private set; } = false;
 
@@ -19,6 +20,12 @@ public class DrunkenState : IPlayerState, IRemovable
             groundRotator.reverseInput = true;
         }
         ShouldRemove = false;
+        GameObject drunkenEffectPrefab = Resources.Load<GameObject>("Effects/DrunkenEffect");
+        if (drunkenEffectPrefab != null)
+        {
+            effectInstance = GameObject.Instantiate(drunkenEffectPrefab, player.transform);
+            effectInstance.transform.localPosition = Vector3.up * 1.5f;
+        }
     }
 
     public void Exit(PlayerControl player)
@@ -27,9 +34,18 @@ public class DrunkenState : IPlayerState, IRemovable
         {
             groundRotator.reverseInput = false;
         }
+        if (effectInstance != null)
+        {
+            GameObject.Destroy(effectInstance);
+        }
     }
 
     public void Update(PlayerControl player)
+    {
+        
+    }
+
+    public void FixedUpdate(PlayerControl player) 
     {
         timer += Time.deltaTime;
         if (timer >= duration)
@@ -37,8 +53,6 @@ public class DrunkenState : IPlayerState, IRemovable
             ShouldRemove = true;
         }
     }
-
-    public void FixedUpdate(PlayerControl player) { }
 
     public bool IsBlocking()
     {
