@@ -1,0 +1,8 @@
+# 텍스트 파일은 자동으로 OS에 맞게 변환
+* text=auto
+
+# 특정 확장자는 LF 고정
+*.sh text eol=lf
+*.cs text eol=lf
+*.dwlt text eol=lf
+*.asset text eol=lf
