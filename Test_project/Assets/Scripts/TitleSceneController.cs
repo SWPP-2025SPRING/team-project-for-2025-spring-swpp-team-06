@@ -17,7 +17,13 @@ public class TitleSceneController : MonoBehaviour
 
     void Start()
     {
-        EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
+        if (PlayerPrefs.GetFloat("Volume", -1f) < 0)
+        {
+            // hasn't set volume yet.
+            PlayerPrefs.SetFloat("Volume", 0.5f);
+        }
+        
+        EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
     }
 
     // Update is called once per frame
@@ -60,6 +66,7 @@ public class TitleSceneController : MonoBehaviour
     public void ClearPlayerRefs()
     {
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetFloat("Volume", 0.5f);
         PlayerPrefs.Save();
     }
 }

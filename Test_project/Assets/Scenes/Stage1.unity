@@ -18555,8 +18555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecf487a643c6df4299f9dc9b63d1ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aPlusScore: 7000
-  fScore: 18000
+  aPlusCentiseconds: 0
+  fCentiseconds: 0
 --- !u!65 &1534075771
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19412,6 +19412,10 @@ PrefabInstance:
     - target: {fileID: 39009698299215710, guid: 0bad193cdfd915740a123195c26a082b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057214811405362995, guid: 0bad193cdfd915740a123195c26a082b, type: 3}
+      propertyPath: m_TagString
+      value: EnergyDrinkQuantity
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bad193cdfd915740a123195c26a082b, type: 3}

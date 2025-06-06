@@ -11,8 +11,8 @@ public class PlayerControl : MonoBehaviour
     public GroundRotator groundRotator;
 
     [Header("Movement")]
-    public float acceleration = 10f;
-    public float maxSpeed = 50f;
+    private float acceleration = 20f;
+    private float maxSpeed = 40f;
 
     [Header("Rotation")]
     public float rotationAlignmentSpeed = 180f;
@@ -35,8 +35,7 @@ public class PlayerControl : MonoBehaviour
 
         if (groundRotator == null)
         {
-            //Debug.LogError("GroundRotator�� ã�� �� �����ϴ�.");
-            Debug.LogError("There is not GroundRotator");
+            Debug.LogError("GroundRotator�� ã�� �� �����ϴ�.");
             enabled = false;
             return;
         }
@@ -63,6 +62,8 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+
+        if (InGameUIControl.isMenuPopped) return;
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
             stateList[i].Update(this);
@@ -96,7 +97,7 @@ public class PlayerControl : MonoBehaviour
         LimitMaxSpeed();
     }
 
-    // 자식들 중 태그로 찾는 재귀 함수
+    // 자식들 중 태그로 찾는 재귀 함수 By ChatGPT
     private Transform FindChildWithTag(Transform parent, string tag)
     {
         foreach (Transform child in parent.GetComponentsInChildren<Transform>(true))
@@ -109,6 +110,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (InGameUIControl.isMenuPopped) return;
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
             stateList[i].FixedUpdate(this);
@@ -130,8 +132,8 @@ public class PlayerControl : MonoBehaviour
         {
             // new state is penalty and we have to turn off coffee state
             IPlayerState coffee = GetState<CoffeeState>();
-            stateList.Remove(coffee);
-            coffee.Exit(this);
+            Debug.Assert(coffee != null);
+            RemoveState(coffee);
         }
         if (newState.IsCoffee() && IsPenalized())
         {

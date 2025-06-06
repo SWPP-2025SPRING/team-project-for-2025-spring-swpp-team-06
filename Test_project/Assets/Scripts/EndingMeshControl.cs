@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class EndingMeshControl : MonoBehaviour
 {
-    public int aPlusScore = 100, fScore = 1500;
-    
+
+    public int aPlusCentiseconds = 0;
+    public int fCentiseconds = 0;
     // Start is called before the first frame update
     void Start()
     {
-
+        if (aPlusCentiseconds == 0) aPlusCentiseconds = 100;
+        if (fCentiseconds == 0) fCentiseconds = 1500;
     }
 
     // Update is called once per frame
@@ -25,13 +27,14 @@ public class EndingMeshControl : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-            int centiseconds = InGameUIControl.timer.InCentiseconds();
+            int centiseconds = InGameUIControl.timer.GetTotalInCentiseconds();
             // Ending
             if (EndingSceneDataHolder.endingSceneInfos == null)
             {
-                EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, false, -1, -1, -1, "TitleScene");
+                Debug.LogWarning("EndingSceneDataHolder.endingSceneInfos is null, setting default values.");
+                EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
             }
-            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, false, 0, aPlusScore, fScore, SceneManager.GetActiveScene().name);
+            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, aPlusCentiseconds, fCentiseconds, SceneManager.GetActiveScene().name);
             SceneManager.LoadScene("EndingScene");
         }
     }

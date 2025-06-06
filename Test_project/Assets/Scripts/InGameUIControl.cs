@@ -25,16 +25,11 @@ public class InGameUIControl : MonoBehaviour
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
 
-    public float maxSpeed = 50f;
+    private float maxSpeed = 40f;
     private bool isStartTextDestroyed = false;
     private bool isGameStarted = false;
+    public static bool isMenuPopped = false;
     private float elapsedTime = 0f;
-
-    // private float penalizedMaxScale = 0.5f; //(75%)
-    // void Start()
-    // {
-    //     timer = new Timer(0, 0, 0);
-    // }
 
     void Awake()
     {
@@ -57,14 +52,7 @@ public class InGameUIControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-
-        TODO
-
-        timer count here
-        with Timer timer!!
-
-        */
+        if (isMenuPopped) return;
         if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed)
         {
             isStartTextDestroyed = true;
@@ -105,16 +93,10 @@ public class InGameUIControl : MonoBehaviour
 
     public void OnClickMenuButton()
     {
-        Debug.Log("Hmm");
         if (pausedScene == null) return;
 
-        /*
-        
-        TODO
+        isMenuPopped = true;
 
-        */
-
-        // game pause
         Time.timeScale = 0f;
         if (playerControlScript != null)
         {
@@ -125,37 +107,40 @@ public class InGameUIControl : MonoBehaviour
     }
 
     // Goto main menu
-    public void OnClickExitButton()
+    public void OnClickExitToMainButton()
     {
-        /*
-        
-        TODO
+        RefreshTimeScale();
 
-        maybe save game data or do something before exiting
+        isMenuPopped = false;
+        EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
 
-        */
-        if(Time.timeScale != 1f)
+        SceneManager.LoadScene("TitleScene");
+
+    }
+
+    public void RefreshTimeScale(){
+        if (Time.timeScale != 1f)
         {
             Time.timeScale = 1f; // reset time scale before exiting
         }
+    }
+
+    // Goto Map Selection
+    public void OnClickExitToMapSelectionButton()
+    {
+        RefreshTimeScale();
+
+        isMenuPopped = false;
 
         SceneManager.LoadScene("MapSelectionScene");
 
-        // Scene Load/Unload
     }
 
     public void OnClickResumeButton()
     {
-        /*
-        
-        TODO
-        
-        */
-
-        // game resume
-        // maybe need to give player some time to be ready to resume
-        // (give 3 second timer, etc.)
         ToggleStartTexts(true);
+
+        isMenuPopped = false;
 
         pausedScene.SetActive(false);
     }
@@ -163,32 +148,16 @@ public class InGameUIControl : MonoBehaviour
     public void OnClickSettingsButton()
     {
         if (pausedScene == null) return;
-        /*
         
-        TODO
-
-        */
-
-        // game settings
+        isMenuPopped = false;
         SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
 
     public void OnClickRestartButton()
     {
-        /*
-        
-        TODO
-        
-        */
-        // Things to do before restart(discard score etc.)
 
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
-    }
-
-    public void EndStageAction()
-    {
-
     }
 
     private float PercentToScale(float percent)
@@ -221,57 +190,57 @@ public class InGameUIControl : MonoBehaviour
         }
     }
 
-    public void test1()
-    {
-        // speed 0%
-        RefreshSpeedGauge(minSpeedScale);
-    }
+    // public void test1()
+    // {
+    //     // speed 0%
+    //     RefreshSpeedGauge(minSpeedScale);
+    // }
 
-    public void test2()
-    {
-        // speed 100%
-        RefreshSpeedGauge(maxSpeedScale);
-    }
+    // public void test2()
+    // {
+    //     // speed 100%
+    //     RefreshSpeedGauge(maxSpeedScale);
+    // }
 
-    public void test3()
-    {
-        // speed 45%
-        RefreshSpeedGauge(PercentToScale(0.75f));
-    }
-    public void test4()
-    {
-        // penalty on
-        TogglePenalty(true);
-    }
-    public void test5()
-    {
-        // penalty off
-        TogglePenalty(false);
-    }
-    public void test6()
-    {
-        // speed 25%
-        RefreshSpeedGauge(PercentToScale(0.25f));
-    }
-    public void test7()
-    {
-        // speed 120%
-        RefreshSpeedGauge(PercentToScale(1.2f));
-    }
-    public void test8()
-    {
-        // Buff on
-        ToggleBuff(true);
-    }
-    public void test9()
-    {
-        // buff off
-        ToggleBuff(false);
-    }
+    // public void test3()
+    // {
+    //     // speed 45%
+    //     RefreshSpeedGauge(PercentToScale(0.75f));
+    // }
+    // public void test4()
+    // {
+    //     // penalty on
+    //     TogglePenalty(true);
+    // }
+    // public void test5()
+    // {
+    //     // penalty off
+    //     TogglePenalty(false);
+    // }
+    // public void test6()
+    // {
+    //     // speed 25%
+    //     RefreshSpeedGauge(PercentToScale(0.25f));
+    // }
+    // public void test7()
+    // {
+    //     // speed 120%
+    //     RefreshSpeedGauge(PercentToScale(1.2f));
+    // }
+    // public void test8()
+    // {
+    //     // Buff on
+    //     ToggleBuff(true);
+    // }
+    // public void test9()
+    // {
+    //     // buff off
+    //     ToggleBuff(false);
+    // }
 
-    public void endTest()
-    {
-        EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, false, 0, 6500, 13000, SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("EndingScene");
-    }
+    // public void endTest()
+    // {
+    //     EndingSceneDataHolder.endingSceneInfos.SetInfos(6600, 6500, 13000, SceneManager.GetActiveScene().name);
+    //     SceneManager.LoadScene("EndingScene");
+    // }
 }
