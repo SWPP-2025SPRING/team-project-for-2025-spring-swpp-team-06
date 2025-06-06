@@ -6,33 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MapSelectionScene.unity
-    guid: df4d546015d0c4b4bbbc2e4389fb6759
+    path: Assets/Scenes/TitleScene.unity
+    guid: bc59125221517654bbed3326d096e5b4
   - enabled: 1
     path: Assets/Scenes/SettingsScene.unity
     guid: 72928f7e41f8f864bb62f6d794ca87b5
   - enabled: 1
-    path: Assets/Scenes/TitleScene.unity
-    guid: bc59125221517654bbed3326d096e5b4
-  - enabled: 1
-    path: Assets/Scenes/TestStages/TestStage1.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/MapSelectionScene.unity
+    guid: df4d546015d0c4b4bbbc2e4389fb6759
   - enabled: 1
     path: Assets/Scenes/EndingScene.unity
     guid: fc5a98f585e49254590dd71c6348c7e1
   - enabled: 1
-    path: Assets/Scenes/TestStages/TestStage2.unity
-    guid: 39ab15e74ed7fe34db06ccf5a7cdf41f
+    path: Assets/Scenes/Stage1.unity
+    guid: 75eb5b7e4ea5347ea928e56b541c3efb
   - enabled: 1
-    path: Assets/Scenes/TestStages/TestStage3.unity
-    guid: 023af6d5ca203d749add8adbc24747c9
-  - enabled: 1
-    path: Assets/Scenes/TestStages/TestStage4.unity
-    guid: 3c0cd1e623461684e9ff9206536e5418
-  - enabled: 1
-    path: Assets/Scenes/TestStages/TestStage5.unity
-    guid: 712d1ac785c2ed2459d82d4bd92d715b
-  - enabled: 1
-    path: Assets/Scenes/TestStages/TestStage6.unity
-    guid: 1f1e7ccb869a123409a69dde30192c7e
+    path: Assets/Scenes/TestStages/TestStage1.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
