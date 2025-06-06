@@ -19,7 +19,7 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        float speed = Input.GetAxis("Vertical");
+        float speed = Mathf.Abs(Input.GetAxis("Vertical"));
 
         animator.SetBool("Static_b", true);
         animator.SetFloat("Speed_f", speed);
