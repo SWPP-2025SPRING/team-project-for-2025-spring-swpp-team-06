@@ -55,18 +55,20 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
 
     public float GetAccelerationFactor()
     {
-        return 0.75f;
+        return 0.5f;
     }
 
     public float GetMaxSpeedFactor()
     {
-        return 0.75f;
+        return 0.5f;
     }
 
     public void ResetTimer()
     {
         timer = 0f;
     }
+
+    public bool IsSoju(){ return false; }
 
     
 }

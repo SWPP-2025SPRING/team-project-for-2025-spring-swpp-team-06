@@ -43,7 +43,7 @@ public class DrunkenState : IPlayerState, IRemovable
     public bool IsBlocking()
     {
         return false;
-    }    
+    }
 
     public bool IsPenalty()
     {
@@ -58,5 +58,6 @@ public class DrunkenState : IPlayerState, IRemovable
     {
         timer = 0f;
     }
+    public bool IsSoju(){ return true; }
 
 }

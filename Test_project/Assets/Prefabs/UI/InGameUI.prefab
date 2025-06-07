@@ -830,7 +830,7 @@ MonoBehaviour:
   player: {fileID: 0}
   timerText: {fileID: 39009699686760902}
   speedText: {fileID: 39009699319330445}
-  maxSpeed: 50
+  stageText: {fileID: 39009697897301003}
 --- !u!1 &39009698425436229
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,14 +856,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 39009698425436229}
-  m_LocalRotation: {x: -0, y: -0, z: 0.027513891, w: 0.99962145}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.01063299, w: 0.99994355}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00000008371423}
   m_LocalScale: {x: 3.55, y: 3.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39009698541233593}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.153}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.218}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -654.9, y: -346.1}
@@ -897,7 +897,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 91d39d509ea8bb34f8cc449728514fde, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eb0611d3e8a5df849aac6d3c35bd541b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -128,7 +128,7 @@ public class PlayerControl : MonoBehaviour
             // new state is penalty but we're on energy drink state
             return;
         }
-        if (newState.IsPenalty() && HasState<CoffeeState>())
+        if (newState.IsPenalty() && HasState<CoffeeState>() && !newState.IsSoju())
         {
             // new state is penalty and we have to turn off coffee state
             IPlayerState coffee = GetState<CoffeeState>();
@@ -179,7 +179,7 @@ public class PlayerControl : MonoBehaviour
     {
         foreach (var state in stateList)
         {
-            if (state.IsPenalty()) return true;
+            if (state.IsPenalty() && !state.IsSoju()) return true;
         }
         return false;
     }
@@ -209,6 +209,10 @@ public class PlayerControl : MonoBehaviour
             if (state is IMovementModifier mod)
             {
                 accelFactor *= mod.GetAccelerationFactor();
+                if (groundRotator != null)
+                {
+                    groundRotator.SetRotationMultiplier(mod.GetAccelerationFactor());
+                }
                 maxSpeedFactor *= mod.GetMaxSpeedFactor();
             }
         }
@@ -251,6 +255,7 @@ public class PlayerControl : MonoBehaviour
         if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
         {
             Vector3 targetDirection = horizontalRelativeVelocity.normalized;
+            if (HasState<SleepingState>()) targetDirection = new Vector3(0, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
             float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
             Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);

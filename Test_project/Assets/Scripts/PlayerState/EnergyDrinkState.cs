@@ -60,4 +60,5 @@ public class EnergyDrinkState : IPlayerState, IRemovable
     {
         return false;
     }
+    public bool IsSoju(){ return false; }
 }

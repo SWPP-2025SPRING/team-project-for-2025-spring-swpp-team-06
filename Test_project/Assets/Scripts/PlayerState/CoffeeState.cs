@@ -69,4 +69,6 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
     {
         timer = 0f;
     }
+
+    public bool IsSoju(){ return false; }
 }

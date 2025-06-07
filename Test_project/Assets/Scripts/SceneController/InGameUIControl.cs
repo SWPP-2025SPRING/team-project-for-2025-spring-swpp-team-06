@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor.Callbacks;
+using System.Text.RegularExpressions;
+
 
 public class InGameUIControl : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class InGameUIControl : MonoBehaviour
     public static InGameUIControl instance;
     public TMP_Text timerText;
     public TMP_Text speedText;
+    public TMP_Text stageText;
     private PlayerControl playerControlScript;
 
     private float minSpeedScale = 0.0f;
@@ -47,10 +50,20 @@ public class InGameUIControl : MonoBehaviour
 
         playerControlScript = player?.GetComponent<PlayerControl>();
         if (playerControlScript == null) Debug.LogError("No PlayerControl script");
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        int mapIndex = GetMapIndex(currentSceneName);
+        Debug.Assert(mapIndex >= 1);
+        stageText.text = $"Stage {mapIndex}";
     }
 
-    // Update is called once per frame
-    void Update()
+  void Start()
+  {
+    Application.targetFrameRate = 60; // 원하는 FPS로 설정 (예: 60FPS) 
+  }
+
+  // Update is called once per frame
+  void Update()
     {
         if (isMenuPopped) return;
         if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed)
@@ -90,6 +103,17 @@ public class InGameUIControl : MonoBehaviour
             }
         }
     }
+
+    public int GetMapIndex(string mapName)
+  {
+    Match match = Regex.Match(mapName, @"\d+$");
+
+    if (match.Success)
+    {
+      return int.Parse(match.Value);
+    }
+    return -1;
+  }
 
     public void OnClickMenuButton()
     {
@@ -155,6 +179,7 @@ public class InGameUIControl : MonoBehaviour
 
     public void OnClickRestartButton()
     {
+        isMenuPopped = false;
 
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
