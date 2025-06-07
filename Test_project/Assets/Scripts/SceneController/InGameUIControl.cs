@@ -55,6 +55,7 @@ public class InGameUIControl : MonoBehaviour
         int mapIndex = GetMapIndex(currentSceneName);
         Debug.Assert(mapIndex >= 1);
         stageText.text = $"Stage {mapIndex}";
+        if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "";
     }
 
   void Start()
@@ -137,8 +138,8 @@ public class InGameUIControl : MonoBehaviour
 
         isMenuPopped = false;
         EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
-
-        SceneManager.LoadScene("TitleScene");
+        TitleSceneController.loadTo = "TitleScene";
+        SceneManager.LoadScene("Loading");
 
     }
 
@@ -156,7 +157,8 @@ public class InGameUIControl : MonoBehaviour
 
         isMenuPopped = false;
 
-        SceneManager.LoadScene("MapSelectionScene");
+        TitleSceneController.loadTo = "MapSelectionScene";
+        SceneManager.LoadScene("Loading");
 
     }
 
@@ -182,7 +184,9 @@ public class InGameUIControl : MonoBehaviour
         isMenuPopped = false;
 
         Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        
+        TitleSceneController.loadTo = currentScene.name;
+        SceneManager.LoadScene("Loading");
     }
 
     private float PercentToScale(float percent)

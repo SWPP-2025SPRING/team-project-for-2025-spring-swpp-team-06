@@ -15,6 +15,8 @@ public class TitleSceneController : MonoBehaviour
     public Button TutorialButton;
     public Button QuitButton;
 
+    public static string loadTo;
+
     void Start()
     {
         if (PlayerPrefs.GetFloat("Volume", -1f) < 0)
@@ -22,8 +24,9 @@ public class TitleSceneController : MonoBehaviour
             // hasn't set volume yet.
             PlayerPrefs.SetFloat("Volume", 0.5f);
         }
-        
+
         EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
+        loadTo = "Stage1";
     }
 
     // Update is called once per frame
