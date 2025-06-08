@@ -209,14 +209,14 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1863097686}
         m_TargetAssemblyTypeName: SettingsSceneController, Assembly-CSharp
-        m_MethodName: ChangeVolume
-        m_Mode: 1
+        m_MethodName: OnSliderChange
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -949,6 +949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sliderVolume: {fileID: 306905032}
+  gameMixer: {fileID: 24100000, guid: c6f78008285e1440f97703756cd7b2fe, type: 2}
 --- !u!1 &2034334316
 GameObject:
   m_ObjectHideFlags: 0
