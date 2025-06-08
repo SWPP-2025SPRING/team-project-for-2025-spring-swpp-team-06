@@ -50,10 +50,17 @@ public class TitleSceneController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    // public void OnClickSettingsButton()
+    // {
+    //     EventSystem.current.SetSelectedGameObject(null);
+    //     SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    // }
     public void OnClickSettingsButton()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+        
+        if (!SceneManager.GetSceneByName("SettingsScene").isLoaded)
+            SceneManager.LoadSceneAsync("SettingsScene", LoadSceneMode.Additive);
     }
 
     public void OnClickTutorialButton()
