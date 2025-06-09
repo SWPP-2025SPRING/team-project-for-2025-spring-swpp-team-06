@@ -11,7 +11,7 @@ public class PlayerControl : MonoBehaviour
     public GroundRotator groundRotator;
 
     [Header("Movement")]
-    private float acceleration = 20f;
+    private float acceleration = 12f;
     private float maxSpeed = 40f;
 
     [Header("Rotation")]

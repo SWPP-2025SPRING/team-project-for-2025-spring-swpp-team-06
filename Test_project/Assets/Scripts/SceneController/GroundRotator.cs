@@ -5,8 +5,8 @@ using UnityEngine;
 public class GroundRotator : MonoBehaviour
 {
     [Header("Rotation Settings")]
-    private float maxRotationSpeed = 70f;
-    private float rotationAcceleration = 150f;
+    private float maxRotationSpeed = 40f;
+    private float rotationAcceleration = 100f;
 
     private float currentAngularVelocity = 0f;
     private float currentRotationInput = 0f;
