@@ -749,7 +749,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5595888567076407346, guid: ee2aa37970e00404d8e00596af2d6c2f, type: 3}
       propertyPath: aPlusCentiseconds
-      value: 8000
+      value: 12000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee2aa37970e00404d8e00596af2d6c2f, type: 3}
@@ -166549,7 +166549,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 223185360100349349, guid: da1888a60f8094a7caac0e03416ea915, type: 3}
       propertyPath: drinkCounts
-      value: 80
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 223185360100349349, guid: da1888a60f8094a7caac0e03416ea915, type: 3}
       propertyPath: groundRotator
