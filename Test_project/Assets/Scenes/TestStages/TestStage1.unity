@@ -2468,8 +2468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundRotator: {fileID: 0}
-  acceleration: 25
-  maxSpeed: 50
+  frictionCoefficient: 4
   rotationAlignmentSpeed: 180
   drinkCounts: 1
   isPaused: 0

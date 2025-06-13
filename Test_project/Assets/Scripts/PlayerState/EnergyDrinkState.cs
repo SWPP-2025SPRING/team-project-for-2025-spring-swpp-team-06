@@ -6,6 +6,7 @@ public class EnergyDrinkState : IPlayerState, IRemovable
 {
     private float duration = 3f;
     private float timer = 0f;
+    private GameObject effectInstance;
     public bool ShouldRemove { get; private set; } = false;
 
     public void Enter(PlayerControl player)
@@ -26,24 +27,35 @@ public class EnergyDrinkState : IPlayerState, IRemovable
         {
             player.RemoveState(player.GetState<PlayerGamingState>());
         }
+
+        GameObject energyDrinkEffectPrefab = Resources.Load<GameObject>("Effects/EnergyDrinkEffect");
+        if (energyDrinkEffectPrefab != null)
+        {
+            effectInstance = GameObject.Instantiate(energyDrinkEffectPrefab, player.transform);
+        }
     }
 
     public void Exit(PlayerControl player)
     {
+        if (effectInstance != null)
+        {
+            GameObject.Destroy(effectInstance);
+        }
 
     }
 
     public void Update(PlayerControl player)
+    {
+
+    }
+
+    public void FixedUpdate(PlayerControl player)
     {
         timer += Time.deltaTime;
         if (timer >= duration)
         {
             ShouldRemove = true;
         }
-    }
-
-    public void FixedUpdate(PlayerControl player)
-    {
 
     }
 
