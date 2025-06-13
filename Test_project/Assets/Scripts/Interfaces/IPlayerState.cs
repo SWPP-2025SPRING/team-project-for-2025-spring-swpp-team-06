@@ -12,6 +12,7 @@ public interface IPlayerState
     bool IsBlocking();
     bool IsPenalty();
     bool IsCoffee();
+    bool IsSoju();
 }
 
 

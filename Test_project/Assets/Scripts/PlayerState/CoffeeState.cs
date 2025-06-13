@@ -57,7 +57,7 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
 
     public float GetAccelerationFactor()
     {
-        return 1.25f;
+        return 1.5f;
     }
 
     public float GetMaxSpeedFactor()
@@ -69,4 +69,6 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
     {
         timer = 0f;
     }
+
+    public bool IsSoju(){ return false; }
 }

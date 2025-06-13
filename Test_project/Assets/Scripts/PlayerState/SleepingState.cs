@@ -38,7 +38,7 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
         
     }
 
-    public void FixedUpdate(PlayerControl player) 
+    public void FixedUpdate(PlayerControl player)
     {
         Rigidbody rb = player.GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
@@ -82,6 +82,8 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
     {
         return 0f;
     }
+    
+    public bool IsSoju(){ return false; }
 
     private void PlayEffect(PlayerControl player)
     {

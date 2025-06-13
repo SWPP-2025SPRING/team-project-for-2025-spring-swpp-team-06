@@ -42,4 +42,6 @@ public class NormalState : IPlayerState, IMovementModifier
     {
         return 1f;
     }
+
+    public bool IsSoju(){ return false; }
 }

@@ -11,9 +11,8 @@ public class PlayerControl : MonoBehaviour
     public GroundRotator groundRotator;
 
     [Header("Movement")]
-    private float acceleration = 20f;
+    private float acceleration = 12f;
     private float maxSpeed = 40f;
-    public float frictionCoefficient = 4f;
 
     [Header("Rotation")]
     public float rotationAlignmentSpeed = 180f;
@@ -56,7 +55,7 @@ public class PlayerControl : MonoBehaviour
         }
         else Debug.LogError("No UI or UI without UI tag attached");
 
-        if(uiScript == null) Debug.LogError("No InGameUIControl");
+        if (uiScript == null) Debug.LogError("No InGameUIControl");
 
         PushState(new NormalState());
     }
@@ -75,7 +74,7 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        
+
 
         if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused)
         {
@@ -94,6 +93,8 @@ public class PlayerControl : MonoBehaviour
                 uiScript.ToggleStartTexts(false);
             }
         }
+
+        LimitMaxSpeed();
     }
 
     // 자식들 중 태그로 찾는 재귀 함수 By ChatGPT
@@ -115,9 +116,13 @@ public class PlayerControl : MonoBehaviour
             stateList[i].FixedUpdate(this);
         }
 
-        if(!isPaused){
-            MovePlayer();
+        if (!isPaused)
+        {
+            ApplyMovementModifiers();
+            RotateWithGround();
         }
+
+        
     }
 
     public void PushState(IPlayerState newState)
@@ -127,7 +132,7 @@ public class PlayerControl : MonoBehaviour
             // new state is penalty but we're on energy drink state
             return;
         }
-        if (newState.IsPenalty() && HasState<CoffeeState>())
+        if (newState.IsPenalty() && HasState<CoffeeState>() && !newState.IsSoju())
         {
             // new state is penalty and we have to turn off coffee state
             IPlayerState coffee = GetState<CoffeeState>();
@@ -139,7 +144,7 @@ public class PlayerControl : MonoBehaviour
             // if player is now penalized, ignore coffee
             return;
         }
-        
+
 
         if (HasState(newState.GetType()))
         {
@@ -178,7 +183,7 @@ public class PlayerControl : MonoBehaviour
     {
         foreach (var state in stateList)
         {
-            if (state.IsPenalty()) return true;
+            if (state.IsPenalty() && !state.IsSoju()) return true;
         }
         return false;
     }
@@ -198,24 +203,38 @@ public class PlayerControl : MonoBehaviour
         return stateList.Count > 0 ? stateList[stateList.Count - 1] : null;
     }
 
-    
+    private void ApplyMovementModifiers()
+    {
+        float accelFactor = 1f;
+        float maxSpeedFactor = 1f;
 
-    public void MovePlayer()
+        foreach (var state in stateList)
+        {
+            if (state is IMovementModifier mod)
+            {
+                accelFactor *= mod.GetAccelerationFactor();
+                if (groundRotator != null)
+                {
+                    groundRotator.SetRotationMultiplier(mod.GetAccelerationFactor());
+                }
+                maxSpeedFactor *= mod.GetMaxSpeedFactor();
+            }
+        }
+
+        MovePlayer(accelFactor, maxSpeedFactor);
+        
+    }
+
+    public void MovePlayer(float accelerationFactor = 1f, float maxSpeedFactor = 1f)
     {
         float moveInput = 0f;
         if (Input.GetKey(KeyCode.UpArrow)) moveInput = 1f;
         else if (Input.GetKey(KeyCode.DownArrow)) moveInput = -1f;
 
-        float accelerationFactor = 1f;
-        float maxSpeedFactor = 1f;
-        foreach (var state in stateList)
-        {
-            if (state is IMovementModifier mod)
-            {
-                accelerationFactor *= mod.GetAccelerationFactor();
-                maxSpeedFactor *= mod.GetMaxSpeedFactor();
-            }
-        }
+        if (moveInput == 0f) return;
+
+        Vector3 moveDirection = Vector3.forward * moveInput;
+        Vector3 moveForce = moveDirection * acceleration * accelerationFactor;
 
         Vector3 groundVelocityAtPlayerPos = Vector3.zero;
         if (groundRotator != null)
@@ -225,56 +244,107 @@ public class PlayerControl : MonoBehaviour
         }
 
         Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
-        Vector3 flatRelative = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
+        float relativeSpeedForward = Vector3.Dot(relativeVelocity, Vector3.forward);
 
-        if (moveInput == 0f)
+        bool canAccelerate = (moveInput > 0 && relativeSpeedForward < maxSpeed * maxSpeedFactor)
+                          || (moveInput < 0 && relativeSpeedForward > -maxSpeed * maxSpeedFactor);
+
+        if (canAccelerate)
         {
-            Vector3 frictionForce = -flatRelative.normalized * frictionCoefficient;
+            playerRb.AddForce(moveForce, ForceMode.Acceleration);
+        }
 
-            if (flatRelative.magnitude < 0.1f)
+        Vector3 horizontalRelativeVelocity = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
+        float minSpeedForRotation = 0.1f;
+
+        if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
+        {
+            Vector3 targetDirection = horizontalRelativeVelocity.normalized;
+            if (HasState<SleepingState>()) targetDirection = new Vector3(0, 0, 0);
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+            float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
+            Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
+
+            Vector3 euler = newRotation.eulerAngles;
+
+            newRotation = Quaternion.Euler(euler);
+            playerRb.MoveRotation(newRotation);
+        }
+    }
+
+    private void LimitMaxSpeed()
+    {
+
+        float maxSpeedFactor = 1f;
+
+        foreach (var state in stateList)
+        {
+            if (state is IMovementModifier mod)
             {
-                Vector3 newVelocity = groundVelocityAtPlayerPos;
-                newVelocity.y = playerRb.velocity.y;
-                playerRb.velocity = newVelocity;
-            }
-            else
-            {
-                playerRb.AddForce(frictionForce, ForceMode.Acceleration);
+                maxSpeedFactor *= mod.GetMaxSpeedFactor();
+
             }
         }
-        else
+        Vector3 groundVelocityAtPlayerPos = Vector3.zero;
+        if (groundRotator != null)
         {
-            Vector3 moveDirection = Vector3.forward * moveInput;
-            Vector3 moveForce = moveDirection * acceleration * accelerationFactor;
-            float relativeSpeedForward = Vector3.Dot(relativeVelocity, Vector3.forward);
-
-            bool canAccelerate = (moveInput > 0 && relativeSpeedForward < maxSpeed * maxSpeedFactor)
-                              || (moveInput < 0 && relativeSpeedForward > -maxSpeed * maxSpeedFactor);
-
-            if (canAccelerate)
-            {
-                playerRb.AddForce(moveForce, ForceMode.Acceleration);
-            }
+            Vector3 angularVelocity = groundRotator.GetAngularVelocity();
+            groundVelocityAtPlayerPos = Vector3.Cross(angularVelocity, playerRb.position);
         }
+
+        Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
+        Vector3 flatRelative = new Vector3(relativeVelocity.x, 0, relativeVelocity.z);
 
         if (flatRelative.magnitude > maxSpeed * maxSpeedFactor)
         {
             Vector3 limitedFlat = flatRelative.normalized * maxSpeed * maxSpeedFactor;
             Vector3 newVelocity = limitedFlat + groundVelocityAtPlayerPos;
-            newVelocity.y = playerRb.velocity.y;
+            newVelocity.y = playerRb.velocity.y; // preserve vertical velocity
             playerRb.velocity = newVelocity;
         }
-        
-        float minSpeedForRotation = 0.1f;
-        if (flatRelative.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
-        {
-            Vector3 targetDirection = flatRelative.normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-            float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
-            Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
-            playerRb.MoveRotation(newRotation);
-        }
     }
+    
+    private void RotateWithGround()
+    {
+        if (groundRotator == null) return;
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)) return;
+
+        float angularSpeed = groundRotator.GetAngularVelocity().z; // rad/s
+        float absAngularSpeed = Mathf.Abs(angularSpeed);
+        Vector3 groundVelocityAtPlayerPos = Vector3.Cross(groundRotator.GetAngularVelocity(), playerRb.position);
+        Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
+
+        
+
+        
+        //float minAngularSpeedForRotation = 0.05f;
+
+        //if (absAngularSpeed < minAngularSpeedForRotation) return;
+
+        Vector3 targetDirection = (angularSpeed > 0) ? Vector3.left : Vector3.right;
+
+        bool isRotatingInput = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow);
+        if (!isRotatingInput)
+        {
+            float relSpeed = Vector3.Dot(relativeVelocity, Vector3.forward);
+            // no inputs, 상하좌우 아무 입력도 없는 경우임
+
+            if (Mathf.Abs(relSpeed) < 0.2f)
+            {
+                // 너무 느려서 명확한 방향 판단 불가, 회전 안 함
+                return;
+            }
+            targetDirection = (relSpeed > -0.1f) ? Vector3.forward : Vector3.back;
+        }
+
+        
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+        float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
+        Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
+
+        playerRb.MoveRotation(newRotation);
+    }
+
 
 
 }
