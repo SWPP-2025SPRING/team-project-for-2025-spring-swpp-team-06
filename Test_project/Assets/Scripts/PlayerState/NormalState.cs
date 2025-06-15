@@ -42,6 +42,10 @@ public class NormalState : IPlayerState, IMovementModifier
     {
         return 1f;
     }
+    public void ResetTimer()
+    {
+        
+    }
 
-    public bool IsSoju(){ return false; }
+    public bool IsSoju() { return false; }
 }

@@ -10,6 +10,7 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
     private GameObject effectInstance;
     private float effectInterval = 1.5f;
     private float effectTimer;
+    private InGameUIControl uiScript;
 
     public void Enter(PlayerControl player)
     {
@@ -21,7 +22,19 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
         ShouldRemove = false;
 
         PlayEffect(player);
-        
+
+        GameObject uiObject = GameObject.FindWithTag("UI");
+        if (uiObject != null)
+        {
+            uiScript = uiObject.GetComponent<InGameUIControl>();
+        }
+
+        Debug.Assert(uiScript != null);
+
+        uiScript.TurnOnGauge(uiScript.bedTimeGauge);
+
+        uiScript.InitiateGauge(sleepDuration, uiScript.bedTimeGauge);
+
     }
 
     public void Exit(PlayerControl player)
@@ -31,11 +44,14 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
         {
             GameObject.Destroy(effectInstance);
         }
+        Debug.Assert(uiScript != null);
+
+        uiScript.TurnOffGauge(uiScript.bedTimeGauge);
     }
 
     public void Update(PlayerControl player)
     {
-        
+
     }
 
     public void FixedUpdate(PlayerControl player)
@@ -82,8 +98,8 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
     {
         return 0f;
     }
-    
-    public bool IsSoju(){ return false; }
+
+    public bool IsSoju() { return false; }
 
     private void PlayEffect(PlayerControl player)
     {
@@ -94,5 +110,11 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
             effectInstance.transform.localPosition = Vector3.up * 1.5f;
             GameObject.Destroy(effectInstance, 1.5f);
         }
+    }
+
+    public void ResetTimer()
+    {
+        timer = 0f;
+        uiScript.InitiateGauge(sleepDuration, uiScript.bedTimeGauge);
     }
 }

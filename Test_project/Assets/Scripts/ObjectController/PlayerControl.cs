@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -149,6 +148,8 @@ public class PlayerControl : MonoBehaviour
 
         if (HasState(newState.GetType()))
         {
+            // already has it
+            newState.ResetTimer();
             return;
         }
 
