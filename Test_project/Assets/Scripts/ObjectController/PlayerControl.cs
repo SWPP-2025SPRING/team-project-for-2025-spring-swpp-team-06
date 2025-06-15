@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -308,6 +309,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (groundRotator == null) return;
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)) return;
+        if (HasState<SleepingState>()) return;
 
         float angularSpeed = groundRotator.GetAngularVelocity().z; // rad/s
         float absAngularSpeed = Mathf.Abs(angularSpeed);

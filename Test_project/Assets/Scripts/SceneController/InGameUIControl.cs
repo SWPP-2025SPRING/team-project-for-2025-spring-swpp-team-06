@@ -55,7 +55,7 @@ public class InGameUIControl : MonoBehaviour
         int mapIndex = GetMapIndex(currentSceneName);
         Debug.Assert(mapIndex >= 1);
         stageText.text = $"Stage {mapIndex}";
-        if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "";
+        if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "TitleScene";
     }
 
   void Start()
@@ -137,7 +137,7 @@ public class InGameUIControl : MonoBehaviour
         RefreshTimeScale();
 
         isMenuPopped = false;
-        EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
+        if(EndingSceneDataHolder.endingSceneInfos != null) EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
         TitleSceneController.loadTo = "TitleScene";
         SceneManager.LoadScene("Loading");
 
