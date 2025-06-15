@@ -78,8 +78,16 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused)
         {
-            PushState(new EnergyDrinkState());
-
+            if (HasState<EnergyDrinkState>())
+            {
+                IPlayerState drinkState = GetState<EnergyDrinkState>();
+                drinkState.ResetTimer();
+                drinkState.ResetTimer();
+            }
+            else
+            {
+                PushState(new EnergyDrinkState());
+            }
             drinkCounts -= 1;
             energyDrinkText.text = drinkCounts.ToString();
         }
@@ -262,7 +270,7 @@ public class PlayerControl : MonoBehaviour
         if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
         {
             Vector3 targetDirection = horizontalRelativeVelocity.normalized;
-            if (HasState<SleepingState>()) targetDirection = new Vector3(0, 0, 0);
+            if (HasState<SleepingState>()) targetDirection = new Vector3(0, 0, 10000);
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
             float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
             Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);

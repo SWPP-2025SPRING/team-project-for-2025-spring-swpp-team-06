@@ -8,6 +8,8 @@ public class GamingMachineObstacle : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
+        Debug.Log("Gaming Triggered");
+
         // Destroy once triggered
         Transform parent = transform.parent;
         if (parent.gameObject.CompareTag("Ground")) return;

@@ -37,6 +37,7 @@ public class EnergyDrinkState : IPlayerState, IRemovable
         }
 
         GameObject uiObject = GameObject.FindWithTag("UI");
+        Debug.Assert(uiObject != null);
         if (uiObject != null)
         {
             uiScript = uiObject.GetComponent<InGameUIControl>();
@@ -91,7 +92,7 @@ public class EnergyDrinkState : IPlayerState, IRemovable
     public void ResetTimer()
     {
         timer = 0f;
-        uiScript.TurnOffGauge(uiScript.coffeeTimeGauge);
+        Debug.Assert(uiScript != null);
         uiScript.InitiateGauge(duration, uiScript.energyTimeGauge);
     }
     public bool IsSoju() { return false; }
