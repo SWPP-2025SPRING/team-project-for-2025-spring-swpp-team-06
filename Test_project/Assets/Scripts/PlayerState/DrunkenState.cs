@@ -9,6 +9,8 @@ public class DrunkenState : IPlayerState, IRemovable
     private GroundRotator groundRotator;
     private GameObject effectInstance;
 
+    private InGameUIControl uiScript;
+
     public bool ShouldRemove { get; private set; } = false;
 
     public void Enter(PlayerControl player)
@@ -26,6 +28,18 @@ public class DrunkenState : IPlayerState, IRemovable
             effectInstance = GameObject.Instantiate(drunkenEffectPrefab, player.transform);
             effectInstance.transform.localPosition = Vector3.up * 1.5f;
         }
+
+        GameObject uiObject = GameObject.FindWithTag("UI");
+        if (uiObject != null)
+        {
+            uiScript = uiObject.GetComponent<InGameUIControl>();
+        }
+
+        Debug.Assert(uiScript != null);
+
+        uiScript.TurnOnGauge(uiScript.sojuTimeGauge);
+
+        uiScript.InitiateGauge(duration, uiScript.sojuTimeGauge);
     }
 
     public void Exit(PlayerControl player)
@@ -38,6 +52,8 @@ public class DrunkenState : IPlayerState, IRemovable
         {
             GameObject.Destroy(effectInstance);
         }
+
+        uiScript.TurnOffGauge(uiScript.sojuTimeGauge);
     }
 
     public void Update(PlayerControl player)
@@ -71,6 +87,7 @@ public class DrunkenState : IPlayerState, IRemovable
     public void ResetTimer()
     {
         timer = 0f;
+        uiScript.InitiateGauge(duration, uiScript.sojuTimeGauge);
     }
     public bool IsSoju(){ return true; }
 

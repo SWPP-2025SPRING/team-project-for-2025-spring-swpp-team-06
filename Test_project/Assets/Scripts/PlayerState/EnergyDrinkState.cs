@@ -9,6 +9,8 @@ public class EnergyDrinkState : IPlayerState, IRemovable
     private GameObject effectInstance;
     public bool ShouldRemove { get; private set; } = false;
 
+    private InGameUIControl uiScript;
+
     public void Enter(PlayerControl player)
     {
         timer = 0f;
@@ -33,6 +35,19 @@ public class EnergyDrinkState : IPlayerState, IRemovable
         {
             effectInstance = GameObject.Instantiate(energyDrinkEffectPrefab, player.transform);
         }
+
+        GameObject uiObject = GameObject.FindWithTag("UI");
+        Debug.Assert(uiObject != null);
+        if (uiObject != null)
+        {
+            uiScript = uiObject.GetComponent<InGameUIControl>();
+        }
+
+        Debug.Assert(uiScript != null);
+
+        uiScript.TurnOnGauge(uiScript.energyTimeGauge);
+
+        uiScript.InitiateGauge(duration, uiScript.energyTimeGauge);
     }
 
     public void Exit(PlayerControl player)
@@ -41,6 +56,7 @@ public class EnergyDrinkState : IPlayerState, IRemovable
         {
             GameObject.Destroy(effectInstance);
         }
+        uiScript.TurnOffGauge(uiScript.energyTimeGauge);
 
     }
 
@@ -72,5 +88,12 @@ public class EnergyDrinkState : IPlayerState, IRemovable
     {
         return false;
     }
-    public bool IsSoju(){ return false; }
+    
+    public void ResetTimer()
+    {
+        timer = 0f;
+        Debug.Assert(uiScript != null);
+        uiScript.InitiateGauge(duration, uiScript.energyTimeGauge);
+    }
+    public bool IsSoju() { return false; }
 }

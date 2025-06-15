@@ -13,6 +13,8 @@ public interface IPlayerState
     bool IsPenalty();
     bool IsCoffee();
     bool IsSoju();
+
+    void ResetTimer();
 }
 
 

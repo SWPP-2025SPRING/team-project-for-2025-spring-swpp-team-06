@@ -21,11 +21,18 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
             uiScript = uiObject.GetComponent<InGameUIControl>();
             uiScript?.ToggleBuff(true);
         }
+
+        Debug.Assert(uiScript != null);
+
+        uiScript.TurnOnGauge(uiScript.coffeeTimeGauge);
+
+        uiScript.InitiateGauge(duration, uiScript.coffeeTimeGauge);
     }
 
     public void Exit(PlayerControl player)
     {
         uiScript?.ToggleBuff(false);
+        uiScript.TurnOffGauge(uiScript.coffeeTimeGauge);
     }
 
     public void Update(PlayerControl player)
@@ -67,7 +74,9 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
 
     public void ResetTimer()
     {
+        Debug.Log("Resetted coffee timer");
         timer = 0f;
+        uiScript.InitiateGauge(duration, uiScript.coffeeTimeGauge);
     }
 
     public bool IsSoju(){ return false; }

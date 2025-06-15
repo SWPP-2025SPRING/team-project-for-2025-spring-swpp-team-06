@@ -7,6 +7,8 @@ public class CoffeeItem : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
+        Debug.Log("Triggered Coffee Succeed");
+
         // Destroy once triggered
         Transform parent = transform.parent;
         if (parent.gameObject.CompareTag("Ground")) return;

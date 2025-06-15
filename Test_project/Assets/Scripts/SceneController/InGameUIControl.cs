@@ -25,6 +25,12 @@ public class InGameUIControl : MonoBehaviour
     public TMP_Text stageText;
     private PlayerControl playerControlScript;
 
+    public Image bedTimeGauge;
+    public Image coffeeTimeGauge;
+    public Image gamingTimeGauge;
+    public Image sojuTimeGauge;
+    public Image energyTimeGauge;
+
     private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
 
@@ -33,6 +39,9 @@ public class InGameUIControl : MonoBehaviour
     private bool isGameStarted = false;
     public static bool isMenuPopped = false;
     private float elapsedTime = 0f;
+
+    private Dictionary<Image, Coroutine> gaugeCoroutines = new Dictionary<Image, Coroutine>();
+
 
     void Awake()
     {
@@ -55,16 +64,63 @@ public class InGameUIControl : MonoBehaviour
         int mapIndex = GetMapIndex(currentSceneName);
         Debug.Assert(mapIndex >= 1);
         stageText.text = $"Stage {mapIndex}";
-        if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "";
+        if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "TitleScene";
+
+
     }
 
-  void Start()
-  {
-    Application.targetFrameRate = 60; // 원하는 FPS로 설정 (예: 60FPS) 
-  }
+    public void TurnOffGauge(Image gauge)
+    {
+        gauge.gameObject.SetActive(false);
+    }
 
-  // Update is called once per frame
-  void Update()
+    public void TurnOnGauge(Image gauge)
+    {
+        gauge.gameObject.SetActive(true);
+        gauge.fillAmount = 1f;
+    }
+
+    public void InitiateGauge(float duration, Image img)
+    {
+        img.gameObject.SetActive(true);
+
+        //by chatGPT
+        if (gaugeCoroutines.TryGetValue(img, out Coroutine existingCoroutine))
+        {
+            Debug.Log("stop");
+            StopCoroutine(existingCoroutine);
+        }
+
+        Coroutine newCoroutine = StartCoroutine(DecreaseGauge(duration, img));
+        gaugeCoroutines[img] = newCoroutine;
+
+    }
+
+    public IEnumerator DecreaseGauge(float duration, Image img)
+    {
+        float elapsed = 0f;
+        float startFill = 1f;
+        float endFill = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            img.fillAmount = Mathf.Lerp(startFill, endFill, t);
+            yield return null;
+        }
+
+        TurnOffGauge(img);
+        gaugeCoroutines.Remove(img);
+    } 
+
+    void Start()
+    {
+        Application.targetFrameRate = 60; // 원하는 FPS로 설정 (예: 60FPS) 
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         if (isMenuPopped) return;
         if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed)
@@ -91,6 +147,11 @@ public class InGameUIControl : MonoBehaviour
 
             // speed gauge adjust
             RefreshSpeedGauge(speedf);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            OnClickRestartButton();
         }
     }
 
@@ -137,7 +198,7 @@ public class InGameUIControl : MonoBehaviour
         RefreshTimeScale();
 
         isMenuPopped = false;
-        EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
+        if(EndingSceneDataHolder.endingSceneInfos != null) EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
         TitleSceneController.loadTo = "TitleScene";
         SceneManager.LoadScene("Loading");
 

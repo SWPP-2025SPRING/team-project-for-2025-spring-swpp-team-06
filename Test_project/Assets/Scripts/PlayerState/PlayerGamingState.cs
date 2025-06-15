@@ -19,11 +19,18 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
             uiScript = uiObject.GetComponent<InGameUIControl>();
             uiScript?.TogglePenalty(true);
         }
+
+        Debug.Assert(uiScript != null);
+
+        uiScript.TurnOnGauge(uiScript.gamingTimeGauge);
+
+        uiScript.InitiateGauge(duration, uiScript.gamingTimeGauge);
     }
 
     public void Exit(PlayerControl player)
     {
         uiScript?.TogglePenalty(false);
+        uiScript.TurnOffGauge(uiScript.gamingTimeGauge);
     }
 
     public void Update(PlayerControl player)
@@ -66,6 +73,7 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
     public void ResetTimer()
     {
         timer = 0f;
+        uiScript.InitiateGauge(duration, uiScript.gamingTimeGauge);
     }
 
     public bool IsSoju(){ return false; }
