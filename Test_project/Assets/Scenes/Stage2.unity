@@ -22188,8 +22188,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421107076}
   m_Mesh: {fileID: 2534964839176971238, guid: 0bf316e79b57a4fad84d3f0c87c2d9d7, type: 3}
---- !u!64 &421107082
-MeshCollider:
+--- !u!65 &421107082
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -22198,10 +22198,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: 0bf316e79b57a4fad84d3f0c87c2d9d7, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.000200001, y: 0.002753003, z: 0.0021439064}
+  m_Center: {x: 0.0000000013118963, y: 0.0000030354427, z: -0.007932516}
 --- !u!1 &426081471
 GameObject:
   m_ObjectHideFlags: 0
@@ -102625,7 +102624,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 223185360100349349, guid: da1888a60f8094a7caac0e03416ea915, type: 3}
       propertyPath: drinkCounts
-      value: 2
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 223185360100349349, guid: da1888a60f8094a7caac0e03416ea915, type: 3}
       propertyPath: groundRotator

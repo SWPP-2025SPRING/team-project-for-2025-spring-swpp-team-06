@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5138450647578860327}
   - component: {fileID: 6965809589358997485}
   - component: {fileID: 5549236282754581763}
-  - component: {fileID: 6191781148337115707}
+  - component: {fileID: 3160287621934903447}
   m_Layer: 0
   m_Name: BedTile
   m_TagString: Untagged
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!64 &6191781148337115707
-MeshCollider:
+--- !u!65 &3160287621934903447
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -107,7 +107,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: 0bf316e79b57a4fad84d3f0c87c2d9d7, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.00020000059, y: 0.0030801836, z: 0.002143903}
+  m_Center: {x: 0, y: 0, z: -0.007932512}

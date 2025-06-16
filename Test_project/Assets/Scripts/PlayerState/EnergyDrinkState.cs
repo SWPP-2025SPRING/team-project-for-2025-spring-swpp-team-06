@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnergyDrinkState : IPlayerState, IRemovable
 {
-    private float duration = 3f;
+    private float duration = 300f;
     private float timer = 0f;
     private GameObject effectInstance;
     public bool ShouldRemove { get; private set; } = false;
