@@ -461,7 +461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5595888567076407346, guid: ee2aa37970e00404d8e00596af2d6c2f, type: 3}
       propertyPath: fCentiseconds
-      value: 24000
+      value: 25000
       objectReference: {fileID: 0}
     - target: {fileID: 5595888567076407346, guid: ee2aa37970e00404d8e00596af2d6c2f, type: 3}
       propertyPath: aPlusCentiseconds
