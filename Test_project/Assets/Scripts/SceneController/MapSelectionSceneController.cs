@@ -79,9 +79,10 @@ public class MapSelectionSceneController : MonoBehaviour
         GameObject imageToUnlock = GetUnlockedImageByIndex(mapIndex);
         GameObject imageToLock = GetLockedImageByIndex(mapIndex);
 
-        if(PlayerPrefs.GetInt("Best"+ mapIndex, -1) > 0){
-            Debug.LogWarning("Map " + mapIndex + " already has a best score,"+PlayerPrefs.GetInt("Best: "+ mapIndex, -1));
-        }
+
+        // if(PlayerPrefs.GetInt("Best"+ mapIndex, -1) > 0){
+        //     Debug.LogWarning("Map " + mapIndex + " already has a best score,"+PlayerPrefs.GetInt("Best: "+ mapIndex, -1)+" but was not unlocked yet.");
+        // }
 
         if (imageToUnlock != null && imageToLock != null)
         {

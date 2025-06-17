@@ -29,6 +29,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        playerRb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         groundRotator = GameObject.FindWithTag("Ground")?.GetComponent<GroundRotator>();
         isPaused = true;
         Time.timeScale = 0f;
