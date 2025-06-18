@@ -949,6 +949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sliderVolume: {fileID: 306905032}
+  gameMixer: {fileID: 24100000, guid: 218d3503410be76458a4ed625f496f60, type: 2}
 --- !u!1 &2034334316
 GameObject:
   m_ObjectHideFlags: 0
