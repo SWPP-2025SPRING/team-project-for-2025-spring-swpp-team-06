@@ -22,8 +22,6 @@ public class MapSelectionSceneController : MonoBehaviour
 
         RefreshMapUnlock();
 
-        Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", 0));
-
         if (PlayerPrefs.GetInt("ShouldUnlockNewMap", 0) == 1)
         {
             int index = PlayerPrefs.GetInt("NewMapToUnlock", -1);
@@ -116,7 +114,7 @@ public class MapSelectionSceneController : MonoBehaviour
         if (PlayerPrefs.GetInt("MapUnlocked" + index, 0) == 1)
         {
             // already unlocked
-            Debug.LogWarning("Map " + index + " is already unlocked.");
+            //Debug.LogWarning("Map " + index + " is already unlocked.");
             return;
         }
         unlockAudio.Play();
