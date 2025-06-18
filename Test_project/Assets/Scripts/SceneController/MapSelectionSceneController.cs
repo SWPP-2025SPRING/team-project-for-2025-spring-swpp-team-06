@@ -134,12 +134,24 @@ public class MapSelectionSceneController : MonoBehaviour
 
     public void OnClickTestButton()
     {
-        UnlockNewMap(2);
+        for (int i = 1; i <= 6; i++)
+        {
+            if (PlayerPrefs.GetInt("MapUnlocked" + i, 0) == 0)
+            {
+                //unlock i map
+                
+                PlayerPrefs.SetInt("MapUnlocked" + i, 1);
+                UnlockMap(i);
+                break;
+            }
+        }
     }
 
-    public void OnClickResetMap2Button()
+    public void ResetAllButton()
     {
-        PlayerPrefs.SetInt("MapUnlocked" + 2, 0);
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetFloat("Volume", 0.5f);
+        PlayerPrefs.SetInt("MapUnlocked1", 1);
         PlayerPrefs.Save();
         RefreshMapUnlock();
     }
