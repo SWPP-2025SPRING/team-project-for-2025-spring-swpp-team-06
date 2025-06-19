@@ -37,5 +37,7 @@ public class EndingMeshControl : MonoBehaviour
             EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, aPlusCentiseconds, fCentiseconds, SceneManager.GetActiveScene().name);
             SceneManager.LoadScene("EndingScene");
         }
+
+        AudioPlay.Instance?.StopBGM();
     }
 }

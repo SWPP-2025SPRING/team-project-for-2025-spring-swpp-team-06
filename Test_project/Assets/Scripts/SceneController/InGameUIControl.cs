@@ -66,7 +66,6 @@ public class InGameUIControl : MonoBehaviour
         stageText.text = $"Stage {mapIndex}";
         if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "TitleScene";
 
-
     }
 
     public void TurnOffGauge(Image gauge)

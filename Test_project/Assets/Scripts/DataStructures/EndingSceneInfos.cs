@@ -53,6 +53,7 @@ public class EndingSceneInfos
     //calculated datas
     gpa = CalculateGPA();
     gaugeFill = CalculateFillAmount();
+    gaugeFill = Mathf.Clamp(gaugeFill, 0.01f, 0.99f);
     timer = new Timer(currentCentiseconds_);
     isTutorial = false;
   }
@@ -82,13 +83,13 @@ public class EndingSceneInfos
     System.Diagnostics.Debug.Assert(aPlusCentiseconds <= fCentiseconds);
     if (currentCentiseconds >= fCentiseconds)
     {
-      UnityEngine.Debug.Log("score greater than F");
+      //UnityEngine.Debug.Log("score greater than F");
       return 0f;
     }
     // 1/13 = 0.0769
     else if (currentCentiseconds <= aPlusCentiseconds)
     {
-      UnityEngine.Debug.Log("score smaller than A+");
+      //UnityEngine.Debug.Log("score smaller than A+");
       if (aPlusCentiseconds <= 0)
       {
         UnityEngine.Debug.LogWarning("A+ cutline is 0. Should adjust it.");

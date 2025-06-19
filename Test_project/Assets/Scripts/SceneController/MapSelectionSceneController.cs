@@ -22,8 +22,6 @@ public class MapSelectionSceneController : MonoBehaviour
 
         RefreshMapUnlock();
 
-        Debug.Log(PlayerPrefs.GetInt("ShouldUnlockNewMap", 0));
-
         if (PlayerPrefs.GetInt("ShouldUnlockNewMap", 0) == 1)
         {
             int index = PlayerPrefs.GetInt("NewMapToUnlock", -1);
@@ -116,7 +114,7 @@ public class MapSelectionSceneController : MonoBehaviour
         if (PlayerPrefs.GetInt("MapUnlocked" + index, 0) == 1)
         {
             // already unlocked
-            Debug.LogWarning("Map " + index + " is already unlocked.");
+            //Debug.LogWarning("Map " + index + " is already unlocked.");
             return;
         }
         unlockAudio.Play();
@@ -134,12 +132,24 @@ public class MapSelectionSceneController : MonoBehaviour
 
     public void OnClickTestButton()
     {
-        UnlockNewMap(2);
+        for (int i = 1; i <= 6; i++)
+        {
+            if (PlayerPrefs.GetInt("MapUnlocked" + i, 0) == 0)
+            {
+                //unlock i map
+                
+                PlayerPrefs.SetInt("MapUnlocked" + i, 1);
+                UnlockMap(i);
+                break;
+            }
+        }
     }
 
-    public void OnClickResetMap2Button()
+    public void ResetAllButton()
     {
-        PlayerPrefs.SetInt("MapUnlocked" + 2, 0);
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetFloat("Volume", 0.5f);
+        PlayerPrefs.SetInt("MapUnlocked1", 1);
         PlayerPrefs.Save();
         RefreshMapUnlock();
     }
