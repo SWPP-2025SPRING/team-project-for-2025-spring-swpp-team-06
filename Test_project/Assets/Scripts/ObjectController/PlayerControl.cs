@@ -23,6 +23,7 @@ public class PlayerControl : MonoBehaviour
     public IReadOnlyList<IPlayerState> States => stateList.AsReadOnly();
     private TMP_Text energyDrinkText;
     public bool isPaused;
+    public bool isTutorial = false, isExplain = false;
     private GameObject ui;
     private InGameUIControl uiScript;
 
@@ -36,7 +37,7 @@ public class PlayerControl : MonoBehaviour
 
         if (groundRotator == null)
         {
-            Debug.LogError("GroundRotator�� ã�� �� �����ϴ�.");
+            Debug.LogError("No GroundRotator");
             enabled = false;
             return;
         }
@@ -64,7 +65,7 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
 
-        if (InGameUIControl.isMenuPopped) return;
+        if (InGameUIControl.isMenuPopped || isExplain) return;
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
             stateList[i].Update(this);
@@ -95,7 +96,7 @@ public class PlayerControl : MonoBehaviour
 
         if (isPaused)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (isTutorial || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 Time.timeScale = 1f;
                 isPaused = false;
@@ -119,7 +120,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (InGameUIControl.isMenuPopped) return;
+        if (InGameUIControl.isMenuPopped || isExplain) return;
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
             stateList[i].FixedUpdate(this);
@@ -357,6 +358,10 @@ public class PlayerControl : MonoBehaviour
         playerRb.MoveRotation(newRotation);
     }
 
-
+    public void StopMove(){
+        playerRb.velocity = Vector3.zero;
+        playerRb.angularVelocity = Vector3.zero;
+        groundRotator.StopMove();
+    }
 
 }
