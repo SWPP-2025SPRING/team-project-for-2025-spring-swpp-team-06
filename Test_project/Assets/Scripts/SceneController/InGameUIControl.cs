@@ -39,6 +39,7 @@ public class InGameUIControl : MonoBehaviour
     private bool isGameStarted = false;
     public static bool isMenuPopped = false;
     private float elapsedTime = 0f;
+    private bool isTutorial = false;
 
     private Dictionary<Image, Coroutine> gaugeCoroutines = new Dictionary<Image, Coroutine>();
 
@@ -62,8 +63,24 @@ public class InGameUIControl : MonoBehaviour
 
         string currentSceneName = SceneManager.GetActiveScene().name;
         int mapIndex = GetMapIndex(currentSceneName);
+<<<<<<< HEAD
         Debug.Assert(mapIndex >= 1);
         stageText.text = $"스테이지 {mapIndex}";
+=======
+        if (mapIndex == 0) {
+            stageText.text = "Tutorial";
+            isTutorial = true;
+            isStartTextDestroyed = true;
+            isGameStarted = true;
+            ToggleStartTexts(false);
+            playerControlScript.isTutorial = true;
+            Debug.Log("Tutorial!");
+        }
+        else {
+            Debug.Assert(mapIndex > 0);
+            stageText.text = $"Stage {mapIndex}";
+        }
+>>>>>>> develop
         if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "TitleScene";
 
     }
@@ -122,7 +139,7 @@ public class InGameUIControl : MonoBehaviour
     void Update()
     {
         if (isMenuPopped) return;
-        if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed && !isTutorial)
         {
             isStartTextDestroyed = true;
             isGameStarted = true;
@@ -166,15 +183,15 @@ public class InGameUIControl : MonoBehaviour
     }
 
     public int GetMapIndex(string mapName)
-  {
-    Match match = Regex.Match(mapName, @"\d+$");
-
-    if (match.Success)
     {
-      return int.Parse(match.Value);
+        Match match = Regex.Match(mapName, @"\d+$");
+
+        if (match.Success)
+        {
+        return int.Parse(match.Value);
+        }
+        return -1;
     }
-    return -1;
-  }
 
     public void OnClickMenuButton()
     {
@@ -224,7 +241,7 @@ public class InGameUIControl : MonoBehaviour
 
     public void OnClickResumeButton()
     {
-        ToggleStartTexts(true);
+        if(!isTutorial) ToggleStartTexts(true);
 
         isMenuPopped = false;
 
@@ -235,7 +252,6 @@ public class InGameUIControl : MonoBehaviour
     {
         if (pausedScene == null) return;
         
-        isMenuPopped = false;
         SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
 

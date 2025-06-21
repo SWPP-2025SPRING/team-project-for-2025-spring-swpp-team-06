@@ -11,7 +11,6 @@ public class BedObstacle : MonoBehaviour
     {
         if (triggered) return;
         triggered = true;
-        Debug.Log(transform.position.z);
         // Destroy once triggered
         Transform parent = transform.parent;
         if (parent.gameObject.CompareTag("Ground")) return; // If it is directly in ground
