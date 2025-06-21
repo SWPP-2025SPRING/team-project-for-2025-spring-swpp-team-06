@@ -57,4 +57,8 @@ public class GroundRotator : MonoBehaviour
     {
         return rotationMultiplier;
     }
+
+    public void StopMove(){
+        currentRotationInput = 0f;
+    }
 }
