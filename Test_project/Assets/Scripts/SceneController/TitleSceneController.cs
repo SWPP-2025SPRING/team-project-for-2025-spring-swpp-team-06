@@ -61,7 +61,8 @@ public class TitleSceneController : MonoBehaviour
 
     public void OnClickTutorialButton()
     {
-        SceneManager.LoadScene("Stage0");
+        TitleSceneController.loadTo = "Stage0";
+        SceneManager.LoadScene("Loading");
         EventSystem.current.SetSelectedGameObject(null);
     }
 

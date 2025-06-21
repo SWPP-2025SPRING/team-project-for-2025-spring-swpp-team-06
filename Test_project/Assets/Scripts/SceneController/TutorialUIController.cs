@@ -71,7 +71,7 @@ public class TutorialUIController : MonoBehaviour
 
         GamingTutorialMsg.Add("좋습니다!");
         GamingTutorialMsg.Add("이제 <color=orange>게임기</color>에 대해 알아봅시다.");
-        GamingTutorialMsg.Add("주인공이 <color=orange>게임기</color>에 닿으면 딴짓을 하기 때문에,\n\n<color=red>5초</color>간 최대 속도가 <color=red>절반</color>이 됩니다.");
+        GamingTutorialMsg.Add("주인공이 <color=orange>게임기</color>에 닿으면 딴짓을 하기 때문에,\n\n<color=red>5초</color>간 최대 속도, 가속도, 좌우 이동속도가 <color=red>절반</color>이 됩니다.");
         GamingTutorialMsg.Add("<color=orange>게임기</color>를 피해 이동해봅시다.");
 
         SojuTutorialMsg.Add("좋습니다!");
@@ -138,7 +138,7 @@ public class TutorialUIController : MonoBehaviour
             case TutorialStep.MoveTutorial:
                 Debug.Assert(0 <= currentIdx);
                 if(currentIdx >= MoveTutorialMsg.Count){
-                    explainMsg.text = "방향키 = 이동";
+                    explainMsg.text = "방향키를 눌러 이동해 보세요";
                     EndStep();
                 }
                 else msg.text = MoveTutorialMsg[currentIdx];
@@ -146,7 +146,7 @@ public class TutorialUIController : MonoBehaviour
             case TutorialStep.BedTutorial:
                 Debug.Assert(0 <= currentIdx);
                 if(currentIdx >= BedTutorialMsg.Count){
-                    explainMsg.text = "침대 = 3초 정지";
+                    explainMsg.text = "침대에 닿으면 3초간 정지합니다";
                     EndStep();
                 }
                 else msg.text = BedTutorialMsg[currentIdx];
@@ -154,7 +154,7 @@ public class TutorialUIController : MonoBehaviour
             case TutorialStep.GamingTutorial:
                 Debug.Assert(0 <= currentIdx);
                 if(currentIdx >= GamingTutorialMsg.Count){
-                    explainMsg.text = "게임기 \n= 5초 최대 속도 절반";
+                    explainMsg.text = "게임기에 닿으면 5초간 느려집니다";
                     EndStep();
                 }
                 else msg.text = GamingTutorialMsg[currentIdx];
@@ -162,7 +162,7 @@ public class TutorialUIController : MonoBehaviour
             case TutorialStep.SojuTutorial:
                 Debug.Assert(0 <= currentIdx);
                 if(currentIdx >= SojuTutorialMsg.Count){
-                    explainMsg.text = "술 \n= 5초 좌우 입력 반전";
+                    explainMsg.text = "술을 먹으면 5초간 좌우 방향키가 바뀝니다";
                     EndStep();
                 }
                 else msg.text = SojuTutorialMsg[currentIdx];
@@ -170,7 +170,7 @@ public class TutorialUIController : MonoBehaviour
             case TutorialStep.CoffeeTutorial:
                 Debug.Assert(0 <= currentIdx);
                 if(currentIdx >= CoffeeTutorialMsg.Count){
-                    explainMsg.text = "커피 \n= 5초 최대 속도 증가";
+                    explainMsg.text = "커피를 먹으면 5초간 빨라집니다\n 속도, 가속도, 좌우 이동 속도 모두 빨라져요!";
                     EndStep();
                 }
                 else msg.text = CoffeeTutorialMsg[currentIdx];
@@ -178,7 +178,7 @@ public class TutorialUIController : MonoBehaviour
             case TutorialStep.EnergyDrinkTutorial:
                 Debug.Assert(0 <= currentIdx);
                 if(currentIdx >= EnergyDrinkTutorialMsg.Count){
-                    explainMsg.text = "스페이스 바 \n= 에너지 드링크 사용! \n= 3초간 장애물 무시";
+                    explainMsg.text = "스페이스 바를 눌러 에너지 드링크 사용! \n 기존 장애물 효과를 무효로 하고 3초간 장애물을 무시해요!";
                     energyDrink.SetActive(true);
                     EndStep();
                 }
