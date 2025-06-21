@@ -63,7 +63,7 @@ public class InGameUIControl : MonoBehaviour
         string currentSceneName = SceneManager.GetActiveScene().name;
         int mapIndex = GetMapIndex(currentSceneName);
         Debug.Assert(mapIndex >= 1);
-        stageText.text = $"Stage {mapIndex}";
+        stageText.text = $"스테이지 {mapIndex}";
         if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "TitleScene";
 
     }
