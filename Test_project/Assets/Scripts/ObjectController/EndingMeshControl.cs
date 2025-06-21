@@ -27,15 +27,20 @@ public class EndingMeshControl : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-            int centiseconds = InGameUIControl.timer.GetTotalInCentiseconds();
-            // Ending
-            if (EndingSceneDataHolder.endingSceneInfos == null)
-            {
-                Debug.LogWarning("EndingSceneDataHolder.endingSceneInfos is null, setting default values.");
-                EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
+            if (other.GetComponent<PlayerControl>().isTutorial){
+                SceneManager.LoadScene("TutorialEndingScene");
             }
-            EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, aPlusCentiseconds, fCentiseconds, SceneManager.GetActiveScene().name);
-            SceneManager.LoadScene("EndingScene");
+            else{
+                int centiseconds = InGameUIControl.timer.GetTotalInCentiseconds();
+                // Ending
+                if (EndingSceneDataHolder.endingSceneInfos == null)
+                {
+                    Debug.LogWarning("EndingSceneDataHolder.endingSceneInfos is null, setting default values.");
+                    EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
+                }
+                EndingSceneDataHolder.endingSceneInfos.SetInfos(centiseconds, aPlusCentiseconds, fCentiseconds, SceneManager.GetActiveScene().name);
+                SceneManager.LoadScene("EndingScene");
+            }
         }
 
         AudioPlay.Instance?.StopBGM();
