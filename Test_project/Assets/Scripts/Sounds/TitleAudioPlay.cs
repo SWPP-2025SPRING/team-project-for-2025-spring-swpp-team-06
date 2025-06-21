@@ -19,7 +19,6 @@ public class TitleAudioPlay : MonoBehaviour
             // 같은 클립이면 무시
             if (src.clip == stageBgm)
             {
-                Debug.Log("hmm");
                 return;
             }
 

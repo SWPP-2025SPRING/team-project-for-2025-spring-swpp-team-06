@@ -2426,10 +2426,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Assignment Submitted!
+  m_text: "\uACFC\uC81C \uC81C\uCD9C \uC644\uB8CC!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
-  m_sharedMaterial: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1787475cb2159aa48b94e76bc68ff70a, type: 2}
+  m_sharedMaterial: {fileID: 7913280084308527501, guid: 1787475cb2159aa48b94e76bc68ff70a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
