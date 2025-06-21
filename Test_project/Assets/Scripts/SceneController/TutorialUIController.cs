@@ -71,7 +71,7 @@ public class TutorialUIController : MonoBehaviour
 
         GamingTutorialMsg.Add("좋습니다!");
         GamingTutorialMsg.Add("이제 <color=orange>게임기</color>에 대해 알아봅시다.");
-        GamingTutorialMsg.Add("주인공이 <color=orange>게임기</color>에 닿으면 딴짓을 하기 때문에,\n\n<color=red>5초</color>간 최대 속도가 <color=red>절반</color>이 됩니다.");
+        GamingTutorialMsg.Add("주인공이 <color=orange>게임기</color>에 닿으면 딴짓을 하기 때문에,\n\n<color=red>5초</color>간 최대 속도, 가속도, 좌우 이동속도가 <color=red>절반</color>이 됩니다.");
         GamingTutorialMsg.Add("<color=orange>게임기</color>를 피해 이동해봅시다.");
 
         SojuTutorialMsg.Add("좋습니다!");
