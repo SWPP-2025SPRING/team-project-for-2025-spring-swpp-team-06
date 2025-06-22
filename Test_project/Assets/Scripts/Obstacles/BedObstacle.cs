@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameObjectUtils;
 
 public class BedObstacle : MonoBehaviour
 {
@@ -11,15 +11,8 @@ public class BedObstacle : MonoBehaviour
     {
         if (triggered) return;
         triggered = true;
-        // Destroy once triggered
-        Transform parent = transform.parent;
-        if (parent.gameObject.CompareTag("Ground")) return; // If it is directly in ground
 
-        foreach (Transform child in parent)
-        {
-            // Destroy all objects in same group
-            Destroy(child.gameObject);
-        }
+        DestroySiblings(transform);
 
         PlayerControl player = other.GetComponent<PlayerControl>();
         if (player == null) return;
@@ -39,16 +32,9 @@ public class BedObstacle : MonoBehaviour
     {
         if (triggered) return;
         triggered = true;
-        Debug.Log(transform.position.z);
         // Destroy once triggered
-        Transform parent = transform.parent;
-        if (parent.gameObject.CompareTag("Ground")) return; // If it is directly in ground
-
-        foreach (Transform child in parent)
-        {
-            // Destroy all objects in same group
-            Destroy(child.gameObject);
-        }
+        
+        DestroySiblings(transform);
 
         PlayerControl player = other.GetComponent<PlayerControl>();
         if (player == null) return;

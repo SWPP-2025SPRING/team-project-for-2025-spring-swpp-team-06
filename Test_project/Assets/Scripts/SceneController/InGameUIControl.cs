@@ -31,7 +31,6 @@ public class InGameUIControl : MonoBehaviour
     public Image sojuTimeGauge;
     public Image energyTimeGauge;
 
-    private float minSpeedScale = 0.0f;
     private float maxSpeedScale = 0.67f;
 
     private float maxSpeed = 40f;
@@ -93,7 +92,7 @@ public class InGameUIControl : MonoBehaviour
 
     public void InitiateGauge(float duration, Image img)
     {
-        img.gameObject.SetActive(true);
+        TurnOnGauge(img);
 
         //by chatGPT
         if (gaugeCoroutines.TryGetValue(img, out Coroutine existingCoroutine))
@@ -258,14 +257,6 @@ public class InGameUIControl : MonoBehaviour
         
         TitleSceneController.loadTo = currentScene.name;
         SceneManager.LoadScene("Loading");
-    }
-
-    private float PercentToScale(float percent)
-    {
-        // convert percent to scale
-        // 0% -> 0.106
-        // 100% -> 0.894
-        return minSpeedScale + (maxSpeedScale - minSpeedScale) * percent;
     }
 
     public void RefreshSpeedGauge(float speed = 0.0f)

@@ -68,7 +68,7 @@ public class PlayerControl : MonoBehaviour
         if (InGameUIControl.isMenuPopped || isExplain) return;
         for (int i = stateList.Count - 1; i >= 0; i--)
         {
-            stateList[i].Update(this);
+            //stateList[i].Update(this);
 
             if (stateList[i] is IRemovable removable && removable.ShouldRemove)
             {
@@ -135,21 +135,33 @@ public class PlayerControl : MonoBehaviour
         
     }
 
+    public bool IsStatePenalty(IPlayerState state) {
+        switch (state.TypeOf())
+        {
+            case Type.FullPenalty:
+                return true;
+            case Type.OverlapOKPenalty:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public void PushState(IPlayerState newState)
     {
-        if (newState.IsPenalty() && HasState<EnergyDrinkState>())
+        if (IsStatePenalty(newState) && HasState<EnergyDrinkState>())
         {
             // new state is penalty but we're on energy drink state
             return;
         }
-        if (newState.IsPenalty() && HasState<CoffeeState>() && !newState.IsSoju())
+        if ((newState.TypeOf() == Type.FullPenalty) && HasState<CoffeeState>())
         {
             // new state is penalty and we have to turn off coffee state
             IPlayerState coffee = GetState<CoffeeState>();
             Debug.Assert(coffee != null);
             RemoveState(coffee);
         }
-        if (newState.IsCoffee() && IsPenalized())
+        if (newState.TypeOf() == Type.Coffee && IsPenalized())
         {
             // if player is now penalized, ignore coffee
             return;
@@ -195,7 +207,11 @@ public class PlayerControl : MonoBehaviour
     {
         foreach (var state in stateList)
         {
-            if (state.IsPenalty() && !state.IsSoju()) return true;
+            if (state.TypeOf() == Type.FullPenalty)
+            {
+                // TypeOf 0 and 1 is Penalties(Bed, Gaming, Soju)
+                return true;
+            }
         }
         return false;
     }

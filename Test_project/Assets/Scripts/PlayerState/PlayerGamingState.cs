@@ -22,8 +22,6 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
 
         Debug.Assert(uiScript != null);
 
-        uiScript.TurnOnGauge(uiScript.gamingTimeGauge);
-
         uiScript.InitiateGauge(duration, uiScript.gamingTimeGauge);
     }
 
@@ -33,31 +31,18 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
         uiScript.TurnOffGauge(uiScript.gamingTimeGauge);
     }
 
-    public void Update(PlayerControl player)
+    public Type TypeOf()
     {
-        timer += Time.deltaTime;
-        if (timer >= duration)
-        {
-            ShouldRemove = true;
-        }
+        return Type.FullPenalty;
     }
 
     public void FixedUpdate(PlayerControl player)
     {
-    }
-
-    public bool IsBlocking()
-    {
-        return false;
-    }
-
-    public bool IsPenalty()
-    {
-        return true;
-    }
-    public bool IsCoffee()
-    {
-        return false;
+        timer += Time.fixedDeltaTime;
+        if (timer >= duration)
+        {
+            ShouldRemove = true;
+        }
     }
 
     public float GetAccelerationFactor()
@@ -75,8 +60,4 @@ public class PlayerGamingState : IPlayerState, IMovementModifier, IRemovable
         timer = 0f;
         uiScript.InitiateGauge(duration, uiScript.gamingTimeGauge);
     }
-
-    public bool IsSoju(){ return false; }
-
-    
 }

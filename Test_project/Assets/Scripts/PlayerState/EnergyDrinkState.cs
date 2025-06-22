@@ -45,8 +45,6 @@ public class EnergyDrinkState : IPlayerState, IRemovable
 
         Debug.Assert(uiScript != null);
 
-        uiScript.TurnOnGauge(uiScript.energyTimeGauge);
-
         uiScript.InitiateGauge(duration, uiScript.energyTimeGauge);
     }
 
@@ -60,14 +58,9 @@ public class EnergyDrinkState : IPlayerState, IRemovable
 
     }
 
-    public void Update(PlayerControl player)
-    {
-
-    }
-
     public void FixedUpdate(PlayerControl player)
     {
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
         if (timer >= duration)
         {
             ShouldRemove = true;
@@ -75,25 +68,15 @@ public class EnergyDrinkState : IPlayerState, IRemovable
 
     }
 
-    public bool IsBlocking()
+    public Type TypeOf()
     {
-        return true;
+        return Type.EnergyDrink;
     }
 
-    public bool IsPenalty()
-    {
-        return false;
-    }
-    public bool IsCoffee()
-    {
-        return false;
-    }
-    
     public void ResetTimer()
     {
         timer = 0f;
         Debug.Assert(uiScript != null);
         uiScript.InitiateGauge(duration, uiScript.energyTimeGauge);
     }
-    public bool IsSoju() { return false; }
 }
