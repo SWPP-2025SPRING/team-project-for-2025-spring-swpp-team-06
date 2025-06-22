@@ -155,7 +155,6 @@ public class EndingSceneController : MonoBehaviour
     public void OnClickMainMenuButton()
     {
         SceneManager.LoadScene("TitleScene");
-
     }
 
     public void OnClickMapSelectionButton()

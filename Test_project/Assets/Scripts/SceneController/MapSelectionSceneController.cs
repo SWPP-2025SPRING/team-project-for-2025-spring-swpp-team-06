@@ -37,7 +37,7 @@ public class MapSelectionSceneController : MonoBehaviour
 
         unlockAudio.volume = PlayerPrefs.GetFloat("Volume", 0.5f);
 
-        if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "";
+        if (SceneLoadManager.Instance.LoadTo == null) SceneLoadManager.Instance.LoadTo = "TitleScene";
     }
 
     private void RefreshMapUnlock()
@@ -65,7 +65,7 @@ public class MapSelectionSceneController : MonoBehaviour
 
     public void OnClickBackButton()
     {
-        TitleSceneController.loadTo = "TitleScene";
+        SceneLoadManager.Instance.LoadTo = "TitleScene";
         SceneManager.LoadScene("Loading");
     }
 

@@ -75,7 +75,7 @@ public class InGameUIControl : MonoBehaviour
             Debug.Assert(mapIndex > 0);
             stageText.text = $"Stage {mapIndex}";
         }
-        if (TitleSceneController.loadTo == null) TitleSceneController.loadTo = "TitleScene";
+        if (SceneLoadManager.Instance.LoadTo == null) SceneLoadManager.Instance.LoadTo = "TitleScene";
 
     }
 
@@ -97,7 +97,7 @@ public class InGameUIControl : MonoBehaviour
         //by chatGPT
         if (gaugeCoroutines.TryGetValue(img, out Coroutine existingCoroutine))
         {
-            Debug.Log("stop");
+            // 이미 같은 페널티가 적용 중이었을 경우
             StopCoroutine(existingCoroutine);
         }
 
@@ -209,7 +209,7 @@ public class InGameUIControl : MonoBehaviour
 
         isMenuPopped = false;
         if(EndingSceneDataHolder.endingSceneInfos != null) EndingSceneDataHolder.endingSceneInfos.SetInfos(-1, -1, -1, "TitleScene");
-        TitleSceneController.loadTo = "TitleScene";
+        SceneLoadManager.Instance.LoadTo = "TitleScene";
         SceneManager.LoadScene("Loading");
 
     }
@@ -228,7 +228,7 @@ public class InGameUIControl : MonoBehaviour
 
         isMenuPopped = false;
 
-        TitleSceneController.loadTo = "MapSelectionScene";
+        SceneLoadManager.Instance.LoadTo = "MapSelectionScene";
         SceneManager.LoadScene("Loading");
 
     }
@@ -255,7 +255,7 @@ public class InGameUIControl : MonoBehaviour
 
         Scene currentScene = SceneManager.GetActiveScene();
         
-        TitleSceneController.loadTo = currentScene.name;
+        SceneLoadManager.Instance.LoadTo = currentScene.name;
         SceneManager.LoadScene("Loading");
     }
 
