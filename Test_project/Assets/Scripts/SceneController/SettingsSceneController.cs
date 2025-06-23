@@ -34,6 +34,7 @@ public class SettingsSceneController : MonoBehaviour
     public void ApplyVolume(float dB, bool save)
     {
         gameMixer.SetFloat("MasterVol", dB);
+        // gameMixer.SetFloat("SFXVol", dB);
 
         // BGM 전용 싱글턴 AudioPlay 볼륨도 맞춰 주고 싶다면 ↓
         // if (AudioPlay.Instance)
