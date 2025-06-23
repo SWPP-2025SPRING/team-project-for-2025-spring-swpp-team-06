@@ -1234,6 +1234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMixer: {fileID: 24100000, guid: 218d3503410be76458a4ed625f496f60, type: 2}
+  bgmGroup: {fileID: 6153338091222834618, guid: 218d3503410be76458a4ed625f496f60, type: 2}
+  sfxGroup: {fileID: 3171304826489741601, guid: 218d3503410be76458a4ed625f496f60, type: 2}
 --- !u!1 &1255127866
 GameObject:
   m_ObjectHideFlags: 0

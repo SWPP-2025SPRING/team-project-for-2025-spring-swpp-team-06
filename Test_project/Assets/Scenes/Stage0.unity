@@ -182,6 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &236187
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -326,7 +328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1559726616020162689, guid: afd4249c6536cef4e83852d99e02a7ce, type: 3}
       propertyPath: m_RootOrder
-      value: 38
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 1559726616020162689, guid: afd4249c6536cef4e83852d99e02a7ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -755,6 +757,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &14739233
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -960,6 +964,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &41518871
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6305,6 +6311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &123535222
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6415,6 +6423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &127050060
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7076,6 +7086,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &170787306
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7225,6 +7237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &179254182
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7335,6 +7349,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &190939090
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7403,7 +7419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 370488909870341930, guid: 0b23dbe6ee0faad4ba381d449ce8f809, type: 3}
       propertyPath: m_RootOrder
-      value: 35
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 370488909870341930, guid: 0b23dbe6ee0faad4ba381d449ce8f809, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7970,7 +7986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1559726616020162689, guid: afd4249c6536cef4e83852d99e02a7ce, type: 3}
       propertyPath: m_RootOrder
-      value: 44
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 1559726616020162689, guid: afd4249c6536cef4e83852d99e02a7ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8399,6 +8415,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &279142355
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8509,6 +8527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &291979630
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8831,6 +8851,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &316952555
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8894,7 +8916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 370488909870341930, guid: 0b23dbe6ee0faad4ba381d449ce8f809, type: 3}
       propertyPath: m_RootOrder
-      value: 33
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 370488909870341930, guid: 0b23dbe6ee0faad4ba381d449ce8f809, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9607,7 +9629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6723455394268478264, guid: 8c4f41c7fdc5fe34695b18428bf80cbe, type: 3}
       propertyPath: m_RootOrder
-      value: 40
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 6723455394268478264, guid: 8c4f41c7fdc5fe34695b18428bf80cbe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9882,6 +9904,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &455877649
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9992,6 +10016,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &457312155
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10102,6 +10128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &467045793
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10212,6 +10240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &467506242
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15255,6 +15285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &529310064
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20182,6 +20214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &560483064
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20653,7 +20687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7996141697132783617, guid: 542ae4543ebaf3b418d902cd4ee140db, type: 3}
       propertyPath: m_RootOrder
-      value: 36
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7996141697132783617, guid: 542ae4543ebaf3b418d902cd4ee140db, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21024,6 +21058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &631392259
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21403,7 +21439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6723455394268478264, guid: 8c4f41c7fdc5fe34695b18428bf80cbe, type: 3}
       propertyPath: m_RootOrder
-      value: 37
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 6723455394268478264, guid: 8c4f41c7fdc5fe34695b18428bf80cbe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21554,6 +21590,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &691380774
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21751,6 +21789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &723226705
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21977,6 +22017,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &796207357
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27180,7 +27222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 370488909870341930, guid: 0b23dbe6ee0faad4ba381d449ce8f809, type: 3}
       propertyPath: m_RootOrder
-      value: 34
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 370488909870341930, guid: 0b23dbe6ee0faad4ba381d449ce8f809, type: 3}
       propertyPath: m_LocalPosition.x
@@ -28046,6 +28088,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &973466170
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28357,6 +28401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1046125038
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28467,6 +28513,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1064720623
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28669,6 +28717,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1128982124
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28935,7 +28985,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1559726616020162689, guid: afd4249c6536cef4e83852d99e02a7ce, type: 3}
       propertyPath: m_RootOrder
-      value: 41
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1559726616020162689, guid: afd4249c6536cef4e83852d99e02a7ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35302,7 +35352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6723455394268478264, guid: 8c4f41c7fdc5fe34695b18428bf80cbe, type: 3}
       propertyPath: m_RootOrder
-      value: 43
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 6723455394268478264, guid: 8c4f41c7fdc5fe34695b18428bf80cbe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35454,6 +35504,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1441050713}
     m_Modifications:
+    - target: {fileID: 1413335485420478921, guid: 058944728d43848108016a1933648403, type: 3}
+      propertyPath: hitClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b99da9a57308d4ba1bee1cf1d9038376, type: 3}
     - target: {fileID: 6575240341204720475, guid: 058944728d43848108016a1933648403, type: 3}
       propertyPath: m_Size.x
       value: 0.0003497533
@@ -35922,6 +35976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1583072949
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36380,6 +36436,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1629835846
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36567,6 +36625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1637929452
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37063,6 +37123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5587353c7a4745b42200fb38a11f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1730696581
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37418,7 +37480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7996141697132783617, guid: 542ae4543ebaf3b418d902cd4ee140db, type: 3}
       propertyPath: m_RootOrder
-      value: 42
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 7996141697132783617, guid: 542ae4543ebaf3b418d902cd4ee140db, type: 3}
       propertyPath: m_LocalPosition.x
@@ -37835,6 +37897,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1793649390
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37945,6 +38009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1802531137
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38464,6 +38530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e584938512f32d04bb7c5b9e53ad541f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVolume: 1
+  clipPath: Sounds/obstacle_sound
 --- !u!23 &1912148237
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39012,7 +39080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7996141697132783617, guid: 542ae4543ebaf3b418d902cd4ee140db, type: 3}
       propertyPath: m_RootOrder
-      value: 39
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 7996141697132783617, guid: 542ae4543ebaf3b418d902cd4ee140db, type: 3}
       propertyPath: m_LocalPosition.x
@@ -39072,6 +39140,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1441050713}
     m_Modifications:
+    - target: {fileID: 1413335485420478921, guid: 058944728d43848108016a1933648403, type: 3}
+      propertyPath: hitClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b99da9a57308d4ba1bee1cf1d9038376, type: 3}
     - target: {fileID: 6575240341204720475, guid: 058944728d43848108016a1933648403, type: 3}
       propertyPath: m_Size.x
       value: 0.0003497533
