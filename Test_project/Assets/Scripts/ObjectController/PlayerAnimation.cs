@@ -33,9 +33,9 @@ public class PlayerAnimation : MonoBehaviour
         Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
         float speed = relativeVelocity.magnitude;
 
-        //Debug.Log(speed);
+        Debug.Log(speed);
 
-        animator.SetBool("Static_b", true);
+        //animator.SetBool("Static_b", true);
         animator.SetFloat("Speed_f", speed);
     }
 }
