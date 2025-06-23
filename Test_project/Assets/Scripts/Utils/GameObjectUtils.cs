@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public static class GameObjectUtils
 {
@@ -15,7 +16,7 @@ public static class GameObjectUtils
         }
     }
 
-    public static void OnTriggerActions<T>(Transform transform, Collider other) where T: IPlayerState
+    public static void OnTriggerActions<T>(Transform transform, Collider other, Func<T> createState) where T: IPlayerState
     {
         DestroySiblings(transform);
 
@@ -29,6 +30,6 @@ public static class GameObjectUtils
             }
         }
 
-        player.PushState(new CoffeeState());
+        player.PushState(createState());
     }
 }

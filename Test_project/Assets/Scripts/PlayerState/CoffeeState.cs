@@ -21,6 +21,10 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
             uiScript = uiObject.GetComponent<InGameUIControl>();
             uiScript?.ToggleBuff(true);
         }
+        else{
+            Debug.LogError("UI GameObject with tag 'UI' not found.");
+            uiScript = null;
+        }
 
         Debug.Assert(uiScript != null);
 
@@ -60,6 +64,7 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
     public void ResetTimer()
     {
         timer = 0f;
+        Debug.Assert(uiScript != null, "uiScript should not be null when resetting timer.");
         uiScript.InitiateGauge(duration, uiScript.coffeeTimeGauge);
     }
 }

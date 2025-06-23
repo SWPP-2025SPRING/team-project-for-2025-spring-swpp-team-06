@@ -10,14 +10,14 @@ public class SojuObstacle : MonoBehaviour
         if (triggered) return;
         triggered = true;
 
-        OnTriggerActions<DrunkenState>(transform, other);
+        OnTriggerActions<DrunkenState>(transform, other, () => new DrunkenState());
     }
     private void OnTriggerStay(Collider other)
     {
         if (triggered) return;
         triggered = true;
 
-        OnTriggerActions<DrunkenState>(transform, other);
+        OnTriggerActions<DrunkenState>(transform, other, () => new DrunkenState());
     }
 }
 

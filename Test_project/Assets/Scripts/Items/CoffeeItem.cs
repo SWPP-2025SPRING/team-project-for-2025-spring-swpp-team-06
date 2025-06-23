@@ -10,13 +10,13 @@ public class CoffeeItem : MonoBehaviour
         if (triggered) return;
         triggered = true;
 
-        OnTriggerActions<CoffeeState>(transform, other);
+        OnTriggerActions<CoffeeState>(transform, other, () => new CoffeeState());
     }
     private void OnTriggerStay(Collider other)
     {
         if (triggered) return;
         triggered = true;
 
-        OnTriggerActions<CoffeeState>(transform, other);
+        OnTriggerActions<CoffeeState>(transform, other, () => new CoffeeState());
     }
 }

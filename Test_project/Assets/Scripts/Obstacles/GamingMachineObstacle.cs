@@ -10,13 +10,13 @@ public class GamingMachineObstacle : MonoBehaviour
         if (triggered) return;
         triggered = true;
 
-        OnTriggerActions<PlayerGamingState>(transform, other);
+        OnTriggerActions<PlayerGamingState>(transform, other, () => new PlayerGamingState());
     }
     private void OnTriggerStay(Collider other)
     {
         if (triggered) return;
         triggered = true;
 
-        OnTriggerActions<PlayerGamingState>(transform, other);
+        OnTriggerActions<PlayerGamingState>(transform, other, () => new PlayerGamingState());
     }
 }
