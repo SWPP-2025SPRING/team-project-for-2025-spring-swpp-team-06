@@ -110,7 +110,7 @@ public class MapSelectionButtonController : MonoBehaviour
         {
             try
             {
-                TitleSceneController.loadTo = targetSceneName;
+                SceneLoadManager.Instance.LoadTo = targetSceneName;
                 SceneManager.LoadScene("Loading");
             }
             catch (System.Exception e)

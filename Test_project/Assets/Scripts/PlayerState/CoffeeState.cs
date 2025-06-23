@@ -21,10 +21,12 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
             uiScript = uiObject.GetComponent<InGameUIControl>();
             uiScript?.ToggleBuff(true);
         }
+        else{
+            Debug.LogError("UI GameObject with tag 'UI' not found.");
+            uiScript = null;
+        }
 
         Debug.Assert(uiScript != null);
-
-        uiScript.TurnOnGauge(uiScript.coffeeTimeGauge);
 
         uiScript.InitiateGauge(duration, uiScript.coffeeTimeGauge);
     }
@@ -32,34 +34,21 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
     public void Exit(PlayerControl player)
     {
         uiScript?.ToggleBuff(false);
-        uiScript.TurnOffGauge(uiScript.coffeeTimeGauge);
+        uiScript?.TurnOffGauge(uiScript.coffeeTimeGauge);
     }
 
-    public void Update(PlayerControl player)
+    public void FixedUpdate(PlayerControl player)
     {
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
         if (timer >= duration)
         {
             ShouldRemove = true;
         }
     }
 
-    public void FixedUpdate(PlayerControl player)
+    public Type TypeOf()
     {
-    }
-
-    public bool IsBlocking()
-    {
-        return false;
-    }
-
-    public bool IsPenalty()
-    {
-        return false;
-    }
-    public bool IsCoffee()
-    {
-        return true;
+        return Type.Coffee;
     }
 
     public float GetAccelerationFactor()
@@ -74,10 +63,8 @@ public class CoffeeState : IPlayerState, IMovementModifier, IRemovable
 
     public void ResetTimer()
     {
-        Debug.Log("Resetted coffee timer");
         timer = 0f;
+        Debug.Assert(uiScript != null, "uiScript should not be null when resetting timer.");
         uiScript.InitiateGauge(duration, uiScript.coffeeTimeGauge);
     }
-
-    public bool IsSoju(){ return false; }
 }

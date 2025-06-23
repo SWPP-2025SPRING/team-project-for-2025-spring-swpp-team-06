@@ -12,8 +12,8 @@ public class LoadingScene : MonoBehaviour
     
     IEnumerator LoadScene(){
         yield return null;
-        AsyncOperation operation = SceneManager.LoadSceneAsync(TitleSceneController.loadTo);
-        TitleSceneController.loadTo = "";
+        AsyncOperation operation = SceneManager.LoadSceneAsync(SceneLoadManager.Instance.LoadTo);
+        SceneLoadManager.Instance.LoadTo = "TitleScene";
         operation.allowSceneActivation = true;
         while(!operation.isDone){
             yield return null;

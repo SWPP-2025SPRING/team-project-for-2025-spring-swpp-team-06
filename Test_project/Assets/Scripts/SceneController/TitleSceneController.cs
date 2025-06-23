@@ -15,8 +15,6 @@ public class TitleSceneController : MonoBehaviour
     public Button TutorialButton;
     public Button QuitButton;
 
-    public static string loadTo;
-
     void Start()
     {
         if (PlayerPrefs.GetFloat("Volume", -1f) < 0)
@@ -26,7 +24,7 @@ public class TitleSceneController : MonoBehaviour
         }
 
         EndingSceneDataHolder.endingSceneInfos = new EndingSceneInfos(-1, -1, -1, "TitleScene");
-        loadTo = "Stage1";
+        SceneLoadManager.Instance.LoadTo = "Stage1";
     }
 
     // Update is called once per frame
@@ -61,7 +59,7 @@ public class TitleSceneController : MonoBehaviour
 
     public void OnClickTutorialButton()
     {
-        TitleSceneController.loadTo = "Stage0";
+        SceneLoadManager.Instance.LoadTo = "Stage0";
         SceneManager.LoadScene("Loading");
         EventSystem.current.SetSelectedGameObject(null);
     }

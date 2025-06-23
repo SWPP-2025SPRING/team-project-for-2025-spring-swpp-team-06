@@ -10,27 +10,14 @@ public class NormalState : IPlayerState, IMovementModifier
     {
     }
 
-    public void Update(PlayerControl player)
-    {
-    }
-
     public void FixedUpdate(PlayerControl player)
     {
         player.MovePlayer();
     }
 
-    public bool IsBlocking()
+    public Type TypeOf()
     {
-        return false;
-    }
-
-    public bool IsPenalty()
-    {
-        return false;
-    }
-    public bool IsCoffee()
-    {
-        return false;
+        return Type.Normal;
     }
 
     public float GetAccelerationFactor()
@@ -47,5 +34,4 @@ public class NormalState : IPlayerState, IMovementModifier
         
     }
 
-    public bool IsSoju() { return false; }
 }

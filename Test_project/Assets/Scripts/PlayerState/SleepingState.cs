@@ -31,8 +31,6 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
 
         Debug.Assert(uiScript != null);
 
-        uiScript.TurnOnGauge(uiScript.bedTimeGauge);
-
         uiScript.InitiateGauge(sleepDuration, uiScript.bedTimeGauge);
 
     }
@@ -49,19 +47,14 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
         uiScript.TurnOffGauge(uiScript.bedTimeGauge);
     }
 
-    public void Update(PlayerControl player)
-    {
-
-    }
-
     public void FixedUpdate(PlayerControl player)
     {
         Rigidbody rb = player.GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        timer += Time.deltaTime;
-        effectTimer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
+        effectTimer += Time.fixedDeltaTime;
 
         if (timer >= sleepDuration)
         {
@@ -75,18 +68,9 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
         }
     }
 
-    public bool IsBlocking()
+    public Type TypeOf()
     {
-        return true;
-    }
-
-    public bool IsPenalty()
-    {
-        return true;
-    }
-    public bool IsCoffee()
-    {
-        return false;
+        return Type.FullPenalty;
     }
 
     public float GetAccelerationFactor()
@@ -98,9 +82,6 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
     {
         return 0f;
     }
-
-    public bool IsSoju() { return false; }
-
     private void PlayEffect(PlayerControl player)
     {
         GameObject sleepingEffectPrefab = Resources.Load<GameObject>("Effects/SleepingEffect");

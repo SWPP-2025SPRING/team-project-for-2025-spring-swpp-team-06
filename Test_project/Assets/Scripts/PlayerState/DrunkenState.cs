@@ -39,8 +39,6 @@ public class DrunkenState : IPlayerState, IRemovable
 
         Debug.Assert(uiScript != null);
 
-        uiScript.TurnOnGauge(uiScript.sojuTimeGauge);
-
         uiScript.InitiateGauge(duration, uiScript.sojuTimeGauge);
     }
 
@@ -58,32 +56,18 @@ public class DrunkenState : IPlayerState, IRemovable
         uiScript.TurnOffGauge(uiScript.sojuTimeGauge);
     }
 
-    public void Update(PlayerControl player)
-    {
-        
-    }
-
     public void FixedUpdate(PlayerControl player) 
     {
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
         if (timer >= duration)
         {
             ShouldRemove = true;
         }
     }
 
-    public bool IsBlocking()
+    public Type TypeOf()
     {
-        return false;
-    }
-
-    public bool IsPenalty()
-    {
-        return true;
-    }
-    public bool IsCoffee()
-    {
-        return false;
+        return Type.OverlapOKPenalty;
     }
 
     public void ResetTimer()
@@ -107,6 +91,4 @@ public class DrunkenState : IPlayerState, IRemovable
             particleSystem.Play();
         }
     }
-    public bool IsSoju(){ return true; }
-
 }
