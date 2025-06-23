@@ -44797,6 +44797,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3306503903182739890, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
+      propertyPath: m_text
+      value: "\uC124\uC815\n"
+      objectReference: {fileID: 0}
     - target: {fileID: 3306503903537344026, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -44889,6 +44893,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGameUI_tut
       objectReference: {fileID: 0}
+    - target: {fileID: 3306503903961382785, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
+      propertyPath: m_text
+      value: "\uACC4\uC18D\uD558\uAE30"
+      objectReference: {fileID: 0}
     - target: {fileID: 3306503903978825354, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -44912,6 +44920,14 @@ PrefabInstance:
     - target: {fileID: 3306503903978825397, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306503904740262995, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306503905038529629, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
+      propertyPath: m_text
+      value: "\uBA54\uC778 \uD654\uBA74\uC73C\uB85C"
       objectReference: {fileID: 0}
     - target: {fileID: 8701257480247875416, guid: 3d4fada8e6eab4a549946afe51dab977, type: 3}
       propertyPath: player

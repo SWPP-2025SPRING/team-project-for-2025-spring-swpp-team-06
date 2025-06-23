@@ -24039,6 +24039,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2654753262712245897, guid: e8b07ddd899d0b94ea3658667d7817f9, type: 3}
+      propertyPath: drinkCounts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2888775311062872835, guid: e8b07ddd899d0b94ea3658667d7817f9, type: 3}
       propertyPath: m_Name
       value: Player
