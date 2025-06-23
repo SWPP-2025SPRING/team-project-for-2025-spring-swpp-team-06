@@ -88,7 +88,7 @@ public class SleepingState : IPlayerState, IMovementModifier, IRemovable
         if (sleepingEffectPrefab != null)
         {
             effectInstance = GameObject.Instantiate(sleepingEffectPrefab, player.transform);
-            effectInstance.transform.localPosition = Vector3.up * 1.5f;
+            effectInstance.transform.localPosition = Vector3.up * 10f;
             GameObject.Destroy(effectInstance, 1.5f);
         }
     }
