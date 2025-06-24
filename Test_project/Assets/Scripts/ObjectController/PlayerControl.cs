@@ -23,7 +23,7 @@ public class PlayerControl : MonoBehaviour
     public IReadOnlyList<IPlayerState> States => stateList.AsReadOnly();
     private TMP_Text energyDrinkText;
     public bool isPaused;
-    public bool isTutorial = false, isExplain = false;
+    public bool isTutorial = false, isExplain = false, isDrinkable = true;
     private GameObject ui;
     private InGameUIControl uiScript;
 
@@ -78,7 +78,7 @@ public class PlayerControl : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused)
+        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused && isDrinkable)
         {
             if (HasState<EnergyDrinkState>())
             {
