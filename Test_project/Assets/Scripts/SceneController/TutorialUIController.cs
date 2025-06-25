@@ -45,6 +45,7 @@ public class TutorialUIController : MonoBehaviour
 
         playerControlScript = player?.GetComponent<PlayerControl>();
         if (playerControlScript == null) Debug.LogError("No PlayerControl script");
+        playerControlScript.isDrinkable = false;
         
         isExplain = false;
         msg.text = "";
@@ -180,6 +181,7 @@ public class TutorialUIController : MonoBehaviour
                 if(currentIdx >= EnergyDrinkTutorialMsg.Count){
                     explainMsg.text = "스페이스 바를 눌러 에너지 드링크 사용! \n 기존 장애물 효과를 무효로 하고 3초간 장애물을 무시해요!";
                     energyDrink.SetActive(true);
+                    playerControlScript.isDrinkable = true;
                     EndStep();
                 }
                 else msg.text = EnergyDrinkTutorialMsg[currentIdx];

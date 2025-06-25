@@ -23,7 +23,7 @@ public class PlayerControl : MonoBehaviour
     public IReadOnlyList<IPlayerState> States => stateList.AsReadOnly();
     private TMP_Text energyDrinkText;
     public bool isPaused;
-    public bool isTutorial = false, isExplain = false;
+    public bool isTutorial = false, isExplain = false, isDrinkable = true;
     private GameObject ui;
     private InGameUIControl uiScript;
 
@@ -78,7 +78,7 @@ public class PlayerControl : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused)
+        if (Input.GetKeyDown(KeyCode.Space) && drinkCounts > 0 && !isPaused && isDrinkable)
         {
             if (HasState<EnergyDrinkState>())
             {
@@ -285,7 +285,7 @@ public class PlayerControl : MonoBehaviour
         Vector3 horizontalRelativeVelocity = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
         float minSpeedForRotation = 0.1f;
 
-        if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation * minSpeedForRotation)
+        if (horizontalRelativeVelocity.sqrMagnitude > minSpeedForRotation)
         {
             Vector3 targetDirection = horizontalRelativeVelocity.normalized;
             if (HasState<SleepingState>()) targetDirection = new Vector3(0, 0, 10000);
@@ -335,43 +335,26 @@ public class PlayerControl : MonoBehaviour
     private void RotateWithGround()
     {
         if (groundRotator == null) return;
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)) return;
-        if (HasState<SleepingState>()) return;
+    if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)) return;
+    if (HasState<SleepingState>()) return;
 
-        float angularSpeed = groundRotator.GetAngularVelocity().z; // rad/s
-        float absAngularSpeed = Mathf.Abs(angularSpeed);
-        Vector3 groundVelocityAtPlayerPos = Vector3.Cross(groundRotator.GetAngularVelocity(), playerRb.position);
-        Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
+    Vector3 groundVelocityAtPlayerPos = Vector3.Cross(groundRotator.GetAngularVelocity(), playerRb.position);
+    Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
 
-        
+    Vector3 flatRelative = new Vector3(relativeVelocity.x, 0f, relativeVelocity.z);
+    if (flatRelative.magnitude < 0.1f)
+    {
+        // 너무 느려서 방향 판단 불가
+        return;
+    }
 
-        
-        //float minAngularSpeedForRotation = 0.05f;
+    Vector3 targetDirection = flatRelative.normalized;
 
-        //if (absAngularSpeed < minAngularSpeedForRotation) return;
+    Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+    float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
+    Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
 
-        Vector3 targetDirection = (angularSpeed > 0) ? Vector3.left : Vector3.right;
-
-        bool isRotatingInput = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow);
-        if (!isRotatingInput)
-        {
-            float relSpeed = Vector3.Dot(relativeVelocity, Vector3.forward);
-            // no inputs, 상하좌우 아무 입력도 없는 경우임
-
-            if (Mathf.Abs(relSpeed) < 0.2f)
-            {
-                // 너무 느려서 명확한 방향 판단 불가, 회전 안 함
-                return;
-            }
-            targetDirection = (relSpeed > -0.1f) ? Vector3.forward : Vector3.back;
-        }
-
-        
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-        float step = rotationAlignmentSpeed * Time.fixedDeltaTime;
-        Quaternion newRotation = Quaternion.RotateTowards(playerRb.rotation, targetRotation, step);
-
-        playerRb.MoveRotation(newRotation);
+    playerRb.MoveRotation(newRotation);
     }
 
     public void StopMove(){

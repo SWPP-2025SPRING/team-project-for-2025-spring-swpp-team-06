@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEditor.Callbacks;
 using System.Text.RegularExpressions;
 
 
@@ -38,7 +37,7 @@ public class InGameUIControl : MonoBehaviour
     private bool isGameStarted = false;
     public static bool isMenuPopped = false;
     private float elapsedTime = 0f;
-    private bool isTutorial = false;
+    private bool isTutorial = false, isSetting = false;
 
     private Dictionary<Image, Coroutine> gaugeCoroutines = new Dictionary<Image, Coroutine>();
 
@@ -132,7 +131,13 @@ public class InGameUIControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isMenuPopped) return;
+        if (isMenuPopped || isSetting) return;
+
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            if(isMenuPopped) OnClickResumeButton();
+            else OnClickMenuButton();
+        }
+
         if (Input.GetKeyDown(KeyCode.UpArrow) && !isStartTextDestroyed && !isTutorial)
         {
             isStartTextDestroyed = true;

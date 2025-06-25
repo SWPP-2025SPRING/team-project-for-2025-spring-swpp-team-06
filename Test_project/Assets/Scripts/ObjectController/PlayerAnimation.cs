@@ -32,10 +32,9 @@ public class PlayerAnimation : MonoBehaviour
 
         Vector3 relativeVelocity = playerRb.velocity - groundVelocityAtPlayerPos;
         float speed = relativeVelocity.magnitude;
+        if(playerControl.HasState<SleepingState>()) speed = 0f; // If player is in bed, speed is 0
 
-        //Debug.Log(speed);
-
-        animator.SetBool("Static_b", true);
+        //animator.SetBool("Static_b", true);
         animator.SetFloat("Speed_f", speed);
     }
 }

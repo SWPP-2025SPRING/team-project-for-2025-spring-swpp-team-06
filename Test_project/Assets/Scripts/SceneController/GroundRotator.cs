@@ -14,6 +14,25 @@ public class GroundRotator : MonoBehaviour
     private float rotationMultiplier = 1f;
     public bool reverseInput = false;
 
+    private PlayerControl playerControl;
+
+    void Start()
+    {
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            playerControl = playerObj.GetComponent<PlayerControl>();
+            if (playerControl == null)
+            {
+                Debug.LogError("Player object found, but no PlayerControl component attached.");
+            }
+        }
+        else
+        {
+            Debug.LogError("No object with tag 'Player' found.");
+        }
+    }
+
     void FixedUpdate()
     {
         if (InGameUIControl.isMenuPopped) return;
@@ -29,6 +48,11 @@ public class GroundRotator : MonoBehaviour
         }
 
         float targetAngularVelocity = currentRotationInput * maxRotationSpeed * rotationMultiplier;
+
+        if(playerControl != null && playerControl.HasState<SleepingState>())
+        {
+            targetAngularVelocity = 0f; // Stop rotation if player is sleeping
+        }
 
         currentAngularVelocity = Mathf.MoveTowards(
             currentAngularVelocity,
